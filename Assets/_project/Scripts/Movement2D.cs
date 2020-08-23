@@ -64,6 +64,7 @@ public class Movement2D : MonoBehaviour
         _thisRB.velocity = new Vector2(Vector2.ClampMagnitude(_thisRB.velocity, maxSpeed).x, _thisRB.velocity.y);
 
         MovementCheck();
+        JumpCheck();
 
         //Player should only crouch or jump when on ground
         if (isGrounded)
@@ -83,7 +84,6 @@ public class Movement2D : MonoBehaviour
     private void FixedUpdate()
     {
         GroundedCheck();
-        JumpCheck();
     }
 
     //Checking if player moved
@@ -92,14 +92,14 @@ public class Movement2D : MonoBehaviour
         //Left
         if (Input.GetKey(KeyCode.A))
         {
-            _thisRB.velocity += Vector2.left * WalkSpeed * Time.deltaTime;
+            _thisRB.velocity += Vector2.left * WalkSpeed;
             //_thisRB.AddForce(Vector2.left * WalkSpeed * Time.deltaTime, ForceMode2D.Impulse);
         }
 
         //Right
         if (Input.GetKey(KeyCode.D))
         {
-            _thisRB.velocity += -Vector2.left * WalkSpeed * Time.deltaTime;
+            _thisRB.velocity += -Vector2.left * WalkSpeed;
             //_thisRB.AddForce(-Vector2.left * WalkSpeed * Time.deltaTime, ForceMode2D.Impulse);
         }
     }

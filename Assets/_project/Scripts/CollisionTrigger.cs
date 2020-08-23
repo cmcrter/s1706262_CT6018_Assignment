@@ -6,6 +6,8 @@ public class CollisionTrigger : MonoBehaviour
 {
     [SerializeField]
     List<GameObject> TriggeredObjects = new List<GameObject>();
+
+    [SerializeField]
     bool isLocked = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
