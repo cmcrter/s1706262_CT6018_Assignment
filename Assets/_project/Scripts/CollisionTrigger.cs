@@ -41,9 +41,12 @@ public class CollisionTrigger : MonoBehaviour
     {
         if (TriggeredObjects.Count == 0) return;
 
-        foreach (ITriggerable tObject in TriggeredObjects)
+        foreach (GameObject tObject in TriggeredObjects)
         {
-            tObject.Triggered();
+            if (tObject.TryGetComponent<ITriggerable>(out var triggered))
+            {
+                triggered.UnTriggered();
+            }
         }
     }
 
