@@ -13,10 +13,10 @@ TagManager:
   - UI
   - 
   - 
-  - GameWorld
+  - StaticGameWorld
   - Background
   - Player
-  - 
+  - TriggerObjects
   - 
   - 
   - 

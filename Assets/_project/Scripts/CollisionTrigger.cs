@@ -8,11 +8,11 @@ public class CollisionTrigger : MonoBehaviour
     List<GameObject> TriggeredObjects = new List<GameObject>();
 
     [SerializeField]
-    bool isLocked = false;
+    private bool isLocked = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag.Equals("Player") && !isLocked)
+        if (!isLocked)
         {
             PlateTriggered();
         }
@@ -20,7 +20,7 @@ public class CollisionTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag.Equals("Player") && !isLocked)
+        if (!isLocked)
         {
             PlateUntriggered();
         }
