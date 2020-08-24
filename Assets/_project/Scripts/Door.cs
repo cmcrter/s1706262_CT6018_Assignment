@@ -29,6 +29,11 @@ public class Door : MonoBehaviour, ITriggerable
         _meshRend = GetComponent<MeshRenderer>();
     }
 
+    private void Start()
+    {
+        
+    }
+
     private void DoorClosed()
     {
         if (bLocked) return;

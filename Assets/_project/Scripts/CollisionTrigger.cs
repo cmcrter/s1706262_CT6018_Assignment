@@ -5,7 +5,7 @@ using UnityEngine;
 public class CollisionTrigger : MonoBehaviour
 {
     [SerializeField]
-    List<GameObject> TriggeredObjects = new List<GameObject>();
+    List<MonoBehaviour> TriggeredObjects = new List<MonoBehaviour>();
 
     [SerializeField]
     private bool isLocked = false;
@@ -30,12 +30,9 @@ public class CollisionTrigger : MonoBehaviour
     {
         if (TriggeredObjects.Count == 0) return;
 
-        foreach (GameObject tObject in TriggeredObjects)
-        {           
-            if (tObject.TryGetComponent<ITriggerable>(out var triggered))
-            {
-                triggered.Triggered();
-            }
+        foreach (ITriggerable tObject in TriggeredObjects)
+        {
+            tObject.Triggered();
         }
     }
 
@@ -43,12 +40,9 @@ public class CollisionTrigger : MonoBehaviour
     {
         if (TriggeredObjects.Count == 0) return;
 
-        foreach (GameObject tObject in TriggeredObjects)
+        foreach (ITriggerable tObject in TriggeredObjects)
         {
-            if (tObject.TryGetComponent<ITriggerable>(out var triggered))
-            {
-                triggered.UnTriggered();
-            }
+            tObject.UnTriggered();          
         }
     }
 

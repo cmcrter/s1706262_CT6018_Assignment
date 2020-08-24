@@ -5,7 +5,7 @@ using UnityEngine;
 public class InputTrigger : MonoBehaviour
 {
     [SerializeField]
-    List<GameObject> TriggeredObjects = new List<GameObject>();
+    List<MonoBehaviour> TriggeredObjects = new List<MonoBehaviour>();
     [SerializeField]
     GameObject handle;
 
@@ -42,34 +42,36 @@ public class InputTrigger : MonoBehaviour
         //Bit of a double guard clause
         if (isLocked || TriggeredObjects.Count == 0) return;
 
-        foreach (GameObject tObject in TriggeredObjects)
+        foreach (MonoBehaviour tObject in TriggeredObjects)
         {
-            if (tObject.TryGetComponent<ITriggerable>(out var triggered))
+            if (tObject.TryGetComponent<ITriggerable>(out var triggerable) && tObject.enabled)
             {
                 if (isActivated)
                 {
-                    if (triggered.GetLockState())
+                    if (triggerable.GetLockState() && !bTriggerLock)
                     {
-                        triggered.Unlocked();
+                        triggerable.Unlocked();
                     }
 
-                    triggered.UnTriggered();
-
-                    if (handle)
-                    {
-                        handle.transform.Rotate(new Vector3(0, 0, 13));
-                    }
+                    triggerable.UnTriggered();
                 }
                 else
                 {
-                    triggered.Triggered();
-                    triggered.Locked();
-
-                    if (handle)
-                    {
-                        handle.transform.Rotate(new Vector3(0, 0, -13));
-                    }
+                    triggerable.Triggered();
+                    triggerable.Locked();
                 }
+            }
+        }
+
+        if (handle)
+        {
+            if (isActivated)
+            {
+                handle.transform.Rotate(new Vector3(0, 0, 13));
+            }
+            else
+            {
+                handle.transform.Rotate(new Vector3(0, 0, -13));
             }
         }
 
