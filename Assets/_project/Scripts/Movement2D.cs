@@ -34,7 +34,7 @@ public class Movement2D : MonoBehaviour
     {
         if (playerLayer == 0)
         {
-            playerLayer = 1 << 8;
+            playerLayer = 1 << 10;
         }
 
         if (JumpForce == 0)
