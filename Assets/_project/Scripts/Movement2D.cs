@@ -10,7 +10,7 @@ public class Movement2D : MonoBehaviour
     [SerializeField] private float WalkSpeed;
     [SerializeField] private GameObject TopHalf;
     [SerializeField] private float maxSpeed;
-    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask playerLayer;
 
     private Vector2 raycastPoint;
     private Vector2 localMidBottomPoint;
@@ -32,9 +32,9 @@ public class Movement2D : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        if (groundLayer == 0)
+        if (playerLayer == 0)
         {
-            groundLayer = 1 << 8;
+            playerLayer = 1 << 8;
         }
 
         if (JumpForce == 0)
@@ -149,7 +149,7 @@ public class Movement2D : MonoBehaviour
         RaycastHit2D hit;
         Debug.DrawRay(_thisTransform.transform.position, Vector3.down, Color.cyan, 0.05f);
 
-        if (hit = Physics2D.BoxCast(_thisTransform.transform.position, _thisTransform.lossyScale * 0.9f, 0, Vector2.down, 0.1f, groundLayer))
+        if (hit = Physics2D.BoxCast(_thisTransform.transform.position, _thisTransform.lossyScale * 0.9f, 0, Vector2.down, 0.1f, ~playerLayer))
         {
             isGrounded = true;
             return;
