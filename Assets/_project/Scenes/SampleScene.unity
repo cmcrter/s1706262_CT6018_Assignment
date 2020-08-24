@@ -978,7 +978,7 @@ MonoBehaviour:
   - {fileID: 1578142122}
   handle: {fileID: 1431797654}
   isLocked: 0
-  bTriggerLock: 1
+  bTriggerLock: 0
 --- !u!1 &1360034765
 GameObject:
   m_ObjectHideFlags: 0
@@ -1433,7 +1433,7 @@ MonoBehaviour:
   _collider: {fileID: 1578142123}
   doorOpenedMat: {fileID: 2100000, guid: 399d151f2f4a1a543b10faac4632a51f, type: 2}
   doorClosedMat: {fileID: 2100000, guid: cd99ffb966b22a84b980e47c127d420b, type: 2}
-  bTriggerLock: 1
+  bTriggerLock: 0
 --- !u!1 &1627114645
 GameObject:
   m_ObjectHideFlags: 0

@@ -48,6 +48,11 @@ public class InputTrigger : MonoBehaviour
             {
                 if (isActivated)
                 {
+                    if (triggered.GetLockState())
+                    {
+                        triggered.Unlocked();
+                    }
+
                     triggered.UnTriggered();
 
                     if (handle)
@@ -58,6 +63,7 @@ public class InputTrigger : MonoBehaviour
                 else
                 {
                     triggered.Triggered();
+                    triggered.Locked();
 
                     if (handle)
                     {

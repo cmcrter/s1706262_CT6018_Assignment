@@ -5,4 +5,6 @@
 
     void Locked();
     void Unlocked();
+
+    bool GetLockState();
 }

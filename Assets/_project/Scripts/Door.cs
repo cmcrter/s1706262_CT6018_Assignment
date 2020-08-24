@@ -8,6 +8,7 @@ public class Door : MonoBehaviour, ITriggerable
     void ITriggerable.UnTriggered() => DoorClosed();
     void ITriggerable.Locked()      => DoorLocked();
     void ITriggerable.Unlocked()    => DoorUnlocked();
+    bool ITriggerable.GetLockState() => isDoorLocked();
 
     [SerializeField]
     Collider2D _collider;
@@ -19,8 +20,8 @@ public class Door : MonoBehaviour, ITriggerable
     Material doorClosedMat;
 
     [SerializeField]
-    bool bTriggerLock = false;
-    bool bLocked = false;
+    private bool bTriggerLock = false;
+    private bool bLocked = false;
 
     private void Awake()
     {
@@ -63,5 +64,10 @@ public class Door : MonoBehaviour, ITriggerable
     private void DoorUnlocked()
     {
         bLocked = false;
+    }
+
+    private bool isDoorLocked()
+    {
+        return bLocked;
     }
 }
