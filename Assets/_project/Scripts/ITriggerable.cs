@@ -1,4 +1,5 @@
-﻿public interface ITriggerable
+﻿//This is anything that can be triggered like doors etc
+public interface ITriggerable
 {
     void Triggered();
     void UnTriggered();

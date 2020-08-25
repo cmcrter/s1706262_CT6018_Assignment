@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This is a door
 public class Door : MonoBehaviour, ITriggerable
 {
     void ITriggerable.Triggered()   => DoorOpened();

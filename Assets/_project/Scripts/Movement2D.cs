@@ -2,21 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This is a class for player movement
 public class Movement2D : MonoBehaviour
 {
+    [Header("Components and Objects Needed")]
     [SerializeField] private Transform _thisTransform;
     [SerializeField] private Rigidbody2D _thisRB;
+    [SerializeField] private GameObject TopHalf;
+
+    [Header("Movement variables")]
     [SerializeField] private float JumpForce;
     [SerializeField] private float WalkSpeed;
-    [SerializeField] private GameObject TopHalf;
     [SerializeField] private float maxSpeed;
     [SerializeField] private LayerMask playerLayer;
 
-    private Vector2 raycastPoint;
-    private Vector2 localMidBottomPoint;
-
     public bool isGrounded { get; private set; }
     public bool isCrouched { get; private set; }
+
+    //Private variables
+    private Vector2 raycastPoint;
+    private Vector2 localMidBottomPoint;
 
     private float baseWalkSpeed;
     private float baseJumpForce;

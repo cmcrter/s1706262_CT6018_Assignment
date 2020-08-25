@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This is a trigger which is activated by something entering
 public class CollisionTrigger : MonoBehaviour
 {
     [SerializeField]
@@ -14,7 +15,7 @@ public class CollisionTrigger : MonoBehaviour
     {
         if (!isLocked)
         {
-            PlateTriggered();
+            TriggerActivated();
         }
     }
 
@@ -22,11 +23,11 @@ public class CollisionTrigger : MonoBehaviour
     {
         if (!isLocked)
         {
-            PlateUntriggered();
+            TriggerUnactivated();
         }
     }
 
-    private void PlateTriggered()
+    private void TriggerActivated()
     {
         if (TriggeredObjects.Count == 0) return;
 
@@ -36,7 +37,7 @@ public class CollisionTrigger : MonoBehaviour
         }
     }
 
-    private void PlateUntriggered()
+    private void TriggerUnactivated()
     {
         if (TriggeredObjects.Count == 0) return;
 
@@ -46,12 +47,12 @@ public class CollisionTrigger : MonoBehaviour
         }
     }
 
-    private void PlateLocked()
+    private void TriggerLock()
     {
         isLocked = true;
     }
 
-    private void PlateUnlocked()
+    private void TriggerUnlocked()
     {
         isLocked = false;
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This is a trigger that needs the player to press a button to activate/unactivate
 public class InputTrigger : MonoBehaviour
 {
     [SerializeField]
