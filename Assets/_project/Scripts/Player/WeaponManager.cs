@@ -4,41 +4,50 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
-    [SerializeField]
-    List<IWeapon> weaponsInRange = new List<IWeapon>();
+    [Header("Weapon Tracking")]
 
     [SerializeField]
-    IWeapon currentWeapon;
+    List<Weapon> weaponsInRange = new List<Weapon>();
+
+    [SerializeField]
+    Weapon currentWeapon;
     [SerializeField]
     GameObject currentWeaponObject;
     bool hasWeapon = false;
+
+    [Header("Needed Objects")]
 
     [SerializeField]
     Transform playerHandPoint;
     [SerializeField]
     Camera mainCamera;
+    //[SerializeField]
+    //CharacterManager _manager;
 
     private void Awake()
     {
         playerHandPoint = playerHandPoint ?? transform.GetChild(1);
         mainCamera = mainCamera ?? Camera.main;
+        //_manager = _manager ?? GetComponent<CharacterManager>();
     }
 
     private void Update()
     {
-        if (hasWeapon)
+        if (hasWeapon && currentWeapon != null)
         {
+            //Aiming the weapon towards the mouse
             UpdateWeaponDirection();
+
+            //If the player wants to fire the weapon
+            if (Input.GetMouseButtonDown(0))
+            {
+                currentWeapon.FireWeapon();
+            }
 
             //If the player wants to throw the weapon and there's a weapon to throw
             if (Input.GetKey(KeyCode.Q))
             {
-                ThrowWeapon(currentWeaponObject.transform.right);
-            }
-
-            if (Input.GetMouseButton(0))
-            {
-                currentWeapon.Fire();
+                ThrowCurrentWeapon(currentWeaponObject.transform.right);
             }
         }
     }
@@ -47,12 +56,12 @@ public class WeaponManager : MonoBehaviour
     {
         if (!hasWeapon && weaponsInRange.Count > 0)
         {
-            IWeapon weaponToCheck = GetClosestEquippableWeapon();
+            Weapon weaponToCheck = GetClosestEquippableWeapon();
 
-            if (weaponToCheck != null && weaponToCheck.CanPickup())
+            if (weaponToCheck != null && weaponToCheck.bCanPickup)
             {
                 currentWeapon = weaponToCheck;
-                currentWeapon.Pickup();
+                currentWeapon.PickupWeapon();
                 hasWeapon = true;
             }
         }
@@ -61,16 +70,17 @@ public class WeaponManager : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Picking up the weapon if the player doesnt have one
-        if (collision.TryGetComponent<IWeapon>(out var weapon))
+        if (collision.TryGetComponent<Weapon>(out var weapon))
         {
-            if (!hasWeapon && weapon.CanPickup())
+            Debug.Log("On top of weapon: " + weapon.gameObject.name + " can it be picked up? " + weapon.bCanPickup, this);
+
+            if (!hasWeapon && weapon.bCanPickup)
             {
                 currentWeapon = weapon;
-                currentWeaponObject = weapon.ReturnObject();
-
-                weapon.Pickup();
-
+                currentWeaponObject = weapon.ReturnWeapon();
                 currentWeaponObject.transform.position = playerHandPoint.position;
+
+                weapon.PickupWeapon();
                 hasWeapon = true;
             }
             else
@@ -83,25 +93,24 @@ public class WeaponManager : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         //Picking up the weapon if the player doesnt have one
-        if (collision.TryGetComponent<IWeapon>(out var weapon))
+        if (collision.TryGetComponent<Weapon>(out var weapon))
         {
             weaponsInRange.Remove(weapon);
         }
     }
 
     //Getting the closest weapon to the player
-    private IWeapon GetClosestEquippableWeapon()
+    private Weapon GetClosestEquippableWeapon()
     {
-        TestWeapon closestWeapon = null;
-        IWeapon tempWeapon = closestWeapon;
+        Weapon tempWeapon = null;
 
         float dist = Mathf.Infinity;
 
         for (int i = 0; i < weaponsInRange.Count; ++i)
         {
-            if (weaponsInRange[i].CanPickup())
+            if (weaponsInRange[i].bCanPickup)
             {
-                float distToCheck = Vector3.Distance(this.transform.position, weaponsInRange[i].ReturnObject().transform.position);
+                float distToCheck = Vector3.Distance(this.transform.position, weaponsInRange[i].ReturnWeapon().transform.position);
 
                 if (distToCheck < dist)
                 {
@@ -112,7 +121,7 @@ public class WeaponManager : MonoBehaviour
         }
 
         //This should be fine
-        if ((TestWeapon)tempWeapon != closestWeapon)
+        if (tempWeapon != null)
         {
             return tempWeapon;
         }
@@ -132,15 +141,10 @@ public class WeaponManager : MonoBehaviour
 
     }
 
-    private void ThrowWeapon(Vector3 dir)
+    private void ThrowCurrentWeapon(Vector3 dir)
     {
-        currentWeapon.Throw(dir);
+        currentWeapon.ThrowWeapon(dir);
         hasWeapon = false;
         currentWeapon = null;
-    }
-
-    private void FireWeapon()
-    {
-
     }
 }

@@ -3,22 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //This is a trigger set on a timer
-public class TimerTrigger : MonoBehaviour
+public class TimerTrigger : InteractableTrigger
 {
-    [SerializeField]
-    List<MonoBehaviour> triggerables = new List<MonoBehaviour>();
-
-    [SerializeField]
-    private bool isLocked = false;
-    private bool isActive = false;
-
     [SerializeField]
     private bool isOverrideTimer = false;
     [SerializeField]
     private float timerDuration;
 
     [SerializeField]
-    RadialTimerUI timerUI;
+    private RadialTimerUI timerUI;
 
     private void Start()
     {
@@ -42,12 +35,12 @@ public class TimerTrigger : MonoBehaviour
 
     private IEnumerator Co_TimerRun(float duration)
     {
-        isActive = true;
+        isActivated = true;
         float t = 0;
 
         timerUI.PrepUI(duration);
 
-        while (isActive)
+        while (isActivated)
         {
             if (!isLocked)
             {
@@ -56,7 +49,7 @@ public class TimerTrigger : MonoBehaviour
 
                 if (t >= duration)
                 {
-                    isActive = false;
+                    isActivated = false;
                 }
             }
 
@@ -68,9 +61,9 @@ public class TimerTrigger : MonoBehaviour
 
     private void ActivateTriggerables()
     {
-        if (triggerables.Count == 0) return;
+        if (TriggeredObjects.Count == 0) return;
 
-        foreach (MonoBehaviour tComponent in triggerables)
+        foreach (MonoBehaviour tComponent in TriggeredObjects)
         {
             if (tComponent.TryGetComponent<ITriggerable>(out var triggerable))
             {

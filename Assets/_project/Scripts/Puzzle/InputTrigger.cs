@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //This is a trigger that needs the player to press a button to activate/unactivate
-public class InputTrigger : MonoBehaviour
+public class InputTrigger : InteractableTrigger
 {
-    [SerializeField]
-    List<MonoBehaviour> TriggeredObjects = new List<MonoBehaviour>();
     [SerializeField]
     GameObject handle;
 
-    [SerializeField]
-    private bool isLocked = false;
-    private bool isActivated = false;
     [SerializeField]
     private bool bTriggerLock = false;
 
@@ -82,15 +77,5 @@ public class InputTrigger : MonoBehaviour
         {
             TriggerLocked();
         }
-    }
-
-    private void TriggerLocked()
-    {
-        isLocked = true;
-    }
-
-    private void TriggerUnLocked()
-    {
-        isLocked = false;
     }
 }

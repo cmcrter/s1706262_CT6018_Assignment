@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 
-public interface IWeapon
+public interface IHoldable
 {
     void Pickup();
-    void Fire();
     void Throw(Vector3 dir);
-    void Reload();
 
     GameObject ReturnObject();
     bool CanPickup();

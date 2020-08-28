@@ -3,14 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //This is a trigger which is activated by something entering
-public class CollisionTrigger : MonoBehaviour
+public class CollisionTrigger : InteractableTrigger
 {
-    [SerializeField]
-    List<MonoBehaviour> TriggeredObjects = new List<MonoBehaviour>();
-
-    [SerializeField]
-    private bool isLocked = false;
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!isLocked)
@@ -45,15 +39,5 @@ public class CollisionTrigger : MonoBehaviour
         {
             tObject.UnTriggered();          
         }
-    }
-
-    private void TriggerLock()
-    {
-        isLocked = true;
-    }
-
-    private void TriggerUnlocked()
-    {
-        isLocked = false;
     }
 }

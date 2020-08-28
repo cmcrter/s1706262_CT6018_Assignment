@@ -8,6 +8,14 @@ public class TriggerTracker : MonoBehaviour
     [SerializeField]
     List<InputTrigger> triggers = new List<InputTrigger>();
 
+    //[SerializeField]
+    //CharacterManager _manager;
+
+    private void Awake()
+    {
+        //_manager = _manager ?? GetComponent<CharacterManager>();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -48,11 +56,18 @@ public class TriggerTracker : MonoBehaviour
 
     public void Add(InputTrigger inputTrigger)
     {
-        triggers.Add(inputTrigger);
+        //Need to check the colour of the input trigger vs the current colour of the player
+        if (1 == 1)
+        {
+            triggers.Add(inputTrigger);
+        }
     }
 
     public void Remove(InputTrigger inputTrigger)
     {
-        triggers.Remove(inputTrigger);
+        if (1 == 1)
+        {
+            triggers.Remove(inputTrigger);
+        }
     }
 }
