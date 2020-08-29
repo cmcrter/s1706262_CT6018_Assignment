@@ -6,7 +6,7 @@ public class ProjectileWeapon : Weapon
 {
     [Header("Projectile Weapon Specific")]
     [SerializeField]
-    private float fProjectileSpeed;
+    private float fProjectileSpeed = 15f;
     [SerializeField]
     private float fFireRate = 0.25f;
     [SerializeField]
@@ -14,22 +14,32 @@ public class ProjectileWeapon : Weapon
     [SerializeField]
     private GameObject goProjectilePrefab;
 
+    private void Awake()
+    {
+        goProjectilePrefab = goProjectilePrefab ?? (GameObject)Resources.Load("_project/Prefabs/");
+    }
+
     private void Start()
     {
         bCanPickup = true;
         isCurrentlyHeld = false;
     }
 
-    public override void FireWeapon()
+    //Overriding the fire function
+    public override void FireWeapon(GameObject playerWhoShot)
     {
         if (bCanFire)
         {
+            GameObject proj = Instantiate(goProjectilePrefab, transform.position, transform.rotation, null);
+            proj.GetComponent<WeaponProjectile>().Fired(playerWhoShot, transform.right, fProjectileSpeed);
+
             Debug.Log("Fired test weapon", this);
-            StartCoroutine(Co_ShotCooldown());
+            StartCoroutine(Co_ShotCooldown(playerWhoShot));
         }
     }
 
-    IEnumerator Co_ShotCooldown()
+    //Shooting cooldown applies on every projectile weapon
+    IEnumerator Co_ShotCooldown(GameObject playerWhoShot)
     {
         bCanFire = false;
 
@@ -42,7 +52,7 @@ public class ProjectileWeapon : Weapon
 
         if (bAutoFire && Input.GetMouseButton(0) && isCurrentlyHeld)
         {
-            FireWeapon();
+            FireWeapon(playerWhoShot);
         }
     }
 }

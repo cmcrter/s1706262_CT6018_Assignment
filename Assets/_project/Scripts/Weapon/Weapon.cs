@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//For future expansions, making the weapon with a specific type attached (eg: Gamemodes or maps which only use melee weapons)
 public enum eWeaponType
 {
     Empty,
@@ -12,7 +13,7 @@ public enum eWeaponType
     COUNT
 }
 
-//Any weapon has this base functionality
+//Any weapon has this base functionality and can be held by a player
 public abstract class Weapon : MonoBehaviour, IHoldable
 {
     void IHoldable.Pickup() => PickupWeapon();
@@ -29,7 +30,7 @@ public abstract class Weapon : MonoBehaviour, IHoldable
     [SerializeField]
     private BoxCollider2D _collider;
     [SerializeField]
-    private BoxCollider2D _playerCollider;
+    private BoxCollider2D _playerCollider = null;
 
     [SerializeField]
     private Rigidbody2D _rb;
@@ -70,7 +71,7 @@ public abstract class Weapon : MonoBehaviour, IHoldable
         StartCoroutine(Co_StartPickupCooldown());
     }
 
-    public virtual void FireWeapon()
+    public virtual void FireWeapon(GameObject playerWhoShot)
     {
         //should be overrided
     }

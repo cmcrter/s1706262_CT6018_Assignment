@@ -41,7 +41,7 @@ public class WeaponManager : MonoBehaviour
             //If the player wants to fire the weapon
             if (Input.GetMouseButtonDown(0))
             {
-                currentWeapon.FireWeapon();
+                currentWeapon.FireWeapon(gameObject);
             }
 
             //If the player wants to throw the weapon and there's a weapon to throw
@@ -143,8 +143,8 @@ public class WeaponManager : MonoBehaviour
 
     private void ThrowCurrentWeapon(Vector3 dir)
     {
-        currentWeapon.ThrowWeapon(dir);
         hasWeapon = false;
+        currentWeapon.ThrowWeapon(dir);
         currentWeapon = null;
     }
 }

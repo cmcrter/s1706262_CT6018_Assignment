@@ -133,7 +133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9680721}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SmallRoof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -478,7 +478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sharedProfile: {fileID: 11400000, guid: 67a1bd76ba3d34f4fa59023f00612a04, type: 2}
-  isGlobal: 1
+  isGlobal: 0
   blendDistance: 0
   weight: 1
   priority: 0
@@ -536,7 +536,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 252897566}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.617, y: 0.95989037, z: 0.16889012}
+  m_LocalPosition: {x: -2.684, y: 0.8985791, z: 0.16889012}
   m_LocalScale: {x: 0.016556803, y: 0.25368595, z: 1}
   m_Children: []
   m_Father: {fileID: 9680721}
@@ -795,7 +795,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4641cbc989005ed4c91ffdf6a9d77e7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TriggeredObjects: []
+  TriggeredObjects:
+  - {fileID: 1578142127}
   isLocked: 0
   isOverrideTimer: 1
   timerDuration: 10
@@ -995,10 +996,11 @@ MonoBehaviour:
   weaponType: 2
   throwForce: 25
   fPickupCooldownTime: 1
-  fProjectileSpeed: 5
+  fProjectileSpeed: 30
   fFireRate: 0.4
   bAutoFire: 0
-  goProjectilePrefab: {fileID: 0}
+  goProjectilePrefab: {fileID: 2479726892843079453, guid: 04434da4a56641549b9b4da73db92f06,
+    type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1906,7 +1908,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1381719721}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.9831257, y: 0.95989037, z: 0.16889012}
+  m_LocalPosition: {x: -5.0538225, y: 0.8985791, z: 0}
   m_LocalScale: {x: 4.7147436, y: 0.25368595, z: 1}
   m_Children: []
   m_Father: {fileID: 9680721}
@@ -2279,7 +2281,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1578142122}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.542746, y: -8.09038, z: 0.0014505386}
+  m_LocalPosition: {x: -13.535, y: -8.14, z: 0.0014505386}
   m_LocalScale: {x: 0.9970989, y: 2.2434726, z: 0.9970989}
   m_Children: []
   m_Father: {fileID: 1360034766}
