@@ -4,25 +4,22 @@ using UnityEngine;
 
 public abstract class InteractableTrigger : MonoBehaviour
 {
-    //Objects that get triggered from the trigger
     [SerializeField]
-    protected List<MonoBehaviour> TriggeredObjects = new List<MonoBehaviour>();
+    List<InteractableManager> interactableManagers;
 
     //All triggers can get locked and unlocked
     [SerializeField]
-    protected bool isLocked;
+    public bool isLocked;
 
     //For timers and levers
-    protected bool isActivated = false;
+    public bool isActivated = false;
 
-    //Explicit functions to lock or unlock the trigger
-    protected void TriggerLocked()
+    //This trigger was set off
+    protected void CheckTriggered()
     {
-        isLocked = true;
-    }
-
-    protected void TriggerUnLocked()
-    {
-        isLocked = false;
+        foreach (InteractableManager manager in interactableManagers)
+        {
+            manager.CheckTriggerStates();
+        }
     }
 }

@@ -1,0 +1,75 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[System.Serializable]
+struct TriggerState
+{
+    //the triggers for this trigger state
+    [SerializeField] List<InteractableTrigger> triggers;
+
+    //Locks the triggerabled after done
+    public bool bTriggerLock;
+
+    public bool CheckIfTriggered()
+    {
+        //Go through all the triggers
+        foreach (InteractableTrigger trig in triggers)
+        {
+            //If any triggers are false return false
+            if (!trig.isActivated)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void Locked()
+    {
+        foreach (InteractableTrigger trig in triggers)
+        {
+            trig.isLocked = true;
+        }
+    }
+}
+
+//Needs to go on any triggerable
+public class InteractableManager : MonoBehaviour
+{
+    //The triggerable it's managing
+    [SerializeField]
+    private MonoBehaviour triggerable;
+
+    //The states of triggers to trigger/untrigger it
+    [SerializeField]
+    private List<TriggerState> triggerStates = new List<TriggerState>();
+
+    private ITriggerable itriggerable;
+
+    private void Awake()
+    {
+        itriggerable = (ITriggerable)triggerable;
+    }
+
+    //Checking all the trigger states for the triggerable
+    public void CheckTriggerStates()
+    {
+        foreach (TriggerState state in triggerStates)
+        {
+            if (state.CheckIfTriggered())
+            {
+                itriggerable.Triggered();
+                if (state.bTriggerLock)
+                {
+                    state.Locked();                  
+                }
+
+                return;
+            }
+        }
+
+        itriggerable.UnTriggered();
+    }
+}

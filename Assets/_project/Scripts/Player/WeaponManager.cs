@@ -16,7 +16,8 @@ public class WeaponManager : MonoBehaviour
     bool hasWeapon = false;
 
     [Header("Needed Objects")]
-
+    [SerializeField]
+    private InputHandler inputHandler;
     [SerializeField]
     Transform playerHandPoint;
     [SerializeField]
@@ -28,7 +29,7 @@ public class WeaponManager : MonoBehaviour
     {
         playerHandPoint = playerHandPoint ?? transform.GetChild(1);
         mainCamera = mainCamera ?? Camera.main;
-        //_manager = _manager ?? GetComponent<CharacterManager>();
+        inputHandler = inputHandler ?? gameObject.GetComponentInChildren<KeyAndMouseHandler>();
     }
 
     private void Update()
@@ -39,15 +40,15 @@ public class WeaponManager : MonoBehaviour
             UpdateWeaponDirection();
 
             //If the player wants to fire the weapon
-            if (Input.GetMouseButtonDown(0))
+            if (inputHandler.FireWeapon())
             {
-                currentWeapon.FireWeapon(gameObject);
+                currentWeapon.FireWeapon(currentWeapon.gameObject, inputHandler);
             }
 
             //If the player wants to throw the weapon and there's a weapon to throw
-            if (Input.GetKey(KeyCode.Q))
+            if (inputHandler.ThrowWeapon())
             {
-                ThrowCurrentWeapon(currentWeaponObject.transform.right);
+                ThrowCurrentWeapon(currentWeaponObject.transform.rotation.eulerAngles + new Vector3(0, -90));
             }
         }
     }
@@ -138,7 +139,6 @@ public class WeaponManager : MonoBehaviour
         currentWeaponObject.transform.rotation = q;
         playerHandPoint.transform.position = transform.position + new Vector3(0, 0.5f, 0) + dir.normalized * (1 + 0.5f);
         currentWeaponObject.transform.position = playerHandPoint.transform.position;
-
     }
 
     private void ThrowCurrentWeapon(Vector3 dir)

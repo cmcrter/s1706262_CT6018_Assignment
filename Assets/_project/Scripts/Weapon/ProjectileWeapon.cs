@@ -13,10 +13,11 @@ public class ProjectileWeapon : Weapon
     private bool bAutoFire = false;
     [SerializeField]
     private GameObject goProjectilePrefab;
+    private InputHandler handler;
 
     private void Awake()
     {
-        goProjectilePrefab = goProjectilePrefab ?? (GameObject)Resources.Load("_project/Prefabs/");
+        goProjectilePrefab = goProjectilePrefab ?? (GameObject)Resources.Load("_project/Prefabs/TestProjectile");
     }
 
     private void Start()
@@ -26,8 +27,10 @@ public class ProjectileWeapon : Weapon
     }
 
     //Overriding the fire function
-    public override void FireWeapon(GameObject playerWhoShot)
+    public override void FireWeapon(GameObject playerWhoShot, InputHandler inputTypeUsed)
     {
+        handler = inputTypeUsed;
+
         if (bCanFire)
         {
             GameObject proj = Instantiate(goProjectilePrefab, transform.position, transform.rotation, null);
@@ -39,7 +42,7 @@ public class ProjectileWeapon : Weapon
     }
 
     //Shooting cooldown applies on every projectile weapon
-    IEnumerator Co_ShotCooldown(GameObject playerWhoShot)
+    private IEnumerator Co_ShotCooldown(GameObject playerWhoShot)
     {
         bCanFire = false;
 
@@ -50,9 +53,9 @@ public class ProjectileWeapon : Weapon
 
         bCanFire = true;
 
-        if (bAutoFire && Input.GetMouseButton(0) && isCurrentlyHeld)
+        if (bAutoFire && handler.FireWeapon() && isCurrentlyHeld)
         {
-            FireWeapon(playerWhoShot);
+            FireWeapon(playerWhoShot, handler);
         }
     }
 }

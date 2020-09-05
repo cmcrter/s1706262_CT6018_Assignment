@@ -12,6 +12,7 @@ public class TimerTrigger : InteractableTrigger
 
     [SerializeField]
     private RadialTimerUI timerUI;
+    private IEnumerator timer;
 
     private void Start()
     {
@@ -20,7 +21,7 @@ public class TimerTrigger : InteractableTrigger
 
     public void StartTimer()
     {
-        if (timerDuration < float.Epsilon)
+        if (timerDuration == 0)
         {
             if (Debug.isDebugBuild)
             {
@@ -30,17 +31,18 @@ public class TimerTrigger : InteractableTrigger
             timerDuration = 5f;
         }
 
-        StartCoroutine(Co_TimerRun(timerDuration));
+        timer = Co_TimerRun(timerDuration);
+        StartCoroutine(timer);
     }
 
     private IEnumerator Co_TimerRun(float duration)
     {
-        isActivated = true;
+        isActivated = false;
         float t = 0;
 
         timerUI.PrepUI(duration);
 
-        while (isActivated)
+        while (!isActivated)
         {
             if (!isLocked)
             {
@@ -49,32 +51,13 @@ public class TimerTrigger : InteractableTrigger
 
                 if (t >= duration)
                 {
-                    isActivated = false;
+                    isActivated = true;
+                    CheckTriggered();
+                    StopCoroutine(timer);
                 }
             }
 
             yield return null;
-        }
-
-        ActivateTriggerables();
-    }
-
-    private void ActivateTriggerables()
-    {
-        if (TriggeredObjects.Count == 0) return;
-
-        foreach (MonoBehaviour tComponent in TriggeredObjects)
-        {
-            if (tComponent.TryGetComponent<ITriggerable>(out var triggerable))
-            {
-                triggerable.Triggered();
-                triggerable.Locked();
-
-                if (isOverrideTimer)
-                {
-                    tComponent.enabled = false;
-                }
-            }
         }
     }
 }

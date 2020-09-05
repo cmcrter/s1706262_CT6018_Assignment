@@ -36,11 +36,10 @@ public abstract class Weapon : MonoBehaviour, IHoldable
     private Rigidbody2D _rb;
 
     [Header("General Weapon Customization")]
-
-    [SerializeField]
-    protected eWeaponType weaponType;
     [SerializeField]
     private float throwForce = 10f;
+    [SerializeField]
+    protected eWeaponType weaponType { get; private set; }
     [SerializeField]
     private float fPickupCooldownTime = 1f;
 
@@ -52,6 +51,7 @@ public abstract class Weapon : MonoBehaviour, IHoldable
 
     public void PickupWeapon()
     {
+        _collider.enabled = false;
         isCurrentlyHeld = true;
         bCanPickup = false;
         _playerCollider.enabled = false;
@@ -71,7 +71,7 @@ public abstract class Weapon : MonoBehaviour, IHoldable
         StartCoroutine(Co_StartPickupCooldown());
     }
 
-    public virtual void FireWeapon(GameObject playerWhoShot)
+    public virtual void FireWeapon(GameObject playerWhoShot, InputHandler inputTypeUsed)
     {
         //should be overrided
     }

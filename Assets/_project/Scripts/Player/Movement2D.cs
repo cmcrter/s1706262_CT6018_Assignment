@@ -6,6 +6,7 @@ using UnityEngine;
 public class Movement2D : MonoBehaviour
 {
     [Header("Components and Objects Needed")]
+    public InputHandler inputHandler;
     [SerializeField] private Transform _thisTransform;
     [SerializeField] private Rigidbody2D _thisRB;
     [SerializeField] private GameObject TopHalf;
@@ -31,7 +32,8 @@ public class Movement2D : MonoBehaviour
         //Get components are expensive
         _thisTransform = _thisTransform ?? GetComponent<Transform>();
         _thisRB = _thisRB ?? GetComponent<Rigidbody2D>();
-        TopHalf = TopHalf ?? transform.GetChild(0).gameObject;        
+        TopHalf = TopHalf ?? transform.GetChild(0).gameObject;
+        inputHandler = inputHandler ?? gameObject.GetComponentInChildren<KeyAndMouseHandler>();
     }
 
     // Start is called before the first frame update
@@ -95,14 +97,14 @@ public class Movement2D : MonoBehaviour
     private void MovementCheck()
     {
         //Left
-        if (Input.GetKey(KeyCode.A))
+        if (inputHandler.MoveLeft())
         {
             _thisRB.velocity += Vector2.left * WalkSpeed;
             //_thisRB.AddForce(Vector2.left * WalkSpeed * Time.deltaTime, ForceMode2D.Impulse);
         }
 
         //Right
-        if (Input.GetKey(KeyCode.D))
+        if (inputHandler.MoveRight())
         {
             _thisRB.velocity += -Vector2.left * WalkSpeed;
             //_thisRB.AddForce(-Vector2.left * WalkSpeed * Time.deltaTime, ForceMode2D.Impulse);
@@ -112,7 +114,7 @@ public class Movement2D : MonoBehaviour
     //Checking if player jumped
     private void JumpCheck()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !isCrouched && isGrounded)
+        if (inputHandler.Jump() && !isCrouched && isGrounded)
         {
             _thisRB.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
         }
@@ -121,14 +123,9 @@ public class Movement2D : MonoBehaviour
     //Checking if player crouched or not
     private void CrouchCheck()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (inputHandler.Crouch())
         {
-            Crouch();
-        }
-
-        if (Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            UnCrouch();
+            ToggleCrouch();
         }
     }
 
@@ -146,6 +143,21 @@ public class Movement2D : MonoBehaviour
         TopHalf.SetActive(false);
         isCrouched = true;
         WalkSpeed = WalkSpeed * 0.5f;
+    }
+
+    //Toggle Option for crouching
+    private void ToggleCrouch()
+    {
+        isCrouched = !isCrouched;
+
+        if (isCrouched)
+        {
+            Crouch();
+        }
+        else
+        {
+            UnCrouch();
+        }
     }
 
     //Checking if there's a ground below the player

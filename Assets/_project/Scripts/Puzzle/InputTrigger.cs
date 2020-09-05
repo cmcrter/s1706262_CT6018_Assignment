@@ -8,9 +8,6 @@ public class InputTrigger : InteractableTrigger
     [SerializeField]
     GameObject handle;
 
-    [SerializeField]
-    private bool bTriggerLock = false;
-
     private void Awake()
     {
         handle = handle ?? transform.GetChild(0).gameObject;
@@ -18,7 +15,7 @@ public class InputTrigger : InteractableTrigger
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag.Equals("Player") && collision.TryGetComponent<TriggerTracker>(out var tracker))
+        if (collision.TryGetComponent<TriggerTracker>(out var tracker) && !isLocked)
         {
             tracker.Add(this);
         }
@@ -26,7 +23,7 @@ public class InputTrigger : InteractableTrigger
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag.Equals("Player") && collision.TryGetComponent<TriggerTracker>(out var tracker))
+        if (collision.TryGetComponent<TriggerTracker>(out var tracker) && !isLocked)
         {
             tracker.Remove(this);
         }
@@ -35,30 +32,8 @@ public class InputTrigger : InteractableTrigger
     //This is a trigger based on an input the player does within range
     public void InputTriggered()
     {
-        //Bit of a double guard clause
-        if (isLocked || TriggeredObjects.Count == 0) return;
-
-        foreach (MonoBehaviour tObject in TriggeredObjects)
-        {
-            if (tObject.TryGetComponent<ITriggerable>(out var triggerable) && tObject.enabled)
-            {
-                if (isActivated)
-                {
-                    if (triggerable.GetLockState() && !bTriggerLock)
-                    {
-                        triggerable.Unlocked();
-                    }
-
-                    triggerable.UnTriggered();
-                }
-                else
-                {
-                    triggerable.Triggered();
-                    triggerable.Locked();
-                }
-            }
-        }
-
+        //guard clause
+        if (isLocked) return;
         if (handle)
         {
             if (isActivated)
@@ -72,10 +47,6 @@ public class InputTrigger : InteractableTrigger
         }
 
         isActivated = !isActivated;
-
-        if (bTriggerLock)
-        {
-            TriggerLocked();
-        }
+        CheckTriggered();
     }
 }

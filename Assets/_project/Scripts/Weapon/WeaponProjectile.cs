@@ -13,11 +13,15 @@ public class WeaponProjectile : MonoBehaviour
 
     [Header("Projectile Customizable Variables")]
     [SerializeField]
-    private float fPower = 15f;
-
-    Coroutine destroyTimer;
+    private bool bDestroyOnHit;
     [SerializeField]
-    GameObject playerWhoShotThis;
+    private float fPower = 15f;
+    [SerializeField]
+    private float damage = 1f;
+
+    private Coroutine destroyTimer;
+    [SerializeField]
+    private GameObject playerWhoShotThis;
 
     private void Awake()
     {
@@ -35,12 +39,6 @@ public class WeaponProjectile : MonoBehaviour
     //When it gets fired
     public void Fired(GameObject PlayerWhoShot, Vector3 dir, float shotPower)
     {
-        //Small chance but just incase
-        if (dir == Vector3.zero)
-        {
-            dir = Vector3.right;
-        }
-
         //Firing the projectile
         _rb.AddForce(dir * shotPower, ForceMode2D.Impulse);
         playerWhoShotThis = PlayerWhoShot;
@@ -61,8 +59,16 @@ public class WeaponProjectile : MonoBehaviour
             otherRB.AddForce(transform.forward * fPower, ForceMode2D.Impulse);
         }
 
-        StopCoroutine(destroyTimer);
-        Destroy(gameObject);
+        if (collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
+        {
+            damagable.Damage(damage);
+        }
+
+        if (bDestroyOnHit)
+        {
+            StopCoroutine(destroyTimer);
+            Destroy(gameObject);
+        }
     }
 
     //This is so projectiles that are out the map or can bounce dont stay infinitely
@@ -76,5 +82,10 @@ public class WeaponProjectile : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    protected virtual void OnHit()
+    {
+
     }
 }

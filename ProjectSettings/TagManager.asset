@@ -14,16 +14,16 @@ TagManager:
   - 
   - 
   - GameWorld
-  - 
-  - Player
-  - TriggerObjects
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Colour1Player
+  - Colour2Player
+  - Colour3Player
+  - Colour4Player
+  - Colour1TriggerObjects
+  - Colour2TriggerObjects
+  - Colour3TriggerObjects
+  - Colour4TriggerObjects
+  - LockedCameraZones
+  - Background
   - 
   - 
   - 

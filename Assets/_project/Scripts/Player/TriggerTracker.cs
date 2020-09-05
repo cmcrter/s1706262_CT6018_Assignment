@@ -6,20 +6,15 @@ using UnityEngine;
 public class TriggerTracker : MonoBehaviour
 {
     [SerializeField]
+    InputHandler inputHandler;
+
+    [SerializeField]
     List<InputTrigger> triggers = new List<InputTrigger>();
-
-    //[SerializeField]
-    //CharacterManager _manager;
-
-    private void Awake()
-    {
-        //_manager = _manager ?? GetComponent<CharacterManager>();
-    }
 
     // Update is called once per frame
     void Update()
     {
-        if (triggers.Count > 0 && Input.GetKeyDown(KeyCode.E))
+        if (triggers.Count > 0 && inputHandler.Interact())
         {
             ClosestTriggerCheck().InputTriggered();            
         }

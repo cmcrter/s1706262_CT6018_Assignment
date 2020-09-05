@@ -9,7 +9,8 @@ public class CollisionTrigger : InteractableTrigger
     {
         if (!isLocked)
         {
-            TriggerActivated();
+            isActivated = true;
+            CheckTriggered();
         }
     }
 
@@ -17,27 +18,8 @@ public class CollisionTrigger : InteractableTrigger
     {
         if (!isLocked)
         {
-            TriggerUnactivated();
-        }
-    }
-
-    private void TriggerActivated()
-    {
-        if (TriggeredObjects.Count == 0) return;
-
-        foreach (ITriggerable tObject in TriggeredObjects)
-        {
-            tObject.Triggered();
-        }
-    }
-
-    private void TriggerUnactivated()
-    {
-        if (TriggeredObjects.Count == 0) return;
-
-        foreach (ITriggerable tObject in TriggeredObjects)
-        {
-            tObject.UnTriggered();          
+            isActivated = false;
+            CheckTriggered();
         }
     }
 }
