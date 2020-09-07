@@ -13,6 +13,8 @@ public class PlayerHealth : MonoBehaviour, IDamagable
 
     [SerializeField]
     private Renderer _renderer;
+    [SerializeField]
+    private Renderer _topRenderer;
 
     #region Variables Needed
 
@@ -26,7 +28,7 @@ public class PlayerHealth : MonoBehaviour, IDamagable
 
     private void Awake()
     {
-        
+        _renderer = _renderer ?? GetComponent<Renderer>();
     }
 
     private void Start()
@@ -56,6 +58,7 @@ public class PlayerHealth : MonoBehaviour, IDamagable
         {
             return false;
         }
+        fCurrentHealth = 0;
 
         return true;
     }
@@ -63,5 +66,6 @@ public class PlayerHealth : MonoBehaviour, IDamagable
     private void PlayerDeath()
     {
         _renderer.material.color = Color.gray;
+        _topRenderer.material.color = Color.gray;
     }
 }

@@ -11,24 +11,27 @@ public class CameraMovement : MonoBehaviour
 
     public bool isLocked;
 
+    Vector3 offset;
+
     private void Start()
     {
-        StartCoroutine(Co_timeBeforeCameraFollow());
+        offset = transform.position;
+        StartCoroutine(Co_timeBeforeCameraFollow(0.02f));
     }
 
     private void Update()
     {
         if (!isLocked)
         {
-            transform.position = new Vector3(ObjectToFollow.position.x, ObjectToFollow.position.y + 8.7f, transform.position.z);
+            transform.position = new Vector3(ObjectToFollow.position.x + offset.x, ObjectToFollow.position.y + offset.y, -20);
         }
     }
 
-    private IEnumerator Co_timeBeforeCameraFollow()
+    private IEnumerator Co_timeBeforeCameraFollow(float timer)
     {
         isLocked = true;
 
-        for (float t = 0; t < 1.0f; t += Time.deltaTime)
+        for (float t = 0; t < timer; t += Time.deltaTime)
         {
             yield return null;
         }
@@ -39,11 +42,21 @@ public class CameraMovement : MonoBehaviour
     public void OverrideCameraPos(Vector3 newPos)
     {
         isLocked = true;
-        transform.position = new Vector3(newPos.x, newPos.y, transform.position.z);
+        newPos = new Vector3(newPos.x, newPos.y, transform.position.z);
+        StartCoroutine(Co_MoveCamerToPoint(newPos, 1.0f));
     }
 
     public void FreeCameraMovement()
     {
         isLocked = false;
+    }
+
+    private IEnumerator Co_MoveCamerToPoint(Vector3 newPos, float timer)
+    {
+        for (float t = 0; t < timer; t += Time.deltaTime)
+        {
+            transform.position = Vector3.Lerp(transform.position, newPos, t);
+            yield return null;
+        }
     }
 }
