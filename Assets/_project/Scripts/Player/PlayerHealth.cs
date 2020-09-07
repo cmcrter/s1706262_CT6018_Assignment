@@ -29,6 +29,7 @@ public class PlayerHealth : MonoBehaviour, IDamagable
     private void Awake()
     {
         _renderer = _renderer ?? GetComponent<Renderer>();
+        _topRenderer = _topRenderer ?? GetComponentInChildren<Renderer>();
     }
 
     private void Start()

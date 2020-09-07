@@ -2,20 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public struct CState
+//Object types require IDs
+public enum ObjectType
 {
-    int ID;
-    LayerMask mask;
+    NONE = 0,
+    PLAYER = 1,
+    TRIGGER = 2
 }
 
+[System.Serializable]
+public class CLState
+{
+    public int ID;
+    public Color color;
+    public ObjectType type;
+    public LayerMask layer;
+}
+
+//A class to store the games' base player/object states
 public class ColourLayerManager : MonoBehaviour
 {
+    //These are the 4 layers/colours of the game
     [SerializeField]
-    Dictionary<Color, CState> colourPair = new Dictionary<Color, CState>();
+    public List<CLState> cState = new List<CLState>();
 
-    private void Awake()
+    //Anything can get one of these states
+    public CLState GetState(int ID, ObjectType type)
     {
-        
+        return cState.ToArray()[ID];
     }
 }

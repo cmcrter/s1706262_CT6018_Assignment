@@ -7,15 +7,19 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField]
-    Transform ObjectToFollow;
+    private Transform ObjectToFollow;
 
     public bool isLocked;
 
-    Vector3 offset;
+    [SerializeField]
+    private Vector3 offset;
 
     private void Start()
     {
-        offset = transform.position;
+        if (offset.Equals(Vector3.zero))
+        {
+            offset = new Vector3(-4, 8, 0);
+        }
         StartCoroutine(Co_timeBeforeCameraFollow(0.02f));
     }
 
