@@ -9,17 +9,20 @@ public class Parallax : MonoBehaviour
     public float parallaxEff;
     [SerializeField]
     private GameObject pCamera;
+    [SerializeField]
+    SpriteRenderer sRenderer;
 
     private void Awake()
     {
         pCamera = pCamera ?? Camera.main.gameObject;
+        sRenderer = sRenderer ?? GetComponentInChildren<SpriteRenderer>();
     }
 
     // Start is called before the first frame update
     private void Start()
     {
         startpos = transform.position.x;
-        length = GetComponent<SpriteRenderer>().bounds.size.x;
+        length = sRenderer.bounds.size.x;
     }
 
     // Update is called once per frame
