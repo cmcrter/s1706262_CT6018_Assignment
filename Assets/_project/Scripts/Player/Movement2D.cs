@@ -164,7 +164,7 @@ public class Movement2D : MonoBehaviour
     private void GroundedCheck()
     {
         RaycastHit2D hit;
-        Debug.DrawRay(_thisTransform.transform.position, Vector3.down, Color.cyan, 0.05f);
+        //Debug.DrawRay(_thisTransform.transform.position, Vector3.down, Color.cyan, 0.05f);
 
         if (hit = Physics2D.BoxCast(_thisTransform.transform.position, _thisTransform.lossyScale * 0.8f, 0, Vector2.down, 0.1f, ~playerLayer))
         {

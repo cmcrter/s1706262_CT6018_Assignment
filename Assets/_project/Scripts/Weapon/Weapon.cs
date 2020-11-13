@@ -27,8 +27,10 @@ public abstract class Weapon : MonoBehaviour, IHoldable
 
     [Header("Components Needed For Any Weapon")]
 
+    //Collider that collides with environment
     [SerializeField]
     private BoxCollider2D _collider;
+    //Collider that determines pickups
     [SerializeField]
     private BoxCollider2D _playerCollider = null;
 
@@ -51,7 +53,7 @@ public abstract class Weapon : MonoBehaviour, IHoldable
 
     public void PickupWeapon()
     {
-        _collider.enabled = false;
+        _collider.enabled = true;
         isCurrentlyHeld = true;
         bCanPickup = false;
         _playerCollider.enabled = false;
@@ -65,9 +67,10 @@ public abstract class Weapon : MonoBehaviour, IHoldable
     public void ThrowWeapon(Vector3 dir)
     {
         _rb.AddForce(dir * throwForce, ForceMode2D.Impulse);
-
-        _collider.enabled = true;
+        _playerCollider.enabled = false;
         isCurrentlyHeld = false;
+
+
         StartCoroutine(Co_StartPickupCooldown());
     }
 
