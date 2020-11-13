@@ -17,7 +17,7 @@ public enum eWeaponType
 public abstract class Weapon : MonoBehaviour, IHoldable
 {
     void IHoldable.Pickup() => PickupWeapon();
-    void IHoldable.Throw(Vector3 dir) => ThrowWeapon(dir);
+    void IHoldable.Throw(Vector3 dir) => ThrowWeapon();
     GameObject IHoldable.ReturnObject() => ReturnWeapon();
     bool IHoldable.CanPickup() => bCanPickup;
 
@@ -65,12 +65,11 @@ public abstract class Weapon : MonoBehaviour, IHoldable
         return gameObject;
     }
 
-    public void ThrowWeapon(Vector3 dir)
+    public void ThrowWeapon()
     {
         _rb.gravityScale = 1;
+        _rb.AddForce(transform.right * throwForce, ForceMode2D.Impulse);
 
-        _rb.AddForce(dir * throwForce, ForceMode2D.Impulse);
-        _playerCollider.enabled = false;
         isCurrentlyHeld = false;
 
         StartCoroutine(Co_StartPickupCooldown());

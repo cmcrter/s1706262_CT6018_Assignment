@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
+    [SerializeField]
+    Rigidbody2D _rb;
+
     [Header("Weapon Tracking")]
 
     [SerializeField]
@@ -32,6 +35,7 @@ public class WeaponManager : MonoBehaviour
         playerHandPoint = playerHandPoint ?? transform.GetChild(1);
         mainCamera = mainCamera ?? Camera.main;
         inputHandler = inputHandler ?? gameObject.GetComponentInChildren<KeyAndMouseHandler>();
+        _rb = _rb ?? GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -40,8 +44,6 @@ public class WeaponManager : MonoBehaviour
 
         if (hasWeapon && currentWeapon != null)
         {
-            //Aiming the weapon towards the mouse
-            UpdateWeaponDirection();
 
             //If the player wants to fire the weapon
             if (inputHandler.FireWeapon())
@@ -49,15 +51,24 @@ public class WeaponManager : MonoBehaviour
                 currentWeapon.FireWeapon(currentWeapon.gameObject, inputHandler);
             }
 
-            //If the player wants to throw the weapon and there's a weapon to throw
+            //If the player wants to throw the weapon
             if (inputHandler.ThrowWeapon())
             {
-                ThrowCurrentWeapon(handRotation.eulerAngles);
+                ThrowCurrentWeapon();
             }
         }
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
+    {
+        if (hasWeapon && currentWeapon != null)
+        {
+            //Aiming and moving the weapon using physics
+            UpdateWeaponDirection();
+        }
+    }
+
+        private void LateUpdate()
     {
         if (!hasWeapon && weaponsInRange.Count > 0)
         {
@@ -121,7 +132,7 @@ public class WeaponManager : MonoBehaviour
         {
             if (weaponsInRange[i].bCanPickup)
             {
-                float distToCheck = Vector3.Distance(this.transform.position, weaponsInRange[i].ReturnWeapon().transform.position);
+                float distToCheck = Vector3.Distance(transform.position, weaponsInRange[i].ReturnWeapon().transform.position);
 
                 if (distToCheck < dist)
                 {
@@ -147,7 +158,7 @@ public class WeaponManager : MonoBehaviour
         handRotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
         playerHandPoint.rotation = handRotation;
-        playerHandPoint.position = transform.position + new Vector3(0, 0.5f, 0) + dir.normalized * (1 + 0.5f);
+        playerHandPoint.position = transform.position + new Vector3(0, 0.75f, 0) + dir.normalized;
     }
 
     private void UpdateWeaponDirection()
@@ -155,14 +166,14 @@ public class WeaponManager : MonoBehaviour
         if (currentWeaponObject && currentweaponrb)
         {
             currentWeaponObject.transform.rotation = handRotation;
-            currentweaponrb.MovePosition(Vector3.MoveTowards(currentweaponrb.position, playerHandPoint.position, 1000 * Time.deltaTime));
+            currentweaponrb.MovePosition(Vector3.MoveTowards(currentweaponrb.position, playerHandPoint.position, Vector3.Distance(currentweaponrb.position, transform.position) / (5f * Time.deltaTime)));
         }
     }
 
-    private void ThrowCurrentWeapon(Vector3 dir)
+    private void ThrowCurrentWeapon()
     {
         hasWeapon = false;
-        currentWeapon.ThrowWeapon(dir);
+        currentWeapon.ThrowWeapon();
         currentweaponrb = null;
         currentWeapon = null;
     }

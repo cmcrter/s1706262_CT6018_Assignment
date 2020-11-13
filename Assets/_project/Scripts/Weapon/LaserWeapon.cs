@@ -5,7 +5,7 @@ public class LaserWeapon : Weapon
     private InputHandler handler;
 
     [SerializeField]
-    private LineRenderer renderer;
+    private LineRenderer lRenderer;
     [SerializeField]
     private ParticleSystem VFX;
     private GameObject laserHit;
@@ -28,7 +28,7 @@ public class LaserWeapon : Weapon
     {
         if (handler)
         {
-            if (!handler.FireWeapon() && renderer.enabled)
+            if (!handler.FireWeapon() && lRenderer.enabled)
             {
                 DisableLaser();
             }
@@ -55,18 +55,18 @@ public class LaserWeapon : Weapon
 
     private void EnableLaser()
     {
-        renderer.enabled = true;
+        lRenderer.enabled = true;
     }
 
     private void UpdateLaser()
     {
-        renderer.SetPosition(0, barrell.transform.position);
-        renderer.SetPosition(1, RayCastHit());
+        lRenderer.SetPosition(0, barrell.transform.position);
+        lRenderer.SetPosition(1, RayCastHit());
     }
 
     private void DisableLaser()
     {
-        renderer.enabled = false;
+        lRenderer.enabled = false;
     }
 
     private Vector3 RayCastHit()
