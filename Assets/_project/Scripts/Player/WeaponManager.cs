@@ -10,7 +10,7 @@ public class WeaponManager : MonoBehaviour
     List<Weapon> weaponsInRange = new List<Weapon>();
 
     [SerializeField]
-    Weapon currentWeapon;
+    Weapon currentWeapon = null;
     [SerializeField]
     GameObject currentWeaponObject;
     bool hasWeapon = false;
@@ -24,6 +24,8 @@ public class WeaponManager : MonoBehaviour
     Camera mainCamera;
     //[SerializeField]
     //CharacterManager _manager;
+    Quaternion handRotation;
+    Rigidbody2D currentweaponrb;
 
     private void Awake()
     {
@@ -34,6 +36,8 @@ public class WeaponManager : MonoBehaviour
 
     private void Update()
     {
+        UpdateHandPostion();
+
         if (hasWeapon && currentWeapon != null)
         {
             //Aiming the weapon towards the mouse
@@ -48,7 +52,7 @@ public class WeaponManager : MonoBehaviour
             //If the player wants to throw the weapon and there's a weapon to throw
             if (inputHandler.ThrowWeapon())
             {
-                ThrowCurrentWeapon(currentWeaponObject.transform.rotation.eulerAngles + new Vector3(0, -90));
+                ThrowCurrentWeapon(handRotation.eulerAngles);
             }
         }
     }
@@ -61,9 +65,7 @@ public class WeaponManager : MonoBehaviour
 
             if (weaponToCheck != null && weaponToCheck.bCanPickup)
             {
-                currentWeapon = weaponToCheck;
-                currentWeapon.PickupWeapon();
-                hasWeapon = true;
+                PickingUpWeapon(weaponToCheck);
             }
         }
     }
@@ -77,12 +79,7 @@ public class WeaponManager : MonoBehaviour
 
             if (!hasWeapon && weapon.bCanPickup)
             {
-                currentWeapon = weapon;
-                currentWeaponObject = weapon.ReturnWeapon();
-                currentWeaponObject.transform.position = playerHandPoint.position;
-
-                weapon.PickupWeapon();
-                hasWeapon = true;
+                PickingUpWeapon(weapon);
             }
             else
             {
@@ -98,6 +95,19 @@ public class WeaponManager : MonoBehaviour
         {
             weaponsInRange.Remove(weapon);
         }
+    }
+
+    private void PickingUpWeapon(Weapon weapon)
+    {
+        currentWeapon = weapon;
+        currentWeaponObject = weapon.ReturnWeapon();
+
+        //Expensive but I dont know how else to do this
+        currentweaponrb = currentWeapon.GetRB();
+        UpdateWeaponDirection();
+
+        weapon.PickupWeapon();
+        hasWeapon = true;
     }
 
     //Getting the closest weapon to the player
@@ -130,21 +140,30 @@ public class WeaponManager : MonoBehaviour
         return null;
     }
 
-    private void UpdateWeaponDirection()
+    private void UpdateHandPostion()
     {
         Vector3 dir = Input.mousePosition - mainCamera.WorldToScreenPoint(transform.position);
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+        handRotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        currentWeaponObject.transform.rotation = q;
-        playerHandPoint.transform.position = transform.position + new Vector3(0, 0.5f, 0) + dir.normalized * (1 + 0.5f);
-        currentWeaponObject.transform.position = playerHandPoint.transform.position;
+        playerHandPoint.rotation = handRotation;
+        playerHandPoint.position = transform.position + new Vector3(0, 0.5f, 0) + dir.normalized * (1 + 0.5f);
+    }
+
+    private void UpdateWeaponDirection()
+    {
+        if (currentWeaponObject && currentweaponrb)
+        {
+            currentWeaponObject.transform.rotation = handRotation;
+            currentweaponrb.MovePosition(Vector3.MoveTowards(currentweaponrb.position, playerHandPoint.position, 1000 * Time.deltaTime));
+        }
     }
 
     private void ThrowCurrentWeapon(Vector3 dir)
     {
         hasWeapon = false;
         currentWeapon.ThrowWeapon(dir);
+        currentweaponrb = null;
         currentWeapon = null;
     }
 }

@@ -54,6 +54,7 @@ public abstract class Weapon : MonoBehaviour, IHoldable
     public void PickupWeapon()
     {
         _collider.enabled = true;
+        _rb.gravityScale = 0;
         isCurrentlyHeld = true;
         bCanPickup = false;
         _playerCollider.enabled = false;
@@ -66,10 +67,11 @@ public abstract class Weapon : MonoBehaviour, IHoldable
 
     public void ThrowWeapon(Vector3 dir)
     {
+        _rb.gravityScale = 1;
+
         _rb.AddForce(dir * throwForce, ForceMode2D.Impulse);
         _playerCollider.enabled = false;
         isCurrentlyHeld = false;
-
 
         StartCoroutine(Co_StartPickupCooldown());
     }
@@ -90,5 +92,10 @@ public abstract class Weapon : MonoBehaviour, IHoldable
 
         bCanPickup = true;
         _playerCollider.enabled = true;
+    }
+
+    public Rigidbody2D GetRB()
+    {
+        return _rb;
     }
 }

@@ -14,7 +14,7 @@ public class LaserWeapon : Weapon
     private GameObject barrell;
 
     [SerializeField]
-    private float damageOnHit = 10f;
+    private float damageperSecond = 30f;
 
     [SerializeField]
     private LayerMask mask;
@@ -47,28 +47,29 @@ public class LaserWeapon : Weapon
         {
             if (laserHit.TryGetComponent(out IDamagable damagable))
             {
-                damagable.Damage(damageOnHit * Time.deltaTime);
+                //Taking the damage for this tick
+                damagable.Damage(damageperSecond * Time.deltaTime);
             }
         }
     }
 
-    void EnableLaser()
+    private void EnableLaser()
     {
         renderer.enabled = true;
     }
 
-    void UpdateLaser()
+    private void UpdateLaser()
     {
         renderer.SetPosition(0, barrell.transform.position);
         renderer.SetPosition(1, RayCastHit());
     }
 
-    void DisableLaser()
+    private void DisableLaser()
     {
         renderer.enabled = false;
     }
 
-    Vector3 RayCastHit()
+    private Vector3 RayCastHit()
     {
         RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + (transform.right * 25), mask, -1, 1);
 

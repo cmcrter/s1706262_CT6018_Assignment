@@ -5161,7 +5161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 93331566}
   - component: {fileID: 93331567}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5902,7 +5902,7 @@ RectTransform:
   m_Children:
   - {fileID: 1376547435}
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6293,15 +6293,15 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 0.5
+  m_UseAutoMass: 1
+  m_Mass: 0.47045
   m_LinearDrag: 0.01
   m_AngularDrag: 0.05
-  m_GravityScale: 0.75
+  m_GravityScale: 1
   m_Material: {fileID: 6200000, guid: 97bd0ca13e97f5a48a8ffecca4ff91f2, type: 2}
   m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!61 &409017224
 BoxCollider2D:
@@ -6410,7 +6410,7 @@ MonoBehaviour:
   _collider: {fileID: 93331567}
   _playerCollider: {fileID: 409017224}
   _rb: {fileID: 409017223}
-  throwForce: 3
+  throwForce: 4
   fPickupCooldownTime: 1
   fProjectileSpeed: 30
   fFireRate: 0.4
@@ -6824,7 +6824,7 @@ GameObject:
   m_Component:
   - component: {fileID: 600256193}
   - component: {fileID: 600256192}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6963,7 +6963,7 @@ RectTransform:
   m_Children:
   - {fileID: 2140850174}
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7334,12 +7334,12 @@ MonoBehaviour:
   _collider: {fileID: 600256192}
   _playerCollider: {fileID: 811886087}
   _rb: {fileID: 811886086}
-  throwForce: 10
+  throwForce: 4
   fPickupCooldownTime: 2
   renderer: {fileID: 1336431606}
   VFX: {fileID: 0}
   barrell: {fileID: 1336431604}
-  damageOnHit: 0
+  damageOnHit: 1
   mask:
     serializedVersion: 2
     m_Bits: 130816
@@ -7354,15 +7354,15 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 0.5
+  m_UseAutoMass: 1
+  m_Mass: 0.47045
   m_LinearDrag: 0.01
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 6200000, guid: 97bd0ca13e97f5a48a8ffecca4ff91f2, type: 2}
   m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!61 &811886087
 BoxCollider2D:
@@ -12998,7 +12998,7 @@ Transform:
   m_LocalScale: {x: 1, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1168573615
 MonoBehaviour:
@@ -13501,7 +13501,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1336431605}
   - component: {fileID: 1336431606}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Barrell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19696,7 +19696,7 @@ Transform:
   - {fileID: 972711227}
   - {fileID: 132086391}
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1854423683
 GameObject:
@@ -19726,7 +19726,7 @@ Transform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1869002218
 GameObject:
@@ -19758,7 +19758,7 @@ Transform:
   - {fileID: 1494896065}
   - {fileID: 918818218}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1873043901
 GameObject:
@@ -19928,16 +19928,16 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.99
-  m_LinearDrag: 0
-  m_AngularDrag: 0
+  m_UseAutoMass: 0
+  m_Mass: 5
+  m_LinearDrag: 0.05
+  m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 6200000, guid: 1e8d2000b930e7b43bb6052c63454f4b, type: 2}
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!61 &1978761459
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -20434,6 +20434,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4265838222736160652, guid: 6abc52c543c63ca4db2a622ae2b14727,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6542451607175609635, guid: 6abc52c543c63ca4db2a622ae2b14727,
         type: 3}
       propertyPath: m_Name

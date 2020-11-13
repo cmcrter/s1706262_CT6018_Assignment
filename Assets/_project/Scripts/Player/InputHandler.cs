@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class InputHandler : MonoBehaviour
 {
@@ -11,4 +9,5 @@ public abstract class InputHandler : MonoBehaviour
     public virtual bool FireWeapon() { return false; }
     public virtual bool ThrowWeapon() { return false; }
     public virtual bool Interact() { return false; }
+    public virtual bool Block() { return false; }
 }
