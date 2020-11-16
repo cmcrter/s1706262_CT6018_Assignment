@@ -15,6 +15,10 @@ public class PlayerHealth : MonoBehaviour, IDamagable
     private Renderer _renderer;
     [SerializeField]
     private Renderer _topRenderer;
+    [SerializeField]
+    private ParticleSystem deathVFX;
+    [SerializeField]
+    CState state;
 
     #region Variables Needed
 
@@ -68,5 +72,9 @@ public class PlayerHealth : MonoBehaviour, IDamagable
     {
         _renderer.material.color = Color.gray;
         _topRenderer.material.color = Color.gray;
+
+        var main = deathVFX.main;
+        main.startColor = state.GetColor();
+        deathVFX.Play();
     }
 }

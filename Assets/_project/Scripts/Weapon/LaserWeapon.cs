@@ -4,6 +4,8 @@ public class LaserWeapon : Weapon
 {
     private InputHandler handler;
 
+    [Header("Laser Weapon Specific")]
+
     [SerializeField]
     private LineRenderer lRenderer;
     [SerializeField]
@@ -18,11 +20,10 @@ public class LaserWeapon : Weapon
 
     [SerializeField]
     private LayerMask mask;
+    RaycastHit2D hit;
 
-    private void Awake()
-    {
-
-    }
+    public int iMaxBounces = 5;
+    public int iBounces = 0;
 
     private void Update()
     {
@@ -41,14 +42,27 @@ public class LaserWeapon : Weapon
         handler = inputTypeUsed;
 
         //VFX.Play();
+        //Resetting the laser
         UpdateLaser();
 
-        if (laserHit)
+        //Seeing if the laser hit
+        OnLaserHit(laserHit);
+    }
+
+    public void OnLaserHit(GameObject thislaserHit)
+    {
+        if (thislaserHit)
         {
-            if (laserHit.TryGetComponent(out IDamagable damagable))
+            //It damages if it can
+            if (thislaserHit.TryGetComponent(out IDamagable damagable))
             {
                 //Taking the damage for this tick
                 damagable.Damage(damageperSecond * Time.deltaTime);
+            }
+            //Nothing damagable will also be a mirror (for now)
+            else if (thislaserHit.TryGetComponent(out MirrorPanel mirror) && iBounces < iMaxBounces)
+            {
+                mirror.ShowReflection((hit.point - new Vector2(transform.position.x, transform.position.y)).normalized, hit.normal.normalized, lRenderer, this);
             }
         }
     }
@@ -61,7 +75,16 @@ public class LaserWeapon : Weapon
     private void UpdateLaser()
     {
         lRenderer.SetPosition(0, barrell.transform.position);
-        lRenderer.SetPosition(1, RayCastHit());
+        Vector3 EndPoint = RayCastHit();
+        EndPoint = new Vector3(EndPoint.x, EndPoint.y, 0);
+
+        iBounces = 0;
+
+        //Resetting all the points to the end of the current laser    
+        for (int i = 1;  i < 7; ++i)
+        {
+            lRenderer.SetPosition(i, EndPoint);
+        }
     }
 
     private void DisableLaser()
@@ -71,7 +94,7 @@ public class LaserWeapon : Weapon
 
     private Vector3 RayCastHit()
     {
-        RaycastHit2D hit = Physics2D.Linecast(transform.position, transform.position + (transform.right * 25), mask, -1, 1);
+        hit = Physics2D.Linecast(transform.position, transform.position + (transform.right * 35), mask, -1, 1);
 
         if (hit)
         {
@@ -80,6 +103,6 @@ public class LaserWeapon : Weapon
         }
 
         laserHit = null;
-        return transform.position + (transform.right * 50);
+        return transform.position + (transform.right * 35);
     }
 }

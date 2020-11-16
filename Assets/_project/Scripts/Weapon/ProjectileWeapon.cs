@@ -15,6 +15,9 @@ public class ProjectileWeapon : Weapon
     private GameObject goProjectilePrefab;
     private InputHandler handler;
 
+    [SerializeField]
+    private Transform barrell;
+
     private void Awake()
     {
         goProjectilePrefab = goProjectilePrefab ?? (GameObject)Resources.Load("_project/Prefabs/TestProjectile");
@@ -33,7 +36,7 @@ public class ProjectileWeapon : Weapon
 
         if (bCanFire)
         {
-            GameObject proj = Instantiate(goProjectilePrefab, transform.position, transform.rotation, null);
+            GameObject proj = Instantiate(goProjectilePrefab, barrell.position, transform.rotation, null);
             proj.GetComponent<WeaponProjectile>().Fired(playerWhoShot, transform.right, fProjectileSpeed);
 
             Debug.Log("Fired test weapon", this);

@@ -29,6 +29,7 @@ public class WeaponManager : MonoBehaviour
     //CharacterManager _manager;
     Quaternion handRotation;
     Rigidbody2D currentweaponrb;
+    float angleToMousePos;
 
     private void Awake()
     {
@@ -64,7 +65,7 @@ public class WeaponManager : MonoBehaviour
         if (hasWeapon && currentWeapon != null)
         {
             //Aiming and moving the weapon using physics
-            UpdateWeaponDirection();
+            UpdateWeaponCarrying();
         }
     }
 
@@ -115,7 +116,7 @@ public class WeaponManager : MonoBehaviour
 
         //Expensive but I dont know how else to do this
         currentweaponrb = currentWeapon.GetRB();
-        UpdateWeaponDirection();
+        UpdateWeaponCarrying();
 
         weapon.PickupWeapon();
         hasWeapon = true;
@@ -151,23 +152,21 @@ public class WeaponManager : MonoBehaviour
         return null;
     }
 
+    //Moving the hand to the correct transform details
     private void UpdateHandPostion()
     {
         Vector3 dir = Input.mousePosition - mainCamera.WorldToScreenPoint(transform.position);
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        handRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        angleToMousePos = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-        playerHandPoint.rotation = handRotation;
+        handRotation = Quaternion.AngleAxis(angleToMousePos, Vector3.forward);
         playerHandPoint.position = transform.position + new Vector3(0, 0.75f, 0) + dir.normalized;
     }
 
-    private void UpdateWeaponDirection()
+    //Moving the weapon to correct spot and rotation
+    private void UpdateWeaponCarrying()
     {
-        if (currentWeaponObject && currentweaponrb)
-        {
-            currentWeaponObject.transform.rotation = handRotation;
-            currentweaponrb.MovePosition(Vector3.MoveTowards(currentweaponrb.position, playerHandPoint.position, Vector3.Distance(currentweaponrb.position, transform.position) / (5f * Time.deltaTime)));
-        }
+        currentweaponrb.MoveRotation(angleToMousePos);
+        currentweaponrb.MovePosition(Vector3.Lerp(currentweaponrb.position, playerHandPoint.position, Time.deltaTime * 25f));       
     }
 
     private void ThrowCurrentWeapon()
