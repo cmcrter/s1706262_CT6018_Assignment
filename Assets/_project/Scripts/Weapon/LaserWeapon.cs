@@ -62,7 +62,8 @@ public class LaserWeapon : Weapon
             //Nothing damagable will also be a mirror (for now)
             else if (thislaserHit.TryGetComponent(out MirrorPanel mirror) && iBounces < iMaxBounces)
             {
-                mirror.ShowReflection((hit.point - new Vector2(transform.position.x, transform.position.y)).normalized, hit.normal.normalized, lRenderer, this);
+                Vector3 direction = (hit.point - new Vector2(transform.position.x, transform.position.y)).normalized;
+                mirror.ShowReflection(direction, hit, lRenderer, this);
             }
         }
     }
@@ -89,6 +90,7 @@ public class LaserWeapon : Weapon
 
     private void DisableLaser()
     {
+        iBounces = 0;
         lRenderer.enabled = false;
     }
 
