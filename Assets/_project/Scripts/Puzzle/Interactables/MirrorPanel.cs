@@ -48,7 +48,7 @@ public class MirrorPanel : MonoBehaviour, ITriggerable
             if (mirrorRayHit)
             {
                 //Adding the end position to the weapon
-                weapon.AddMirror(NextPos);
+                weapon.AddMirror(NextPos, this);
 
                 //Seeing what it hits after the bounce
                 weapon.OnLaserHit(mirroredHit, mirrorRayHit, NextPos);
@@ -72,23 +72,23 @@ public class MirrorPanel : MonoBehaviour, ITriggerable
 
     private Vector3 RayCastHit(Vector3 newDir)
     {
-        mirrorHitPoint = initialHit.point;
-        //Line casting from the hit point along the reflected direction
-        mirrorRayHit = Physics2D.Linecast(initialHit.point + initialHit.normal * 0.05f, mirrorHitPoint + (newDir * 15), mask, -1, 1);
+        //ray casting from the hit point along the reflected direction
+        mirrorRayHit = Physics2D.Raycast(initialHit.point + initialHit.normal * 0.01f, newDir, 25f, mask, -1);
 
         Debug.DrawRay(initialHit.point, initialHit.normal);
-        //Debug.DrawRay(initialHit.point, mirrorHitPoint + (newDir * 15));
+        Debug.DrawRay(initialHit.point, newDir, Color.green);
 
         //If it hit an object
         if (mirrorRayHit)
         {
+            Debug.Log("Hit: " + mirrorRayHit.transform.name);
             mirroredHit = mirrorRayHit.transform.gameObject;
             return mirrorRayHit.point;
         }
 
         //It hit nothing but return a point in the correct direction
         mirroredHit = null;
-        return mirrorHitPoint + (newDir * 35);
+        return mirrorHitPoint + (newDir * 25f);
     }
 
     #region Interface Functions

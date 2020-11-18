@@ -23,7 +23,8 @@ public class LaserWeapon : Weapon
     private LayerMask mask;
     RaycastHit2D hit;
 
-    public int iMaxBounces = 5;
+    private int iMaxBounces = 5;
+    private int panelCounter = 0;
 
     private List<Vector2> mirrorHits;
 
@@ -114,7 +115,7 @@ public class LaserWeapon : Weapon
 
     private Vector3 RayCastHit()
     {
-        hit = Physics2D.Linecast(transform.position, transform.position + (transform.right * 35), mask, -1, 1);
+        hit = Physics2D.Raycast(transform.position, transform.right, 35, mask, -1);
 
         if (hit)
         {
@@ -126,7 +127,7 @@ public class LaserWeapon : Weapon
         return transform.position + (transform.right * 35);
     }
 
-    public void AddMirror(Vector2 EndPos)
+    public void AddMirror(Vector2 EndPos, MirrorPanel panel)
     {
         //If the current hit mirrors is above the max bounce or the line renderer doesnt have space for it
         if (mirrorHits.Count >= iMaxBounces || 2 + iMaxBounces > lRenderer.positionCount)
@@ -134,6 +135,8 @@ public class LaserWeapon : Weapon
             //back out
             return;
         }
+
+        //TODO: FIND FIX FOR 1 MIRROR COUNTING AS 5 HITS
 
         //Adding this mirror to the hits list, the hits count will never be 0
         mirrorHits.Add(EndPos);
