@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 
-public class MirrorPanel : MonoBehaviour, ITriggerable
+public class MirrorPanel : MonoBehaviour, ITriggerable, IMirrorable
 {
     #region Interface Contracts
 
+    //Mirror panels can move
     void ITriggerable.Triggered() => OnTriggered();
     void ITriggerable.UnTriggered() => OnUnTriggered();
 
@@ -11,6 +12,9 @@ public class MirrorPanel : MonoBehaviour, ITriggerable
     void ITriggerable.Unlocked() => UnLock();
 
     bool ITriggerable.GetLockState() => ReturnLocked();
+
+    //Reflection when hit
+    void IMirrorable.Hit(Vector3 InDirection, RaycastHit2D mirrorHit, LaserWeapon weapon) => ShowReflection(InDirection, mirrorHit, weapon);
 
     #endregion
 
@@ -21,7 +25,7 @@ public class MirrorPanel : MonoBehaviour, ITriggerable
     [SerializeField]
     private LayerMask mask;
     Vector3 mirrorHitPoint;
-    Vector3 newDir;
+    Vector2 newDir;
 
     [SerializeField]
     GameObject mirroredHit;
@@ -39,7 +43,7 @@ public class MirrorPanel : MonoBehaviour, ITriggerable
         initialHit = mirrorHit;
 
         //Calculating the next ray
-        Vector3 NextPos = BouncingRay(InDirection, mirrorHit);
+        Vector3 NextPos = BouncingRay(InDirection);
 
         //If this is a weapon (later, an interface)
         if (weapon)
@@ -57,9 +61,9 @@ public class MirrorPanel : MonoBehaviour, ITriggerable
     }
 
     //Calculating the next point of the ray (from mirror point to what the ray hits after reflected)
-    private Vector3 BouncingRay(Vector3 InDirection, RaycastHit2D mirrorHit)
+    private Vector3 BouncingRay(Vector3 InDirection)
     {
-        newDir = Vector3.Reflect(InDirection, mirrorHit.normal);
+        newDir = Vector3.Reflect(InDirection, initialHit.normal);
 
         //Getting whatever is hit next
         Vector3 vHit = RayCastHit(newDir);
@@ -70,25 +74,30 @@ public class MirrorPanel : MonoBehaviour, ITriggerable
         return vHit;
     }
 
-    private Vector3 RayCastHit(Vector3 newDir)
+    private Vector3 RayCastHit(Vector2 newDir)
     {
         //ray casting from the hit point along the reflected direction
         mirrorRayHit = Physics2D.Raycast(initialHit.point + initialHit.normal * 0.01f, newDir, 25f, mask, -1);
 
         Debug.DrawRay(initialHit.point, initialHit.normal);
+
+        //This shows on first bounce but not on second
         Debug.DrawRay(initialHit.point, newDir, Color.green);
 
         //If it hit an object
         if (mirrorRayHit)
         {
-            Debug.Log("Hit: " + mirrorRayHit.transform.name);
             mirroredHit = mirrorRayHit.transform.gameObject;
+            Debug.Log("Hit: " + mirroredHit.name);
+
             return mirrorRayHit.point;
         }
 
+        Debug.Log(initialHit.point);
+
         //It hit nothing but return a point in the correct direction
         mirroredHit = null;
-        return mirrorHitPoint + (newDir * 25f);
+        return initialHit.point + (initialHit.normal * 0.01f) + (newDir * 25f);
     }
 
     #region Interface Functions

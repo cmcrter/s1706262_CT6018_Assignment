@@ -7345,7 +7345,6 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 130816
-  iMaxBounces: 5
 --- !u!50 &811886086
 Rigidbody2D:
   serializedVersion: 4
@@ -15795,7 +15794,7 @@ Transform:
   m_GameObject: {fileID: 1945586446}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 5.72225, y: -1.78, z: 0}
-  m_LocalScale: {x: 2, y: 0.2, z: 1}
+  m_LocalScale: {x: 2, y: 0.2, z: 0.9}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 18

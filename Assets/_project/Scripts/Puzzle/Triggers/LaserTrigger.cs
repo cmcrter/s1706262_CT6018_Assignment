@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserTrigger : InteractableTrigger
+public class LaserTrigger : InteractableTrigger, IMirrorable
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    void IMirrorable.Hit(Vector3 direction, RaycastHit2D mirrorHit, LaserWeapon weapon) => Hit();
 
-    // Update is called once per frame
-    void Update()
+    void Hit()
     {
-        
+        CheckTriggered();
     }
 }

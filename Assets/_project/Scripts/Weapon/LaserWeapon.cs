@@ -74,14 +74,13 @@ public class LaserWeapon : Weapon
                 damagable.Damage(damageperSecond * Time.deltaTime);
             }
             //Nothing damagable will also be a mirror (for now)
-            else if (thislaserHit.TryGetComponent(out MirrorPanel mirror) && mirrorHits.Count < iMaxBounces)
+            else if (thislaserHit.TryGetComponent(out IMirrorable mirror) && mirrorHits.Count < iMaxBounces)
             {
-
                 //The indirection of the reflection
                 Vector3 direction = (thisHit.point - new Vector2(LaserPosition.x, LaserPosition.y)).normalized;
 
                 //The mirror calculates what it hits next etc
-                mirror.ShowReflection(direction, thisHit, this);
+                mirror.Hit(direction, thisHit, this);
             }
         }
     }
@@ -136,8 +135,6 @@ public class LaserWeapon : Weapon
             return;
         }
 
-        //TODO: FIND FIX FOR 1 MIRROR COUNTING AS 5 HITS
-
         //Adding this mirror to the hits list, the hits count will never be 0
         mirrorHits.Add(EndPos);
 
@@ -157,6 +154,6 @@ public class LaserWeapon : Weapon
             }
         }
 
-        Debug.Log("Mirror Count: " + mirrorHits.Count + " End pos: " + mirrorHits[mirrorHits.Count - 1]);
+        //Debug.Log("Mirror Count: " + mirrorHits.Count + " End pos: " + mirrorHits[mirrorHits.Count - 1]);
     }
 }
