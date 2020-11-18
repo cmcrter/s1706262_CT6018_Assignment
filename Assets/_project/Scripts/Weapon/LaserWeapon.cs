@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class LaserWeapon : Weapon
 {
@@ -23,7 +24,13 @@ public class LaserWeapon : Weapon
     RaycastHit2D hit;
 
     public int iMaxBounces = 5;
-    public int iBounces = 0;
+
+    private List<Vector2> mirrorHits;
+
+    private void Awake()
+    {
+        mirrorHits = new List<Vector2>();
+    }
 
     private void Update()
     {
@@ -38,6 +45,7 @@ public class LaserWeapon : Weapon
 
     public override void FireWeapon(GameObject playerWhoShot, InputHandler inputTypeUsed)
     {
+        //Making sure laser is on
         EnableLaser();
         handler = inputTypeUsed;
 
@@ -46,11 +54,16 @@ public class LaserWeapon : Weapon
         UpdateLaser();
 
         //Seeing if the laser hit
-        OnLaserHit(laserHit);
+        OnLaserHit(laserHit, hit, transform.position);
+
+        //Clearing the current mirrors for next frame
+        mirrorHits.Clear();
     }
 
-    public void OnLaserHit(GameObject thislaserHit)
+    //The Laser's end point has hit something
+    public void OnLaserHit(GameObject thislaserHit, RaycastHit2D thisHit, Vector3 LaserPosition)
     {
+        //Null check
         if (thislaserHit)
         {
             //It damages if it can
@@ -60,10 +73,14 @@ public class LaserWeapon : Weapon
                 damagable.Damage(damageperSecond * Time.deltaTime);
             }
             //Nothing damagable will also be a mirror (for now)
-            else if (thislaserHit.TryGetComponent(out MirrorPanel mirror) && iBounces < iMaxBounces)
+            else if (thislaserHit.TryGetComponent(out MirrorPanel mirror) && mirrorHits.Count < iMaxBounces)
             {
-                Vector3 direction = (hit.point - new Vector2(transform.position.x, transform.position.y)).normalized;
-                mirror.ShowReflection(direction, hit, lRenderer, this);
+
+                //The indirection of the reflection
+                Vector3 direction = (thisHit.point - new Vector2(LaserPosition.x, LaserPosition.y)).normalized;
+
+                //The mirror calculates what it hits next etc
+                mirror.ShowReflection(direction, thisHit, this);
             }
         }
     }
@@ -71,6 +88,9 @@ public class LaserWeapon : Weapon
     private void EnableLaser()
     {
         lRenderer.enabled = true;
+
+        //Resetting the bounce number before the mirror calculations
+        mirrorHits.Clear();
     }
 
     private void UpdateLaser()
@@ -78,8 +98,6 @@ public class LaserWeapon : Weapon
         lRenderer.SetPosition(0, barrell.transform.position);
         Vector3 EndPoint = RayCastHit();
         EndPoint = new Vector3(EndPoint.x, EndPoint.y, 0);
-
-        iBounces = 0;
 
         //Resetting all the points to the end of the current laser    
         for (int i = 1;  i < 7; ++i)
@@ -90,7 +108,7 @@ public class LaserWeapon : Weapon
 
     private void DisableLaser()
     {
-        iBounces = 0;
+        mirrorHits.Clear();
         lRenderer.enabled = false;
     }
 
@@ -106,5 +124,36 @@ public class LaserWeapon : Weapon
 
         laserHit = null;
         return transform.position + (transform.right * 35);
+    }
+
+    public void AddMirror(Vector2 EndPos)
+    {
+        //If the current hit mirrors is above the max bounce or the line renderer doesnt have space for it
+        if (mirrorHits.Count >= iMaxBounces || 2 + iMaxBounces > lRenderer.positionCount)
+        {
+            //back out
+            return;
+        }
+
+        //Adding this mirror to the hits list, the hits count will never be 0
+        mirrorHits.Add(EndPos);
+
+        //Going through the mirrors and setting points correctly
+        for (int i = 0; i < mirrorHits.Count; ++i)
+        {
+            lRenderer.SetPosition(2 + i, mirrorHits[i]);
+        }
+
+        ///Not hit the maximum amount of bounces
+        if (mirrorHits.Count < iMaxBounces)
+        {
+            //Filling in the rest of the positions in the line rendered
+            for (int i = mirrorHits.Count; i < iMaxBounces; ++i)
+            {
+                lRenderer.SetPosition(2 + i, mirrorHits[mirrorHits.Count - 1]);
+            }
+        }
+
+        Debug.Log("Mirror Count: " + mirrorHits.Count + " End pos: " + mirrorHits[mirrorHits.Count - 1]);
     }
 }

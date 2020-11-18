@@ -166,7 +166,7 @@ public class WeaponManager : MonoBehaviour
     private void UpdateWeaponCarrying()
     {
         currentweaponrb.MoveRotation(angleToMousePos);
-        currentweaponrb.MovePosition(Vector3.Lerp(currentweaponrb.position, playerHandPoint.position, Time.deltaTime * 25f));       
+        currentweaponrb.MovePosition(Vector3.Lerp(currentweaponrb.position, playerHandPoint.position, Time.deltaTime * 100f));       
     }
 
     private void ThrowCurrentWeapon()
