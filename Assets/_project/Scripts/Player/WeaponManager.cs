@@ -49,7 +49,7 @@ public class WeaponManager : MonoBehaviour
             //If the player wants to fire the weapon
             if (inputHandler.FireWeapon())
             {
-                currentWeapon.FireWeapon(currentWeapon.gameObject, inputHandler);
+                currentWeapon.FireWeapon(gameObject, inputHandler);
             }
 
             //If the player wants to throw the weapon
@@ -118,7 +118,7 @@ public class WeaponManager : MonoBehaviour
         currentweaponrb = currentWeapon.GetRB();
         UpdateWeaponCarrying();
 
-        weapon.PickupWeapon();
+        weapon.PickupWeapon(gameObject);
         hasWeapon = true;
     }
 

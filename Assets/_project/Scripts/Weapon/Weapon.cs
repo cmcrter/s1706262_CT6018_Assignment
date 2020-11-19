@@ -16,7 +16,7 @@ public enum eWeaponType
 //Any weapon has this base functionality and can be held by a player
 public abstract class Weapon : MonoBehaviour, IHoldable
 {
-    void IHoldable.Pickup() => PickupWeapon();
+    void IHoldable.Pickup(GameObject player) => PickupWeapon(player);
     void IHoldable.Throw(Vector3 dir) => ThrowWeapon();
     GameObject IHoldable.ReturnObject() => ReturnWeapon();
     bool IHoldable.CanPickup() => bCanPickup;
@@ -29,13 +29,13 @@ public abstract class Weapon : MonoBehaviour, IHoldable
 
     //Collider that collides with environment
     [SerializeField]
-    private BoxCollider2D _collider;
+    protected BoxCollider2D _collider;
     //Collider that determines pickups
     [SerializeField]
-    private BoxCollider2D _playerCollider = null;
+    protected BoxCollider2D _playerCollider = null;
 
     [SerializeField]
-    private Rigidbody2D _rb;
+    protected Rigidbody2D _rb;
 
     [Header("General Weapon Customization")]
     [SerializeField]
@@ -51,7 +51,7 @@ public abstract class Weapon : MonoBehaviour, IHoldable
         _collider = _collider ?? GetComponent<BoxCollider2D>();
     }
 
-    public void PickupWeapon()
+    public virtual void PickupWeapon(GameObject player)
     {
         _collider.enabled = true;
         _rb.gravityScale = 0;

@@ -20,17 +20,32 @@ public class LaserWeapon : Weapon
     private float damageperSecond = 30f;
 
     [SerializeField]
-    private LayerMask mask;
+    //The possible layer masks to avoid killing the player
+    LayerMask[] masks = new LayerMask[4];
+    int playerID = 0;
+
     RaycastHit2D hit;
 
     private int iMaxBounces = 5;
     private int panelCounter = 0;
 
-    private List<Vector2> mirrorHits;
+    private List<MirrorPanel> mirrorHits;
 
     private void Awake()
     {
-        mirrorHits = new List<Vector2>();
+        mirrorHits = new List<MirrorPanel>();
+    }
+
+    public override void PickupWeapon(GameObject player)
+    {
+        _collider.enabled = true;
+        _rb.gravityScale = 0;
+        isCurrentlyHeld = true;
+        bCanPickup = false;
+        _playerCollider.enabled = false;
+
+        //I dont want the laser weapons to hit the player that fired it
+        playerID = player.GetComponent<CState>().returnID();
     }
 
     private void Update()
@@ -39,6 +54,7 @@ public class LaserWeapon : Weapon
         {
             if (!handler.FireWeapon() && lRenderer.enabled)
             {
+                ClearMirrors();
                 DisableLaser();
             }
         }
@@ -49,23 +65,20 @@ public class LaserWeapon : Weapon
         //Making sure laser is on
         EnableLaser();
         handler = inputTypeUsed;
-
+  
         //VFX.Play();
         //Resetting the laser
         UpdateLaser();
 
         //Seeing if the laser hit
         OnLaserHit(laserHit, hit, transform.position);
-
-        //Clearing the current mirrors for next frame
-        mirrorHits.Clear();
     }
 
     //The Laser's end point has hit something
     public void OnLaserHit(GameObject thislaserHit, RaycastHit2D thisHit, Vector3 LaserPosition)
     {
-        //Null check
-        if (thislaserHit)
+        //Null checking the hits
+        if (thislaserHit && thisHit)
         {
             //It damages if it can
             if (thislaserHit.TryGetComponent(out IDamagable damagable))
@@ -74,13 +87,13 @@ public class LaserWeapon : Weapon
                 damagable.Damage(damageperSecond * Time.deltaTime);
             }
             //Nothing damagable will also be a mirror (for now)
-            else if (thislaserHit.TryGetComponent(out IMirrorable mirror) && mirrorHits.Count < iMaxBounces)
+            if (thislaserHit.TryGetComponent(out IMirrorable mirror) && mirrorHits.Count < iMaxBounces)
             {
                 //The indirection of the reflection
                 Vector3 direction = (thisHit.point - new Vector2(LaserPosition.x, LaserPosition.y)).normalized;
 
                 //The mirror calculates what it hits next etc
-                mirror.Hit(direction, thisHit, this);
+                mirror.Hit(direction, thisHit, this, playerID, masks[playerID]);
             }
         }
     }
@@ -89,32 +102,34 @@ public class LaserWeapon : Weapon
     {
         lRenderer.enabled = true;
 
-        //Resetting the bounce number before the mirror calculations
-        mirrorHits.Clear();
+        //Wiping the mirrors away to calculate this frame
+        ClearMirrors();
     }
 
     private void UpdateLaser()
     {
         lRenderer.SetPosition(0, barrell.transform.position);
-        Vector3 EndPoint = RayCastHit();
-        EndPoint = new Vector3(EndPoint.x, EndPoint.y, 0);
-
-        //Resetting all the points to the end of the current laser    
-        for (int i = 1;  i < 7; ++i)
-        {
-            lRenderer.SetPosition(i, EndPoint);
-        }
+        lRenderer.SetPosition(1, RayCastHit());
     }
 
     private void DisableLaser()
-    {
-        mirrorHits.Clear();
+    {        
         lRenderer.enabled = false;
+    }
+
+    private void ClearMirrors()
+    {
+        foreach (MirrorPanel mirror in mirrorHits)
+        {
+            mirror.DisableLaser(playerID);
+        }
+
+        mirrorHits.Clear();
     }
 
     private Vector3 RayCastHit()
     {
-        hit = Physics2D.Raycast(transform.position, transform.right, 35, mask, -1);
+        hit = Physics2D.Raycast(transform.position, transform.right, 35, masks[playerID], -1);
 
         if (hit)
         {
@@ -126,34 +141,21 @@ public class LaserWeapon : Weapon
         return transform.position + (transform.right * 35);
     }
 
-    public void AddMirror(Vector2 EndPos, MirrorPanel panel)
+    public bool AddMirror(Vector2 EndPos, MirrorPanel panel)
     {
         //If the current hit mirrors is above the max bounce or the line renderer doesnt have space for it
-        if (mirrorHits.Count >= iMaxBounces || 2 + iMaxBounces > lRenderer.positionCount)
+        if (mirrorHits.Count >= iMaxBounces)
         {
             //back out
-            return;
+            return false;
         }
 
-        //Adding this mirror to the hits list, the hits count will never be 0
-        mirrorHits.Add(EndPos);
+        mirrorHits.Add(panel);
+        return true;
+    }
 
-        //Going through the mirrors and setting points correctly
-        for (int i = 0; i < mirrorHits.Count; ++i)
-        {
-            lRenderer.SetPosition(2 + i, mirrorHits[i]);
-        }
-
-        ///Not hit the maximum amount of bounces
-        if (mirrorHits.Count < iMaxBounces)
-        {
-            //Filling in the rest of the positions in the line rendered
-            for (int i = mirrorHits.Count; i < iMaxBounces; ++i)
-            {
-                lRenderer.SetPosition(2 + i, mirrorHits[mirrorHits.Count - 1]);
-            }
-        }
-
-        //Debug.Log("Mirror Count: " + mirrorHits.Count + " End pos: " + mirrorHits[mirrorHits.Count - 1]);
+    public LineRenderer returnLaser()
+    {
+        return lRenderer;
     }
 }
