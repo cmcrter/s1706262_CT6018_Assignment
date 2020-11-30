@@ -7,6 +7,9 @@ public class WeaponManager : MonoBehaviour
     [SerializeField]
     Rigidbody2D _rb;
 
+    [SerializeField]
+    PlayerHand hand;
+
     [Header("Weapon Tracking")]
 
     [SerializeField]
@@ -22,18 +25,12 @@ public class WeaponManager : MonoBehaviour
     [SerializeField]
     private InputHandler inputHandler;
     [SerializeField]
-    Transform playerHandPoint;
-    [SerializeField]
     Camera mainCamera;
-    //[SerializeField]
-    //CharacterManager _manager;
-    Quaternion handRotation;
     Rigidbody2D currentweaponrb;
     float angleToMousePos;
 
     private void Awake()
     {
-        playerHandPoint = playerHandPoint ?? transform.GetChild(1);
         mainCamera = mainCamera ?? Camera.main;
         inputHandler = inputHandler ?? gameObject.GetComponentInChildren<KeyAndMouseHandler>();
         _rb = _rb ?? GetComponent<Rigidbody2D>();
@@ -152,21 +149,18 @@ public class WeaponManager : MonoBehaviour
         return null;
     }
 
-    //Moving the hand to the correct transform details
+    //Getting the correct values from the player hand
     private void UpdateHandPostion()
     {
-        Vector3 dir = Input.mousePosition - mainCamera.WorldToScreenPoint(transform.position);
-        angleToMousePos = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-        handRotation = Quaternion.AngleAxis(angleToMousePos, Vector3.forward);
-        playerHandPoint.position = transform.position + new Vector3(0, 0.75f, 0) + dir.normalized;
+        hand.UpdateHandObjectPos();
+        angleToMousePos = hand.angleToCursorPos;
     }
 
     //Moving the weapon to correct spot and rotation
     private void UpdateWeaponCarrying()
     {
         currentweaponrb.MoveRotation(angleToMousePos);
-        currentweaponrb.MovePosition(Vector3.Lerp(currentweaponrb.position, playerHandPoint.position, Time.deltaTime * 100f));       
+        currentweaponrb.MovePosition(Vector3.Lerp(currentweaponrb.position, hand.transform.position, Time.deltaTime * 100f));       
     }
 
     private void ThrowCurrentWeapon()

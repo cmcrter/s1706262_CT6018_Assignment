@@ -8,13 +8,14 @@ public class Parallax : MonoBehaviour
     private float startpos;
     public float parallaxEff;
     [SerializeField]
-    private GameObject pCamera;
+    private GameObject goTrackingObject;
     [SerializeField]
     SpriteRenderer sRenderer;
 
     private void Awake()
     {
-        pCamera = pCamera ?? Camera.main.gameObject;
+        //if there isnt one set, use the main camera
+        goTrackingObject = goTrackingObject ?? Camera.main.gameObject;
         sRenderer = sRenderer ?? GetComponentInChildren<SpriteRenderer>();
     }
 
@@ -28,8 +29,8 @@ public class Parallax : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        float temp = (pCamera.transform.position.x * (1 - parallaxEff));
-        float dist = (pCamera.transform.position.x * parallaxEff);
+        float temp = (goTrackingObject.transform.position.x * (1 - parallaxEff));
+        float dist = (goTrackingObject.transform.position.x * parallaxEff);
 
         transform.position = new Vector3(startpos + dist, transform.position.y, transform.position.z);
 

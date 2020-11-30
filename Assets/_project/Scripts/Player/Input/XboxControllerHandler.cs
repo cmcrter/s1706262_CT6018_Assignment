@@ -41,4 +41,25 @@ public class XboxControllerHandler : InputHandler
     {
         return Input.GetButtonDown("Interact" + playerID.ToString());
     }
+
+    //For moving the virtual cursor
+    public override bool AimLeft()
+    {
+        return Input.GetAxis("AimHorizontal" + playerID.ToString()) > 0;
+    }
+
+    public override bool AimRight()
+    {
+        return Input.GetAxis("AimHorizontal" + playerID.ToString()) < 0;
+    }
+
+    public override bool AimUp()
+    {
+        return Input.GetAxis("AimVertical" + playerID.ToString()) > 0;
+    }
+
+    public override bool AimDown()
+    {
+        return Input.GetAxis("AimVertical" + playerID.ToString()) < 0;
+    }
 }
