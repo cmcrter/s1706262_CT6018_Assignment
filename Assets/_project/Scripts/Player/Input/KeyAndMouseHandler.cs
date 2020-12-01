@@ -39,4 +39,9 @@ public class KeyAndMouseHandler : InputHandler
     {
         return Input.GetKeyDown(KeyCode.E);
     }
+
+    public override bool Block()
+    {
+        return Input.GetKey(KeyCode.LeftShift);
+    }
 }

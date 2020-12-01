@@ -42,6 +42,11 @@ public class XboxControllerHandler : InputHandler
         return Input.GetButtonDown("Interact" + playerID.ToString());
     }
 
+    public override bool Block()
+    {
+        return base.Block();
+    }
+
     //For moving the virtual cursor
     public override bool AimLeft()
     {

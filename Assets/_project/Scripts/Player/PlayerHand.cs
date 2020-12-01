@@ -21,11 +21,12 @@ public class PlayerHand : MonoBehaviour
     [SerializeField]
     bool bControllerPlay;
 
-    float fCursorBounds = 5f;
+    float fCursorBounds = 2f;
 
     //Variables that scripts using the hand might need
     public float angleToCursorPos { private set; get; }
     public Quaternion handRotation { private set; get; }
+    public Vector3 handPos { private set; get; }
 
     private void Update()
     {
@@ -79,7 +80,8 @@ public class PlayerHand : MonoBehaviour
 
         angleToCursorPos = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         handRotation = Quaternion.AngleAxis(angleToCursorPos, Vector3.forward);
-        goHandObject.transform.position = transform.position + new Vector3(0, 0.75f, 0) + dir.normalized;
+        handPos = transform.position + new Vector3(0, 0.75f, 0) + dir.normalized;
+        goHandObject.transform.position = handPos;
     }
 
     //The input handler could change

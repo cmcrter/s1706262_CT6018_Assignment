@@ -10,6 +10,9 @@ public class WeaponManager : MonoBehaviour
     [SerializeField]
     PlayerHand hand;
 
+    [SerializeField]
+    BlockingManager blockingManager;
+
     [Header("Weapon Tracking")]
 
     [SerializeField]
@@ -115,8 +118,10 @@ public class WeaponManager : MonoBehaviour
         currentweaponrb = currentWeapon.GetRB();
         UpdateWeaponCarrying();
 
+        blockingManager.OnWeaponPickup();
         weapon.PickupWeapon(gameObject);
         hasWeapon = true;
+
     }
 
     //Getting the closest weapon to the player
@@ -160,7 +165,7 @@ public class WeaponManager : MonoBehaviour
     private void UpdateWeaponCarrying()
     {
         currentweaponrb.MoveRotation(angleToMousePos);
-        currentweaponrb.MovePosition(Vector3.Lerp(currentweaponrb.position, hand.transform.position, Time.deltaTime * 100f));       
+        currentweaponrb.MovePosition(Vector3.Lerp(currentweaponrb.position, hand.handPos, Time.deltaTime * 100f));       
     }
 
     private void ThrowCurrentWeapon()
@@ -169,5 +174,6 @@ public class WeaponManager : MonoBehaviour
         currentWeapon.ThrowWeapon();
         currentweaponrb = null;
         currentWeapon = null;
+        blockingManager.OnWeaponDrop();
     }
 }
