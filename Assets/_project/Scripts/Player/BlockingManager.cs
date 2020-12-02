@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockingManager : MonoBehaviour
+public class BlockingManager : aHandlesInput
 {
-    [SerializeField]
-    InputHandler input;
+    [Header("Variables needed for blocking")]
     [SerializeField]
     GameObject goBlockObject;
 
@@ -30,14 +29,14 @@ public class BlockingManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (input)
+        if (inputHandler)
         {
-            if (input.Block() && !goBlockObject.activeSelf && bPlayerCanBlock)
+            if (inputHandler.Block() && !goBlockObject.activeSelf && bPlayerCanBlock)
             {
                 goBlockObject.SetActive(true);
             }
 
-            if (!input.Block() && goBlockObject.activeSelf || !bPlayerCanBlock)
+            if (!inputHandler.Block() && goBlockObject.activeSelf || !bPlayerCanBlock)
             {
                 goBlockObject.SetActive(false);
             }

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //This is a class for player movement
-public class Movement2D : MonoBehaviour
+public class Movement2D : aHandlesInput
 {
     [Header("Components and Objects Needed")]
-    public InputHandler inputHandler;
     [SerializeField] private Transform _thisTransform;
     [SerializeField] private Rigidbody2D _thisRB;
     [SerializeField] private GameObject TopHalf;
@@ -33,7 +32,6 @@ public class Movement2D : MonoBehaviour
         _thisTransform = _thisTransform ?? GetComponent<Transform>();
         _thisRB = _thisRB ?? GetComponent<Rigidbody2D>();
         TopHalf = TopHalf ?? transform.GetChild(0).gameObject;
-        inputHandler = inputHandler ?? gameObject.GetComponentInChildren<KeyAndMouseHandler>();
     }
 
     // Start is called before the first frame update
@@ -96,9 +94,11 @@ public class Movement2D : MonoBehaviour
     //Checking if player moved
     private void MovementCheck()
     {
+        
         //Left
         if (inputHandler.MoveLeft())
         {
+            Debug.Log("Move Left");
             _thisRB.velocity += Vector2.left * WalkSpeed;
             //_thisRB.AddForce(Vector2.left * WalkSpeed * Time.deltaTime, ForceMode2D.Impulse);
         }

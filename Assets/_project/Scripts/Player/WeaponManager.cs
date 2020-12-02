@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponManager : MonoBehaviour
+public class WeaponManager : aHandlesInput
 {
+    [Header("Components Needed")]
+
     [SerializeField]
     Rigidbody2D _rb;
 
@@ -25,8 +27,6 @@ public class WeaponManager : MonoBehaviour
     bool hasWeapon = false;
 
     [Header("Needed Objects")]
-    [SerializeField]
-    private InputHandler inputHandler;
     [SerializeField]
     Camera mainCamera;
     Rigidbody2D currentweaponrb;

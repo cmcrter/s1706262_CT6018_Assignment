@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHand : MonoBehaviour
+public class PlayerHand : aHandlesInput
 {
+    [Header("Variables needed for the player's hand")]
     [SerializeField]
     Camera mainCamera;
 
     [SerializeField]
     GameObject goHandObject;
-
-    //Registering the inputs to move the cursor if controller based
-    [SerializeField]
-    InputHandler currentInput;
 
     //Controller player requires a virtual cursor
     [SerializeField]
@@ -30,7 +27,20 @@ public class PlayerHand : MonoBehaviour
 
     private void Update()
     {
+        ControllerPlayCheck();
         UpdateCursorObjectPos();
+    }
+
+    private void ControllerPlayCheck()
+    {
+        if (inputHandler != keyAndMouse)
+        {
+            bControllerPlay = true;
+        }
+        else
+        {
+            bControllerPlay = false;
+        }
     }
 
     private void UpdateCursorObjectPos()
@@ -38,9 +48,9 @@ public class PlayerHand : MonoBehaviour
         //If it's a controller moving the hand
         if (bControllerPlay)
         {
-            int playerID = currentInput.GetPlayerID();
+            int playerID = inputHandler.GetPlayerID();
             //Right joystick to move virual cursor vertically and horizontally 
-            if (currentInput.AimLeft() || currentInput.AimRight() || currentInput.AimUp() || currentInput.AimDown())
+            if (inputHandler.AimLeft() || inputHandler.AimRight() || inputHandler.AimUp() || inputHandler.AimDown())
             {
                 float joystickAngle = (Mathf.Atan2(Input.GetAxis("AimHorizontal" + playerID.ToString()) * -1, Input.GetAxis("AimVertical" + playerID.ToString())) * Mathf.Rad2Deg) - 90;
 
@@ -73,12 +83,5 @@ public class PlayerHand : MonoBehaviour
         handRotation = Quaternion.AngleAxis(angleToCursorPos, Vector3.forward);
         handPos = transform.position + new Vector3(0, 0.75f, 0) + dir.normalized;
         goHandObject.transform.position = handPos;
-    }
-
-    //The input handler could change
-    public void SetInputHandler(InputHandler newInputHandler)
-    {
-        tCursor.position = transform.position;
-        currentInput = newInputHandler;
     }
 }

@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //This is on the player to keep track of the input triggers in range and to activate the correct one
-public class TriggerTracker : MonoBehaviour
+public class TriggerTracker : aHandlesInput
 {
-    [SerializeField]
-    InputHandler inputHandler;
-
     [SerializeField]
     List<InputTrigger> triggers = new List<InputTrigger>();
 
