@@ -17,4 +17,6 @@ public abstract class InputHandler : MonoBehaviour
 
     public virtual bool AimUp() { return false; }
     public virtual bool AimDown() { return false; }
+
+    public virtual int GetPlayerID() { return 1; }
 }

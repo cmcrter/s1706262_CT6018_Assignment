@@ -7,12 +7,24 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField]
+    Camera cam;
+
+    [SerializeField]
     private Transform ObjectToFollow;
 
     public bool isLocked;
 
     [SerializeField]
     private Vector3 offset;
+
+    private Vector3 camZBeforeLock;
+
+    float defaultCamSize;
+
+    private void Awake()
+    {
+        cam = cam ?? Camera.main;
+    }
 
     private void Start()
     {
@@ -21,6 +33,8 @@ public class CameraMovement : MonoBehaviour
             offset = new Vector3(-4, 8, 0);
         }
         StartCoroutine(Co_timeBeforeCameraFollow(0.02f));
+
+        defaultCamSize = cam.orthographicSize;
     }
 
     private void Update()
@@ -43,16 +57,19 @@ public class CameraMovement : MonoBehaviour
         isLocked = false;
     }
 
-    public void OverrideCameraPos(Vector3 newPos)
+    public void OverrideCameraPos(Vector3 newPos, float newCamSize)
     {
         isLocked = true;
         newPos = new Vector3(newPos.x, newPos.y, transform.position.z);
+        cam.orthographicSize = newCamSize;
         StartCoroutine(Co_MoveCamerToPoint(newPos, 1.0f));
     }
 
     public void FreeCameraMovement()
     {
         isLocked = false;
+        cam.orthographicSize = defaultCamSize;
+        transform.position = new Vector3(transform.position.x, transform.position.y, camZBeforeLock.z);
     }
 
     private IEnumerator Co_MoveCamerToPoint(Vector3 newPos, float timer)

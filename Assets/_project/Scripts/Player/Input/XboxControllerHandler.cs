@@ -67,4 +67,9 @@ public class XboxControllerHandler : InputHandler
     {
         return Input.GetAxis("AimVertical" + playerID.ToString()) < 0;
     }
+
+    public override int GetPlayerID()
+    {
+        return playerID;
+    }
 }

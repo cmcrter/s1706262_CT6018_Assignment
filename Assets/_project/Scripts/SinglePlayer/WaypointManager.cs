@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class WaypointManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //To keep track of where the player last was
+    Waypoint latestWaypoint;
+    int iWaypointCount = 0;
 
-    // Update is called once per frame
-    void Update()
+    public void LogWaypoint(Waypoint thisWaypoint)
     {
-        
+        latestWaypoint = thisWaypoint;
+        iWaypointCount++;
+
+        if (Debug.isDebugBuild)
+        {
+            Debug.Log("Waypoint Hit");
+        }
     }
 }

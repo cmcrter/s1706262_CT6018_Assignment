@@ -38,23 +38,14 @@ public class PlayerHand : MonoBehaviour
         //If it's a controller moving the hand
         if (bControllerPlay)
         {
+            int playerID = currentInput.GetPlayerID();
             //Right joystick to move virual cursor vertically and horizontally 
-            if (currentInput.AimLeft() && (tCursor.position.x - transform.position.x) > fCursorBounds)
+            if (currentInput.AimLeft() || currentInput.AimRight() || currentInput.AimUp() || currentInput.AimDown())
             {
-                tCursor.position += new Vector3(-1, 0);
-            }
-            if (currentInput.AimRight() && (tCursor.position.x + transform.position.x) > fCursorBounds)
-            {
-                tCursor.position += new Vector3(+1, 0);
-            }
+                float joystickAngle = (Mathf.Atan2(Input.GetAxis("AimHorizontal" + playerID.ToString()) * -1, Input.GetAxis("AimVertical" + playerID.ToString())) * Mathf.Rad2Deg) - 90;
 
-            if (currentInput.AimUp() && (tCursor.position.y + transform.position.y) > fCursorBounds)
-            {
-                tCursor.position += new Vector3(0, +1);
-            }
-            if (currentInput.AimDown() && (tCursor.position.y - transform.position.y) > fCursorBounds)
-            {
-                tCursor.position += new Vector3(0, -1);
+                tCursor.rotation = Quaternion.AngleAxis(joystickAngle, Vector3.forward);
+                tCursor.position = transform.position + (tCursor.rotation.normalized * new Vector3(0, 2f, 0));
             }
         }
         //If it's mouse based

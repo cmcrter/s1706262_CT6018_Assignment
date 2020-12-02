@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class MeleeWeapon : Weapon
 {
-    // Start is called before the first frame update
-    void Start()
+    InputHandler handler;
+
+    bool bCurrentlySwinging = false;
+
+    private void Start()
     {
-        
+        bCanPickup = true;
+        isCurrentlyHeld = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    //Overriding the fire function
+    public override void FireWeapon(GameObject playerWhoShot, InputHandler inputTypeUsed)
     {
-        
+        handler = inputTypeUsed;
+
+        if (bCanFire)
+        {
+            //Figure out a way to start a jab in the current direction...
+        }
     }
 }

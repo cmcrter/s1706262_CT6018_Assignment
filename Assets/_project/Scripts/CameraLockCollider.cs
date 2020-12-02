@@ -12,6 +12,9 @@ public class CameraLockCollider : MonoBehaviour
     [SerializeField]
     GameObject player;
 
+    [SerializeField]
+    float newCamSize;
+
     private void Awake()
     {
         cameraUsed = cameraUsed ?? Camera.main;
@@ -25,7 +28,7 @@ public class CameraLockCollider : MonoBehaviour
         {
             if (_camMovement != null)
             {
-                _camMovement.OverrideCameraPos(transform.position);
+                _camMovement.OverrideCameraPos(transform.position, newCamSize);
             }
         }
     }

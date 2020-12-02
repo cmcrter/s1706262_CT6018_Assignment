@@ -87,7 +87,7 @@ public class WeaponManager : MonoBehaviour
         //Picking up the weapon if the player doesnt have one
         if (collision.TryGetComponent<Weapon>(out var weapon))
         {
-            Debug.Log("On top of weapon: " + weapon.gameObject.name + " can it be picked up? " + weapon.bCanPickup, this);
+            //Debug.Log("On top of weapon: " + weapon.gameObject.name + " can it be picked up? " + weapon.bCanPickup, this);
 
             if (!hasWeapon && weapon.bCanPickup)
             {

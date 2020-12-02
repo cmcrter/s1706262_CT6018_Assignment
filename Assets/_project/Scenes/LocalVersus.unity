@@ -16725,6 +16725,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 6542451606360978473}
   hand: {fileID: 0}
+  blockingManager: {fileID: 0}
   weaponsInRange: []
   currentWeapon: {fileID: 0}
   currentWeaponObject: {fileID: 0}
@@ -17262,6 +17263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 6542451607248114665}
   hand: {fileID: 6542451607248114670}
+  blockingManager: {fileID: 0}
   weaponsInRange: []
   currentWeapon: {fileID: 0}
   currentWeaponObject: {fileID: 0}
@@ -17815,6 +17817,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 6542451607549339683}
   hand: {fileID: 0}
+  blockingManager: {fileID: 0}
   weaponsInRange: []
   currentWeapon: {fileID: 0}
   currentWeaponObject: {fileID: 0}

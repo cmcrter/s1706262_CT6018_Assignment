@@ -43,6 +43,7 @@ public class WeaponProjectile : MonoBehaviour
         _rb.AddForce(dir * shotPower, ForceMode2D.Impulse);
         playerWhoShotThis = PlayerWhoShot;
         destroyTimer = StartCoroutine(Co_destroyCheck());
+        gameObject.layer = playerWhoShotThis.layer;
     }
 
     //When it collides with something else

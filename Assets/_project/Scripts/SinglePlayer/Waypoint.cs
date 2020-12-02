@@ -1,18 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Waypoint : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    WaypointManager waypointManager;
+
+    [SerializeField]
+    ParticleSystem VFX;
+
+    [SerializeField]
+    Collider2D _collider;
+
+    private void Awake()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.tag.Equals("Player"))
+        {
+            _collider.enabled = false;
+            waypointManager.LogWaypoint(this);
+            VFX.Play();
+        }
     }
 }
