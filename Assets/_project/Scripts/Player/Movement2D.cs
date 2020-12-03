@@ -98,7 +98,6 @@ public class Movement2D : aHandlesInput
         //Left
         if (inputHandler.MoveLeft())
         {
-            Debug.Log("Move Left");
             _thisRB.velocity += Vector2.left * WalkSpeed;
             //_thisRB.AddForce(Vector2.left * WalkSpeed * Time.deltaTime, ForceMode2D.Impulse);
         }

@@ -11421,9 +11421,9 @@ MonoBehaviour:
   throwForce: 30
   fPickupCooldownTime: 1
   fProjectileSpeed: 30
-  fFireRate: 0.4
-  bAutoFire: 0
-  goProjectilePrefab: {fileID: 2479726892843079453, guid: 04434da4a56641549b9b4da73db92f06,
+  fFireRate: 0.6
+  bAutoFire: 1
+  goProjectilePrefab: {fileID: 6136367206716010561, guid: 270dce198e487bd4eb10f8d86add6876,
     type: 3}
   barrell: {fileID: 1671186646}
 --- !u!1 &506638364
@@ -21078,7 +21078,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5118d801e4b585b4398af29cd723693b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventSystem: {fileID: 1683236612}
   scriptsThatRequireInput:
   - {fileID: 6542451606907541000}
   - {fileID: 6542451606907540996}

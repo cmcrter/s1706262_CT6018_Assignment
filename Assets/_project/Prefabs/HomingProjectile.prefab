@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2479726892843079453
+--- !u!1 &6136367206716010561
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,26 +8,27 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8709109735945122825}
-  - component: {fileID: 1473173435567796995}
-  - component: {fileID: 2919970188453965711}
-  - component: {fileID: 8644575832660820349}
-  - component: {fileID: 4441756373596349135}
-  - component: {fileID: 907035524746156666}
+  - component: {fileID: 1125330529951634261}
+  - component: {fileID: 7147424135034147935}
+  - component: {fileID: 6900871858288822483}
+  - component: {fileID: 51422947111347745}
+  - component: {fileID: 5396802112644793747}
+  - component: {fileID: 8923727698936429862}
+  - component: {fileID: 8593152926494287710}
   m_Layer: 8
-  m_Name: TestProjectile
+  m_Name: HomingProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8709109735945122825
+--- !u!4 &1125330529951634261
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2479726892843079453}
+  m_GameObject: {fileID: 6136367206716010561}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
@@ -35,21 +36,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1473173435567796995
+--- !u!33 &7147424135034147935
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2479726892843079453}
+  m_GameObject: {fileID: 6136367206716010561}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &2919970188453965711
+--- !u!23 &6900871858288822483
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2479726892843079453}
+  m_GameObject: {fileID: 6136367206716010561}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 0
@@ -84,14 +85,14 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!61 &8644575832660820349
+--- !u!61 &51422947111347745
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2479726892843079453}
-  m_Enabled: 0
+  m_GameObject: {fileID: 6136367206716010561}
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -110,14 +111,14 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &4441756373596349135
+--- !u!50 &5396802112644793747
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2479726892843079453}
+  m_GameObject: {fileID: 6136367206716010561}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -131,21 +132,37 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &907035524746156666
+--- !u!114 &8923727698936429862
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2479726892843079453}
+  m_GameObject: {fileID: 6136367206716010561}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5e119b0bf937214e8196c5348d3d7f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 4441756373596349135}
-  _collider: {fileID: 8644575832660820349}
+  _rb: {fileID: 5396802112644793747}
+  _collider: {fileID: 51422947111347745}
   bDestroyOnHit: 1
-  fPower: 15
-  damage: 1
+  fPower: 175
+  damage: 50
   playerWhoShotThis: {fileID: 0}
+--- !u!114 &8593152926494287710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6136367206716010561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e3f4b818d34f4c4193a0e40a9eb6448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  rb: {fileID: 5396802112644793747}
+  homingSpeed: 400
+  rotationSpeed: 65

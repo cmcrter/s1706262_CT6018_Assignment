@@ -15,18 +15,23 @@ public class WeaponProjectile : MonoBehaviour
     [SerializeField]
     private bool bDestroyOnHit;
     [SerializeField]
-    private float fPower = 15f;
+    private float fPower;
     [SerializeField]
-    private float damage = 1f;
+    private float damage;
 
     private Coroutine destroyTimer;
     [SerializeField]
     private GameObject playerWhoShotThis;
 
+    //The projectile can have multiple effects
+    IProjectileModifier[] projectileEffect;
+
     private void Awake()
     {
         _rb = _rb ?? GetComponent<Rigidbody2D>();
         _collider = _collider ?? GetComponent<Collider2D>();
+
+        projectileEffect = projectileEffect ?? GetComponents<IProjectileModifier>();
     }
 
     //When the object is instaniated
@@ -37,13 +42,22 @@ public class WeaponProjectile : MonoBehaviour
     }
 
     //When it gets fired
-    public void Fired(GameObject PlayerWhoShot, Vector3 dir, float shotPower)
+    public virtual void Fired(GameObject PlayerWhoShot, Vector3 dir, float shotPower)
     {
         //Firing the projectile
-        _rb.AddForce(dir * shotPower, ForceMode2D.Impulse);
+        _rb.AddForce(dir * shotPower * Time.deltaTime, ForceMode2D.Impulse);
         playerWhoShotThis = PlayerWhoShot;
         destroyTimer = StartCoroutine(Co_destroyCheck());
         gameObject.layer = playerWhoShotThis.layer;
+
+        //There is atleast one projectile effect
+        if (projectileEffect.Length > 0)
+        {
+            foreach (IProjectileModifier modifier in projectileEffect)
+            {
+                modifier.ActivateProjectileEffect(playerWhoShotThis, shotPower);
+            }
+        }
     }
 
     //When it collides with something else
@@ -55,16 +69,17 @@ public class WeaponProjectile : MonoBehaviour
             return;
         }
 
-        if (collision.gameObject.TryGetComponent<Rigidbody2D>(out var otherRB))
+        if (projectileEffect.Length > 0)
         {
-            otherRB.AddForce(transform.forward * fPower, ForceMode2D.Impulse);
+            foreach (IProjectileModifier modifier in projectileEffect)
+            {
+                modifier.OnProjectileHit(collision);
+            }
         }
 
-        if (collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
-        {
-            damagable.Damage(damage);
-        }
-
+        Debug.Log("Projectile hit something");
+        OnHit(collision);
+              
         if (bDestroyOnHit)
         {
             StopCoroutine(destroyTimer);
@@ -85,7 +100,21 @@ public class WeaponProjectile : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected virtual void OnHit()
+    protected virtual void OnHit(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent<Rigidbody2D>(out var otherRB))
+        {
+            otherRB.AddForce(transform.forward * fPower, ForceMode2D.Impulse);
+        }
+
+        if (collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
+        {
+            damagable.Damage(damage);
+        }
+    }
+
+    //For Split shot projectiles
+    public void Clone()
     {
 
     }
