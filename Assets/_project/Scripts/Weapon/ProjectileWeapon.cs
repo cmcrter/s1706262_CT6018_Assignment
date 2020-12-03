@@ -6,9 +6,7 @@ public class ProjectileWeapon : Weapon
 {
     [Header("Projectile Weapon Specific")]
     [SerializeField]
-    private float fProjectileSpeed = 15f;
-    [SerializeField]
-    private float fFireRate = 0.25f;
+    private float fFireRate;
     [SerializeField]
     private bool bAutoFire = false;
     [SerializeField]
@@ -37,7 +35,7 @@ public class ProjectileWeapon : Weapon
         if (bCanFire)
         {
             GameObject proj = Instantiate(goProjectilePrefab, barrell.position, transform.rotation, null);
-            proj.GetComponent<WeaponProjectile>().Fired(playerWhoShot, transform.right, fProjectileSpeed);
+            proj.GetComponent<WeaponProjectile>().Fired(playerWhoShot, transform.right);
 
             Debug.Log("Fired test weapon", this);
             StartCoroutine(Co_ShotCooldown(playerWhoShot));

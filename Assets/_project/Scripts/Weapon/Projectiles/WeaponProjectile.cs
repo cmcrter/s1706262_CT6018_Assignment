@@ -14,6 +14,7 @@ public class WeaponProjectile : MonoBehaviour
     [Header("Projectile Customizable Variables")]
     [SerializeField]
     private bool bDestroyOnHit;
+    //The speed of the projectile is handled by itself
     [SerializeField]
     private float fPower;
     [SerializeField]
@@ -42,10 +43,10 @@ public class WeaponProjectile : MonoBehaviour
     }
 
     //When it gets fired
-    public virtual void Fired(GameObject PlayerWhoShot, Vector3 dir, float shotPower)
+    public virtual void Fired(GameObject PlayerWhoShot, Vector3 dir)
     {
         //Firing the projectile
-        _rb.AddForce(dir * shotPower * Time.deltaTime, ForceMode2D.Impulse);
+        _rb.AddForce(dir * fPower, ForceMode2D.Impulse);
         playerWhoShotThis = PlayerWhoShot;
         destroyTimer = StartCoroutine(Co_destroyCheck());
         gameObject.layer = playerWhoShotThis.layer;
@@ -55,7 +56,7 @@ public class WeaponProjectile : MonoBehaviour
         {
             foreach (IProjectileModifier modifier in projectileEffect)
             {
-                modifier.ActivateProjectileEffect(playerWhoShotThis, shotPower);
+                modifier.ActivateProjectileEffect(playerWhoShotThis, fPower);
             }
         }
     }

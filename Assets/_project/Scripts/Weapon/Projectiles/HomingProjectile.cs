@@ -24,7 +24,7 @@ public class HomingProjectile : MonoBehaviour, IProjectileModifier
     float rotationSpeed;
     GameObject player;
     bool bCollided;
-    float fTimeBeforeHoming = 0.15f;
+    float fTimeBeforeHoming = 0.1f;
     float initialProjSpeed;
 
     [SerializeField]
@@ -40,10 +40,6 @@ public class HomingProjectile : MonoBehaviour, IProjectileModifier
         if (target)
         {
             StartCoroutine(eHomeToTarget(initialSpeed));
-        }
-        else
-        {
-            rb.AddForce(initialSpeed * transform.right * Time.deltaTime, ForceMode2D.Impulse);
         }
     }
 
