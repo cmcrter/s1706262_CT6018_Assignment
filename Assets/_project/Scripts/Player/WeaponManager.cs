@@ -165,7 +165,14 @@ public class WeaponManager : aHandlesInput
     private void UpdateWeaponCarrying()
     {
         currentweaponrb.MoveRotation(angleToMousePos);
-        currentweaponrb.MovePosition(Vector3.Lerp(currentweaponrb.position, hand.handPos, Time.deltaTime * 100f));       
+        currentweaponrb.MovePosition(Vector3.Lerp(currentweaponrb.position, hand.handPos, Time.deltaTime * 100f));   
+        
+        //If the weapon is too far away (it can get caught on objects)
+        if (Vector3.Distance(currentweaponrb.transform.position, transform.position) > 5f)
+        {
+            //Move it to the hand
+            currentweaponrb.transform.position = hand.handPos;
+        }
     }
 
     private void ThrowCurrentWeapon()

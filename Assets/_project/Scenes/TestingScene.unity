@@ -11419,8 +11419,8 @@ MonoBehaviour:
   _playerCollider: {fileID: 409017224}
   _rb: {fileID: 409017223}
   throwForce: 30
+  fThrowDamage: 0
   fPickupCooldownTime: 1
-  fProjectileSpeed: 30
   fFireRate: 0.6
   bAutoFire: 1
   goProjectilePrefab: {fileID: 6136367206716010561, guid: 270dce198e487bd4eb10f8d86add6876,
@@ -13037,6 +13037,7 @@ MonoBehaviour:
   _playerCollider: {fileID: 811886087}
   _rb: {fileID: 811886086}
   throwForce: 30
+  fThrowDamage: 0
   fPickupCooldownTime: 2
   lRenderer: {fileID: 1336431606}
   VFX: {fileID: 0}
@@ -21849,6 +21850,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraUsed: {fileID: 519420031}
   player: {fileID: 1879763746}
+  playerMovement: {fileID: 6542451606907541000}
   newCamSize: 10.2
 --- !u!222 &1600537498
 CanvasRenderer:
@@ -21857,7 +21859,7 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1600537494}
-  m_CullTransparentMesh: 0
+  m_CullTransparentMesh: 1
 --- !u!4 &1627114649 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2867491857717581548, guid: 48ff8a4117e520a4ea1e120f076f1000,

@@ -13,6 +13,9 @@ public class CameraLockCollider : MonoBehaviour
     GameObject player;
 
     [SerializeField]
+    Movement2D playerMovement;
+
+    [SerializeField]
     float newCamSize;
 
     private void Awake()
@@ -28,7 +31,7 @@ public class CameraLockCollider : MonoBehaviour
         {
             if (_camMovement != null)
             {
-                _camMovement.OverrideCameraPos(transform.position, newCamSize);
+                _camMovement.OverrideCameraPos(transform.position, newCamSize, playerMovement);
             }
         }
     }

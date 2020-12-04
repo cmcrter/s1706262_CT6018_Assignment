@@ -56,7 +56,7 @@ public class WeaponProjectile : MonoBehaviour
         {
             foreach (IProjectileModifier modifier in projectileEffect)
             {
-                modifier.ActivateProjectileEffect(playerWhoShotThis, fPower);
+                modifier.ActivateProjectileEffect(playerWhoShotThis, fPower, this);
             }
         }
     }
@@ -112,6 +112,17 @@ public class WeaponProjectile : MonoBehaviour
         {
             damagable.Damage(damage);
         }
+    }
+
+    //For changing projectiles to be bouncy
+    public void SetDestroyOnHit(bool bNewDestroyOnHit)
+    {
+        bDestroyOnHit = bNewDestroyOnHit;
+    }
+
+    public Rigidbody2D GetRb()
+    {
+        return _rb;
     }
 
     //For Split shot projectiles

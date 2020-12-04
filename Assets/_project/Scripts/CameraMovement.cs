@@ -57,12 +57,13 @@ public class CameraMovement : MonoBehaviour
         isLocked = false;
     }
 
-    public void OverrideCameraPos(Vector3 newPos, float newCamSize)
+    public void OverrideCameraPos(Vector3 newPos, float newCamSize, MonoBehaviour tempLockScripts)
     {
         isLocked = true;
         newPos = new Vector3(newPos.x, newPos.y, transform.position.z);
         cam.orthographicSize = newCamSize;
-        StartCoroutine(Co_MoveCamerToPoint(newPos, 1.0f));
+
+        StartCoroutine(Co_MoveCamerToPoint(newPos, 1.0f, tempLockScripts));
     }
 
     public void FreeCameraMovement()
@@ -72,12 +73,28 @@ public class CameraMovement : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, camZBeforeLock.z);
     }
 
-    private IEnumerator Co_MoveCamerToPoint(Vector3 newPos, float timer)
+    private IEnumerator Co_MoveCamerToPoint(Vector3 newPos, float timer, MonoBehaviour tempLockScript)
     {
+        //If there's a script moving the camera needs to lock
+        if (tempLockScript)
+        {
+            //Turn it off
+            tempLockScript.enabled = false;
+        }
+
+        //The actual movement timer
         for (float t = 0; t < timer; t += Time.deltaTime)
         {
+            //Smooth transform movement
             transform.position = Vector3.Lerp(transform.position, newPos, t);
             yield return null;
+        }
+
+        //If there's a script moving the camera needs to lock
+        if (tempLockScript)
+        {
+            //Turn it back on
+            tempLockScript.enabled = true;
         }
     }
 }

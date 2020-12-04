@@ -7,7 +7,7 @@ public class HomingProjectile : MonoBehaviour, IProjectileModifier
 {
     #region Interface Contracts
 
-    void IProjectileModifier.ActivateProjectileEffect(GameObject playerWhoFired, float startSpeed) => ProjecileEffect(playerWhoFired, startSpeed);
+    void IProjectileModifier.ActivateProjectileEffect(GameObject playerWhoFired, float startSpeed, WeaponProjectile proj) => ProjecileEffect(playerWhoFired, startSpeed);
     void IProjectileModifier.OnProjectileHit(Collision2D collision) => ThisProjectileHit(collision);
 
     #endregion
