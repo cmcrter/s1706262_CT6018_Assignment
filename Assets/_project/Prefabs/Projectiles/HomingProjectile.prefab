@@ -165,5 +165,5 @@ MonoBehaviour:
   target: {fileID: 0}
   rb: {fileID: 5396802112644793747}
   homingSpeed: 400
-  rotationSpeed: 90
+  rotationSpeed: 130
   fMaxHomingDist: 35

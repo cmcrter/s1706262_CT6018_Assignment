@@ -125,10 +125,7 @@ public class MirrorPanel : MonoBehaviour, ITriggerable, IMirrorable
         //ray casting from the hit point along the reflected direction
         mirrorRayHit = Physics2D.Raycast(initialHit.point + initialHit.normal * 0.01f, newDir, 25f, mask[ID], -1);
 
-        Debug.DrawRay(initialHit.point, initialHit.normal);
-
-        //This shows on first bounce but not on second
-        Debug.DrawRay(initialHit.point, newDir, Color.green);
+        //Debug.DrawRay(initialHit.point, initialHit.normal);
 
         //If it hit an object
         if (mirrorRayHit)
