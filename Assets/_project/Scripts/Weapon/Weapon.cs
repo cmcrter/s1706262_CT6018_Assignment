@@ -24,6 +24,7 @@ public abstract class Weapon : MonoBehaviour, IHoldable
     public bool bCanPickup;
     public bool isCurrentlyHeld;
     protected bool bCanFire = true;
+    private bool bDamageOnhit = false;
 
     [Header("Components Needed For Any Weapon")]
 
@@ -41,9 +42,11 @@ public abstract class Weapon : MonoBehaviour, IHoldable
     [SerializeField]
     private float throwForce = 10f;
     [SerializeField]
+    private float fThrowDamage;
+    [SerializeField]
     protected eWeaponType weaponType { get; private set; }
     [SerializeField]
-    private float fPickupCooldownTime = 1f;
+    private float fPickupCooldownTime = 1.5f;
 
     private void Awake()
     {
@@ -58,6 +61,7 @@ public abstract class Weapon : MonoBehaviour, IHoldable
         isCurrentlyHeld = true;
         bCanPickup = false;
         _playerCollider.enabled = false;
+        _collider.gameObject.layer = player.layer;
     }
 
     public GameObject ReturnWeapon()
@@ -71,6 +75,7 @@ public abstract class Weapon : MonoBehaviour, IHoldable
         _rb.AddForce(transform.right * throwForce, ForceMode2D.Impulse);
 
         isCurrentlyHeld = false;
+        _collider.gameObject.layer = 8;
 
         StartCoroutine(Co_StartPickupCooldown());
     }
@@ -83,14 +88,31 @@ public abstract class Weapon : MonoBehaviour, IHoldable
     private IEnumerator Co_StartPickupCooldown()
     {
         bCanPickup = false;
+        bDamageOnhit = true;
 
+        //Doing it this way instead of waitnewseconds to check whether it does damage
         for (float t = 0; t < fPickupCooldownTime; t += Time.deltaTime)
         {
+            if (_rb.velocity.magnitude < 4f)
+            {
+                bDamageOnhit = false;
+            }
+
             yield return null;
         }
 
+        bDamageOnhit = false;
         bCanPickup = true;
         _playerCollider.enabled = true;
+    }
+
+    //A weapon might do damage on hit if it was thrown
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (bDamageOnhit && collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
+        {
+            damagable.Damage(fThrowDamage);
+        }
     }
 
     public Rigidbody2D GetRB()

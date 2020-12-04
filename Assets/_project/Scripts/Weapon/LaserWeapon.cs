@@ -38,11 +38,7 @@ public class LaserWeapon : Weapon
 
     public override void PickupWeapon(GameObject player)
     {
-        _collider.enabled = true;
-        _rb.gravityScale = 0;
-        isCurrentlyHeld = true;
-        bCanPickup = false;
-        _playerCollider.enabled = false;
+        base.PickupWeapon(player);
 
         //I dont want the laser weapons to hit the player that fired it
         playerID = player.GetComponent<CState>().returnID();
