@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-//An easy way to store the player's data needed
+//A container class to store the player's data needed
 [System.Serializable]
-struct playerData
+internal class PlayerData
 {
     //All of the aspects of the player needed
     public GameObject playerObject;
@@ -18,34 +19,59 @@ struct playerData
 //This dictates the game loop of the local versus gamemode, this will probably be a monolithic script
 public class LocalVersusManager : MonoBehaviour
 {
+    //Different states require different bools to maintain
     private bool bStartPressed = false;
     private bool bMapLoaded = false;
     private bool bPlayerWon = false;
 
-    [SerializeField]
-    playerData[] players = new playerData[4];
+    [Header("Player data")]
 
     [SerializeField]
-    List<int> activePlayers = new List<int>();
+    private PlayerData[] players = new PlayerData[4];
 
     [SerializeField]
-    List<GameObject> mapContainers = new List<GameObject>();
+    private List<int> activePlayers = new List<int>();
+
+    [Header("Map Data")]
 
     [SerializeField]
-    GameObject lastMapUsed;
+    private List<GameObject> mapContainers = new List<GameObject>();
 
     [SerializeField]
-    Vector3[] playerStartPos = new Vector3[4];
+    private GameObject[] mapPrefabArr;
+
+    [SerializeField]
+    private GameObject lobbyContainer;
+
+    [SerializeField]
+    private GameObject lastMapUsed;
+    [SerializeField]
+    private GameObject currentMap;
+
+    [SerializeField]
+    private Vector3[] playerStartPos = new Vector3[4];
+
+    [Header("Game States Data")]
+
+    [SerializeField]
+    private IEnumerator[] eVersusStates = new IEnumerator[3];
 
     private void Awake()
     {
-        
+        //These maps are at the default state
+        mapPrefabArr = mapContainers.ToArray();
+        CheckingPlayerDataVariables();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        eVersusStates[0] = WaitingInLobby();
+        eVersusStates[1] = WaitingForArena();
+        eVersusStates[2] = WaitingForWinCondition();
+
         activePlayers.Add(0);
+        StartCoroutine(eVersusStates[0]);
     }
 
     // Update is called once per frame
@@ -54,25 +80,46 @@ public class LocalVersusManager : MonoBehaviour
 
     }
 
+    private void CheckingPlayerDataVariables()
+    {
+        //Going through each player
+        foreach (PlayerData player in players)
+        {
+            //Making sure they have an object
+            if (player.playerObject)
+            {
+                //Going through and making sure they have each component
+                player.playerMovement = player.playerMovement ?? player.playerObject.GetComponent<Movement2D>();
+                player.playerHealth = player.playerHealth ?? player.playerObject.GetComponent<PlayerHealth>();
+                player.playerRigidbody = player.playerRigidbody ?? player.playerObject.GetComponent<Rigidbody2D>();
+                player.handlerUsed = player.handlerUsed ?? player.playerMovement.GetInputHandler();
+                player.playerState = player.playerState ?? player.playerObject.GetComponent<CState>();
+            }
+            else
+            {
+                if (Debug.isDebugBuild)
+                {
+                    Debug.Log("Player Objects not set");
+                }
+
+                //Shouldn't run the script
+                enabled = false;
+            }
+        }
+    }
+
     //Adding players when 
     private IEnumerator WaitingInLobby()
     {
-        int knownPlayers = 1;
-
         while (!bStartPressed)
         {
-            if (knownPlayers < players.Length)
+            for (int i = 1; i < players.Length; ++i)
             {
-                for (int i = knownPlayers; i < players.Length; ++i)
+                if (players[i].handlerUsed.isBeingUsed() && !activePlayers.Contains(i))
                 {
-                    if (players[i].handlerUsed.isBeingUsed())
-                    {
-                        playerActivated(i);
-                        knownPlayers++;
-                    }
+                    playerActivated(i);
                 }
             }
-
             yield return null;
         }
     }
@@ -90,34 +137,44 @@ public class LocalVersusManager : MonoBehaviour
     //Player pulled the start lever
     public void StartLeverPulled()
     {
-
+        if (activePlayers.Count > 1)
+        {
+            bStartPressed = true;
+        }
     }
 
     //Setting up the next combat
     private IEnumerator WaitingForArena()
     {
-        //Might be going from the lobby
+        //Is not the first map of the session
         if (lastMapUsed)
         {
-            //Removing the last map
+            ResetMap(lastMapUsed);
             lastMapUsed.SetActive(false);
 
             //Removing the last map from the selection to avoid repetitions
             mapContainers.Remove(lastMapUsed);
         }
+        //This means it's the first map of the session
         else
         {
-            //This means it's the first map of the session
+            //Turn the lobby off
+            if (lobbyContainer.activeSelf)
+            {
+                lobbyContainer.SetActive(false);
+            }
         }
 
         //Next selected map
         int iRandMap = Random.Range(0, mapContainers.Count);
 
+        //This isnt as fancy as it could be
         while (!bMapLoaded)
         {
-            //Moving all the players to the correct spots and resetting them
+            ResetPlayers();
+            mapContainers[iRandMap].SetActive(true);
 
-
+            bMapLoaded = true;
             yield return null;
         }
 
@@ -134,26 +191,70 @@ public class LocalVersusManager : MonoBehaviour
         bMapLoaded = false;
     }
 
-    private void ResetPlayers()
+    private void ResetMap(GameObject lastMap)
     {
-
+        //Going through the prefabs
+        for (int i = 0; i < mapPrefabArr.Length; ++i)
+        {
+            //Seeing if it's the last map used
+            if (mapPrefabArr[i].Equals(lastMap))
+            {
+                //Setting it back to how it was at the start
+                lastMap = mapPrefabArr[i];
+            }
+        }
     }
 
-    private void MovePlayersToSpots()
+    //Making sure the players are back to how they were before each map
+    private void ResetPlayers()
     {
+        //Moving all the players to the correct spots and resetting them
+        foreach (int index in activePlayers)
+        {
+            MovePlayersToSpots(index);
+            players[index].playerHealth.ResetHealth();
+        }
+    }
 
+    //This will be changed to a lerp soon
+    private void MovePlayersToSpots(int index)
+    {
+        players[index].playerObject.transform.position = playerStartPos[players[index].playerState.returnID()];
+    }
+
+    //I dont really have a use for this yet...
+    IEnumerator WaitingForWinCondition()
+    {
+        while (!bPlayerWon)
+        {
+            yield return null;
+        }
     }
 
 
     //There's 1 player left alive
     public void WinConditionMet()
     {
-
+        bPlayerWon = true;
     }
 
     //A player decides to quit
-    public void PlayerQuit()
+    public void PlayerQuit(int index)
     {
+        //Too many people disconnected
+        if (activePlayers.Count < 2)
+        {
+            ReturnToLobby();
+        }
+        else
+        {
+            activePlayers.RemoveAt(index);
+        }
+    }
 
+    //The group decides to return to the lobby or too many people quit
+    private void ReturnToLobby()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

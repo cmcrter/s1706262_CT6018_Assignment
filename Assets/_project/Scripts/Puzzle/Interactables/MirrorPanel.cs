@@ -44,6 +44,7 @@ public class MirrorPanel : MonoBehaviour, ITriggerable, IMirrorable
 
     #endregion
 
+    //Calculating and showing the reflection this mirror creates
     public void ShowReflection(Vector3 InDirection, RaycastHit2D mirrorHit, LaserWeapon weapon, int ID, LayerMask newMask)
     {
         if (!lineRenderers[ID].enabled)

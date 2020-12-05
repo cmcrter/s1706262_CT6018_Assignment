@@ -5,6 +5,7 @@ public abstract class InputHandler : MonoBehaviour
     //This turns false every frame, but any controls from an input type changes it
     protected bool bBeingUsed = false;
 
+    //Checking through all the controls at the end of every frame to see if it was used
     private void LateUpdate()
     {
         if (MoveLeft() || MoveRight() || Jump() || Crouch() || FireWeapon() || ThrowWeapon() || Interact() || Block() || AimLeft() || AimRight() || AimUp() || AimDown())
@@ -17,8 +18,10 @@ public abstract class InputHandler : MonoBehaviour
         }
     }
 
+    //A return function to see if this input handler is being used
     public bool isBeingUsed()
     {
+        Debug.Log(transform.parent.name + " is being used? " + bBeingUsed);
         return bBeingUsed;
     }
 

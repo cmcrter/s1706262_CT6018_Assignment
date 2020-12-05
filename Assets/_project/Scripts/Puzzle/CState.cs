@@ -74,4 +74,9 @@ public class CState : MonoBehaviour
     {
         return manager.GetState(stateID).defaultMaterial.color;
     }
+
+    public Material GetMaterial()
+    {
+        return manager.GetState(stateID).defaultMaterial;
+    }
 }

@@ -5071,7 +5071,7 @@ GameObject:
   - component: {fileID: 47370161}
   - component: {fileID: 47370160}
   - component: {fileID: 47370164}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: PressurePlate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17216,7 +17216,7 @@ MonoBehaviour:
   cam: {fileID: 519420031}
   ObjectToFollow: {fileID: 1879763750}
   isLocked: 0
-  offset: {x: 0, y: 3, z: -20}
+  offset: {x: 0, y: 10, z: -20}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -17268,7 +17268,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -138.64, y: 3.1, z: -20}
+  m_LocalPosition: {x: -36.1, y: 3.1, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -36399,7 +36399,7 @@ GameObject:
   - component: {fileID: 1244246103}
   - component: {fileID: 1244246102}
   - component: {fileID: 1244246105}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: Lever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37137,7 +37137,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295863795}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -37.126198, y: 17.502739, z: 0}
+  m_LocalPosition: {x: -37.100002, y: 17.5, z: 0}
   m_LocalScale: {x: 36.75, y: 15, z: 1}
   m_Children: []
   m_Father: {fileID: 347536623}
@@ -47989,7 +47989,7 @@ GameObject:
   - component: {fileID: 1431797655}
   - component: {fileID: 1431797657}
   - component: {fileID: 1431797656}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48497,7 +48497,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520236808}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -70.5012, y: 2.8785038, z: 0}
+  m_LocalPosition: {x: -70.475006, y: 2.8757648, z: 0}
   m_LocalScale: {x: 30, y: 44.24847, z: 1}
   m_Children: []
   m_Father: {fileID: 347536623}
@@ -49017,7 +49017,7 @@ GameObject:
   - component: {fileID: 1627870490}
   - component: {fileID: 1627870489}
   - component: {fileID: 1627870488}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: PressurePlate (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50721,7 +50721,7 @@ GameObject:
   - component: {fileID: 1978761460}
   - component: {fileID: 1978761459}
   - component: {fileID: 1978761458}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: TestCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52166,6 +52166,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1720885049, guid: 6abc52c543c63ca4db2a622ae2b14727, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 658232048457328253, guid: 6abc52c543c63ca4db2a622ae2b14727,
         type: 3}
       propertyPath: manager
@@ -52186,6 +52190,21 @@ PrefabInstance:
       propertyPath: keyAndMouse
       value: 
       objectReference: {fileID: 6542451606907540995}
+    - target: {fileID: 3660310308680395230, guid: 6abc52c543c63ca4db2a622ae2b14727,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6542451606078815316, guid: 6abc52c543c63ca4db2a622ae2b14727,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6542451606207343714, guid: 6abc52c543c63ca4db2a622ae2b14727,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6542451606207343719, guid: 6abc52c543c63ca4db2a622ae2b14727,
         type: 3}
       propertyPath: playerID
@@ -52196,6 +52215,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6542451607175609635, guid: 6abc52c543c63ca4db2a622ae2b14727,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6542451607175609638, guid: 6abc52c543c63ca4db2a622ae2b14727,
         type: 3}
       propertyPath: m_Mass
@@ -52204,7 +52228,7 @@ PrefabInstance:
     - target: {fileID: 6542451607175609639, guid: 6abc52c543c63ca4db2a622ae2b14727,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -153.7
+      value: -51
       objectReference: {fileID: 0}
     - target: {fileID: 6542451607175609639, guid: 6abc52c543c63ca4db2a622ae2b14727,
         type: 3}
@@ -52286,6 +52310,16 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 165833614}
+    - target: {fileID: 6542451607175609645, guid: 6abc52c543c63ca4db2a622ae2b14727,
+        type: 3}
+      propertyPath: stateID
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6542451607232048752, guid: 6abc52c543c63ca4db2a622ae2b14727,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6811793715654572696, guid: 6abc52c543c63ca4db2a622ae2b14727,
         type: 3}
       propertyPath: inputHandler
@@ -52296,6 +52330,11 @@ PrefabInstance:
       propertyPath: keyAndMouse
       value: 
       objectReference: {fileID: 6542451606907540995}
+    - target: {fileID: 8104404885095439265, guid: 6abc52c543c63ca4db2a622ae2b14727,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6abc52c543c63ca4db2a622ae2b14727, type: 3}
 --- !u!114 &6542451606907540994 stripped

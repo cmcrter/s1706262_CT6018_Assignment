@@ -20,4 +20,9 @@ public class aHandlesInput : MonoBehaviour
     {
         inputHandler = newHandler;
     }
+
+    public InputHandler GetInputHandler()
+    {
+        return inputHandler;
+    }
 }

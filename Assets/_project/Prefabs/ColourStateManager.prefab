@@ -45,9 +45,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cState:
   - ID: 0
-    defaultMaterial: {fileID: 2100000, guid: cd99ffb966b22a84b980e47c127d420b, type: 2}
-  - ID: 1
     defaultMaterial: {fileID: 2100000, guid: 703bbdf5994a33444a1ced7923b6820a, type: 2}
+  - ID: 1
+    defaultMaterial: {fileID: 2100000, guid: cd99ffb966b22a84b980e47c127d420b, type: 2}
   - ID: 2
     defaultMaterial: {fileID: 2100000, guid: fafacb9d45d87db4384c9d1062ed8805, type: 2}
   - ID: 3

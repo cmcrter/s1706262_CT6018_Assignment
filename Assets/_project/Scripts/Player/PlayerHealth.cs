@@ -77,4 +77,12 @@ public class PlayerHealth : MonoBehaviour, IDamagable
         main.startColor = state.GetColor();
         deathVFX.Play();
     }
+
+    public void ResetHealth()
+    {
+        fCurrentHealth = fMaxHealth;
+
+        _renderer.material.color = state.GetColor();
+        _topRenderer.material.color = state.GetColor();
+    }
 }
