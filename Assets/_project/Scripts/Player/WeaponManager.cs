@@ -183,4 +183,12 @@ public class WeaponManager : aHandlesInput
         currentWeapon = null;
         blockingManager.OnWeaponDrop();
     }
+
+    public void ResetWeapon()
+    {
+        hasWeapon = false;
+        currentweaponrb = null;
+        currentWeapon = null;
+        blockingManager.OnWeaponDrop();
+    }
 }

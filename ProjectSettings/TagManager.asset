@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - VersusManager
+  - Map1
+  - Map2
+  - Map3
   layers:
   - Default
   - TransparentFX

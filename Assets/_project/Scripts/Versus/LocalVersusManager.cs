@@ -14,6 +14,7 @@ internal class PlayerData
     public Movement2D playerMovement;
     public Rigidbody2D playerRigidbody;
     public PlayerHealth playerHealth;
+    public WeaponManager playerWeaponManager;
 }
 
 //This dictates the game loop of the local versus gamemode, this will probably be a monolithic script
@@ -26,52 +27,55 @@ public class LocalVersusManager : MonoBehaviour
 
     [Header("Player data")]
 
+    //All the player data needed
     [SerializeField]
     private PlayerData[] players = new PlayerData[4];
 
+    //The ones currently active in game
     [SerializeField]
     private List<int> activePlayers = new List<int>();
 
     [Header("Map Data")]
 
+    //The map gameobjects
     [SerializeField]
     private List<GameObject> mapContainers = new List<GameObject>();
 
+    //The map prefabs
     [SerializeField]
     private GameObject[] mapPrefabArr;
 
+    //The lobby gameobject and UI
     [SerializeField]
     private GameObject lobbyContainer;
+    [SerializeField]
+    private GameObject lobbyUI;
 
+    //Keeping track of previous and current map
     [SerializeField]
     private GameObject lastMapUsed;
     [SerializeField]
     private GameObject currentMap;
 
+    //And default player positions
     [SerializeField]
     private Vector3[] playerStartPos = new Vector3[4];
 
     [Header("Game States Data")]
 
     [SerializeField]
-    private IEnumerator[] eVersusStates = new IEnumerator[3];
+    int iPlayersAlive = 4;
 
     private void Awake()
     {
-        //These maps are at the default state
-        mapPrefabArr = mapContainers.ToArray();
         CheckingPlayerDataVariables();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        eVersusStates[0] = WaitingInLobby();
-        eVersusStates[1] = WaitingForArena();
-        eVersusStates[2] = WaitingForWinCondition();
-
         activePlayers.Add(0);
-        StartCoroutine(eVersusStates[0]);
+        StartCoroutine(WaitingInLobby());
     }
 
     // Update is called once per frame
@@ -94,6 +98,7 @@ public class LocalVersusManager : MonoBehaviour
                 player.playerRigidbody = player.playerRigidbody ?? player.playerObject.GetComponent<Rigidbody2D>();
                 player.handlerUsed = player.handlerUsed ?? player.playerMovement.GetInputHandler();
                 player.playerState = player.playerState ?? player.playerObject.GetComponent<CState>();
+                player.playerWeaponManager = player.playerWeaponManager ?? player.playerObject.GetComponent<WeaponManager>();
             }
             else
             {
@@ -122,6 +127,10 @@ public class LocalVersusManager : MonoBehaviour
             }
             yield return null;
         }
+
+        bStartPressed = false;
+
+        StartCoroutine(WaitingForArena());
     }
 
     //A player was activated
@@ -162,6 +171,7 @@ public class LocalVersusManager : MonoBehaviour
             if (lobbyContainer.activeSelf)
             {
                 lobbyContainer.SetActive(false);
+                lobbyUI.SetActive(false);
             }
         }
 
@@ -171,8 +181,10 @@ public class LocalVersusManager : MonoBehaviour
         //This isnt as fancy as it could be
         while (!bMapLoaded)
         {
-            ResetPlayers();
+            //Put the map down
             mapContainers[iRandMap].SetActive(true);
+            //Then put the players down
+            ResetPlayers();
 
             bMapLoaded = true;
             yield return null;
@@ -189,6 +201,8 @@ public class LocalVersusManager : MonoBehaviour
 
         //For the next time loading a map
         bMapLoaded = false;
+
+        StartCoroutine(WaitingForWinCondition());
     }
 
     private void ResetMap(GameObject lastMap)
@@ -197,7 +211,7 @@ public class LocalVersusManager : MonoBehaviour
         for (int i = 0; i < mapPrefabArr.Length; ++i)
         {
             //Seeing if it's the last map used
-            if (mapPrefabArr[i].Equals(lastMap))
+            if (mapPrefabArr[i].tag.Equals(lastMap.tag))
             {
                 //Setting it back to how it was at the start
                 lastMap = mapPrefabArr[i];
@@ -212,6 +226,7 @@ public class LocalVersusManager : MonoBehaviour
         foreach (int index in activePlayers)
         {
             MovePlayersToSpots(index);
+            players[index].playerWeaponManager.ResetWeapon();
             players[index].playerHealth.ResetHealth();
         }
     }
@@ -225,17 +240,33 @@ public class LocalVersusManager : MonoBehaviour
     //I dont really have a use for this yet...
     IEnumerator WaitingForWinCondition()
     {
+        iPlayersAlive = activePlayers.Count;
+
         while (!bPlayerWon)
         {
             yield return null;
         }
+
+        bPlayerWon = false;
+
+        yield return new WaitForSeconds(2.0f);
     }
 
+    public void PlayerDied(int index)
+    {
+        iPlayersAlive--;
+        if (iPlayersAlive == 1)
+        {
+            WinConditionMet();
+        }
+    }
 
     //There's 1 player left alive
-    public void WinConditionMet()
+    private void WinConditionMet()
     {
         bPlayerWon = true;
+
+        StartCoroutine(WaitingForArena());
     }
 
     //A player decides to quit
@@ -248,6 +279,7 @@ public class LocalVersusManager : MonoBehaviour
         }
         else
         {
+            players[index].playerHealth.InstantKillPlayer();
             activePlayers.RemoveAt(index);
         }
     }
@@ -256,5 +288,10 @@ public class LocalVersusManager : MonoBehaviour
     private void ReturnToLobby()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public int GetActivePlayerCount()
+    {
+        return activePlayers.Count;
     }
 }

@@ -78,7 +78,7 @@ public class WeaponProjectile : MonoBehaviour
             }
         }
 
-        Debug.Log("Projectile hit something");
+        //Debug.Log("Projectile hit something");
         OnHit(collision);
               
         if (bDestroyOnHit)

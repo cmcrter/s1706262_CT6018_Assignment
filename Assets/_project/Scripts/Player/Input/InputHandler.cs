@@ -21,7 +21,6 @@ public abstract class InputHandler : MonoBehaviour
     //A return function to see if this input handler is being used
     public bool isBeingUsed()
     {
-        Debug.Log(transform.parent.name + " is being used? " + bBeingUsed);
         return bBeingUsed;
     }
 

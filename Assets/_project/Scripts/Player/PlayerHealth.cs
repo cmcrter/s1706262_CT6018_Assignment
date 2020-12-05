@@ -18,7 +18,12 @@ public class PlayerHealth : MonoBehaviour, IDamagable
     [SerializeField]
     private ParticleSystem deathVFX;
     [SerializeField]
-    CState state;
+    private CState state;
+
+    [SerializeField]
+    private LocalVersusManager versusManager;
+    //[SerializeField]
+    //SingleplayerManager singleManager;
 
     #region Variables Needed
 
@@ -76,13 +81,29 @@ public class PlayerHealth : MonoBehaviour, IDamagable
         var main = deathVFX.main;
         main.startColor = state.GetColor();
         deathVFX.Play();
+
+        if (versusManager)
+        {
+            versusManager.PlayerDied(state.returnID());
+        }
+        //else if (singleManager)
+        //{
+
+        //}
     }
 
+    //When players need to be reset
     public void ResetHealth()
     {
         fCurrentHealth = fMaxHealth;
 
-        _renderer.material.color = state.GetColor();
-        _topRenderer.material.color = state.GetColor();
+        _renderer.material = state.GetMaterial();
+        _topRenderer.material = state.GetMaterial();
+    }
+
+    //When players disconnect etc
+    public void InstantKillPlayer()
+    {
+        DamagedPlayer(fMaxHealth);
     }
 }

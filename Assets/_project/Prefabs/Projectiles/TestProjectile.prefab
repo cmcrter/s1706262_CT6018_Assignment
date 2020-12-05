@@ -147,5 +147,5 @@ MonoBehaviour:
   _collider: {fileID: 8644575832660820349}
   bDestroyOnHit: 1
   fPower: 30
-  damage: 1
+  damage: 10
   playerWhoShotThis: {fileID: 0}
