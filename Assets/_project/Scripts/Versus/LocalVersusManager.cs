@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -37,7 +38,7 @@ public class LocalVersusManager : MonoBehaviour
 
     [Header("Map Data")]
 
-    //The map gameobjects
+    //The current maps to choose from
     [SerializeField]
     private List<GameObject> mapContainers = new List<GameObject>();
 
@@ -45,17 +46,31 @@ public class LocalVersusManager : MonoBehaviour
     [SerializeField]
     private GameObject[] mapPrefabArr;
 
+    [Header("Lobby Objects")]
+
     //The lobby gameobject and UI
     [SerializeField]
     private GameObject lobbyContainer;
     [SerializeField]
     private GameObject lobbyUI;
 
+    [SerializeField]
+    private Camera cameraBeingUsed;
+
+    [SerializeField]
+    private int lobbyCameraSize;
+    [SerializeField]
+    private int battleCameraSize;
+
+    [Header("Map randomization variables")]
+
     //Keeping track of previous and current map
     [SerializeField]
-    private GameObject lastMapUsed;
+    private int currentMapIndex = 0;
     [SerializeField]
     private GameObject currentMap;
+    [SerializeField]
+    private Transform currentMapParent;
 
     //And default player positions
     [SerializeField]
@@ -68,20 +83,18 @@ public class LocalVersusManager : MonoBehaviour
 
     private void Awake()
     {
+        //Making sure all the player variables are correct and set (costly)
         CheckingPlayerDataVariables();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        currentMapIndex = -1;
         activePlayers.Add(0);
+        mapContainers = mapPrefabArr.ToList();
+        cameraBeingUsed.orthographicSize = lobbyCameraSize;
         StartCoroutine(WaitingInLobby());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     private void CheckingPlayerDataVariables()
@@ -143,11 +156,14 @@ public class LocalVersusManager : MonoBehaviour
         players[playerIndex].playerObject.SetActive(true);
     }
 
-    //Player pulled the start lever
+    //Player pulled the start lever and the countdown ended
     public void StartLeverPulled()
     {
         if (activePlayers.Count > 1)
         {
+            cameraBeingUsed.orthographicSize = battleCameraSize;
+
+
             bStartPressed = true;
         }
     }
@@ -156,13 +172,10 @@ public class LocalVersusManager : MonoBehaviour
     private IEnumerator WaitingForArena()
     {
         //Is not the first map of the session
-        if (lastMapUsed)
+        if (currentMapIndex != -1)
         {
-            ResetMap(lastMapUsed);
-            lastMapUsed.SetActive(false);
-
-            //Removing the last map from the selection to avoid repetitions
-            mapContainers.Remove(lastMapUsed);
+            //Removing the last map
+            Destroy(currentMap);
         }
         //This means it's the first map of the session
         else
@@ -175,48 +188,54 @@ public class LocalVersusManager : MonoBehaviour
             }
         }
 
-        //Next selected map
+        //Next selected map (Range's second number is excluded)
         int iRandMap = Random.Range(0, mapContainers.Count);
 
-        //This isnt as fancy as it could be
+        //While the map isnt loaded
         while (!bMapLoaded)
         {
-            //Put the map down
-            mapContainers[iRandMap].SetActive(true);
-            //Then put the players down
-            ResetPlayers();
+            //Load the map
+            if (currentMapParent)
+            {
+                currentMap = Instantiate(mapContainers[iRandMap], currentMapParent);
+                currentMap.SetActive(true);
+            }
+            else
+            {
+                currentMap = Instantiate(mapContainers[iRandMap]);
+                if (Debug.isDebugBuild)
+                {
+                    Debug.Log("Set Map Parent in inspector");
+                }
+            }
 
             bMapLoaded = true;
             yield return null;
         }
 
-        if (lastMapUsed)
-        {
-            //Adding the last map back into circulation at the end value
-            mapContainers.Add(lastMapUsed);
-        }
-
-        //Cant be the same because it's added onto the end
-        lastMapUsed = mapContainers[iRandMap];
+        //Then put the players down
+        ResetPlayers();
+        //This is the current map index
+        currentMapIndex = iRandMap;
 
         //For the next time loading a map
         bMapLoaded = false;
 
-        StartCoroutine(WaitingForWinCondition());
-    }
-
-    private void ResetMap(GameObject lastMap)
-    {
-        //Going through the prefabs
+        //Removing the current map from the potential maps next time
+        mapContainers.Clear();
         for (int i = 0; i < mapPrefabArr.Length; ++i)
         {
-            //Seeing if it's the last map used
-            if (mapPrefabArr[i].tag.Equals(lastMap.tag))
+            //Using the tag to identify the corrent object
+            if (mapPrefabArr[i].tag == currentMap.tag)
             {
-                //Setting it back to how it was at the start
-                lastMap = mapPrefabArr[i];
+                continue;
             }
+
+            mapContainers.Add(mapPrefabArr[i]);
         }
+
+        //Going to the next game state
+        StartCoroutine(WaitingForWinCondition());
     }
 
     //Making sure the players are back to how they were before each map
@@ -269,9 +288,19 @@ public class LocalVersusManager : MonoBehaviour
         StartCoroutine(WaitingForArena());
     }
 
-    //A player decides to quit
-    public void PlayerQuit(int index)
+    //A player decides to quit (from a specific panel)
+    public void PlayerQuit(UIPanel panel)
     {
+        //Making sure there is a panel
+        if (!panel)
+        {
+            if (Debug.isDebugBuild)
+            {
+                Debug.Log("Assign panel in the inspector", this);
+            }
+            return;
+        }
+
         //Too many people disconnected
         if (activePlayers.Count < 2)
         {
@@ -279,13 +308,14 @@ public class LocalVersusManager : MonoBehaviour
         }
         else
         {
-            players[index].playerHealth.InstantKillPlayer();
-            activePlayers.RemoveAt(index);
+            //Removing them from the game using the panel's ID
+            players[panel.GetPanelID()].playerHealth.InstantKillPlayer();
+            activePlayers.RemoveAt(panel.GetPanelID());
         }
     }
 
     //The group decides to return to the lobby or too many people quit
-    private void ReturnToLobby()
+    public void ReturnToLobby()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

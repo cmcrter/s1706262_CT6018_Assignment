@@ -67,6 +67,11 @@ public class WeaponManager : aHandlesInput
             //Aiming and moving the weapon using physics
             UpdateWeaponCarrying();
         }
+        //Object was destroyed in the frame
+        else if (hasWeapon && currentWeapon == null)
+        {
+            ResetWeapon();
+        }
     }
 
         private void LateUpdate()

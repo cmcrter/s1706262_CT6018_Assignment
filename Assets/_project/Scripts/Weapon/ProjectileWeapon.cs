@@ -34,10 +34,10 @@ public class ProjectileWeapon : Weapon
 
         if (bCanFire)
         {
-            GameObject proj = Instantiate(goProjectilePrefab, barrell.position, transform.rotation, null);
+            GameObject proj = Instantiate(goProjectilePrefab, barrell.position, transform.rotation, transform.parent);
             proj.GetComponent<WeaponProjectile>().Fired(playerWhoShot, transform.right);
 
-            Debug.Log("Fired test weapon", this);
+            //Debug.Log("Fired test weapon", this);
             StartCoroutine(Co_ShotCooldown(playerWhoShot));
         }
     }

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //The projectile made by weapons
-public class WeaponProjectile : MonoBehaviour
+public class WeaponProjectile : MonoBehaviour, IWaypointDestructable
 {
+    void IWaypointDestructable.Destruct() => Destroy(gameObject);
+
     [Header("Component projectiles need")]
     [SerializeField]
     Rigidbody2D _rb;

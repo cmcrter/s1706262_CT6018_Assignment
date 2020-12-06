@@ -7,6 +7,7 @@ public class CLState
 {
     public int ID;
     public Material defaultMaterial;
+    public Color UIcolour;
 }
 
 //A class to store the games' base player/object states

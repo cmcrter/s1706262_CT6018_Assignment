@@ -13,13 +13,19 @@ public enum eWeaponType
     COUNT
 }
 
-//Any weapon has this base functionality and can be held by a player
-public abstract class Weapon : MonoBehaviour, IHoldable
+//Any weapon has this base functionality and can be held by a player but shouldnt go past waypoints
+public abstract class Weapon : MonoBehaviour, IHoldable, IWaypointDestructable
 {
+    #region Interface Contracts
+
     void IHoldable.Pickup(GameObject player) => PickupWeapon(player);
     void IHoldable.Throw(Vector3 dir) => ThrowWeapon();
     GameObject IHoldable.ReturnObject() => ReturnWeapon();
     bool IHoldable.CanPickup() => bCanPickup;
+
+    void IWaypointDestructable.Destruct() => Destroy(gameObject);
+
+    #endregion
 
     public bool bCanPickup;
     public bool isCurrentlyHeld;
@@ -61,7 +67,6 @@ public abstract class Weapon : MonoBehaviour, IHoldable
         isCurrentlyHeld = true;
         bCanPickup = false;
         _playerCollider.enabled = false;
-        _collider.gameObject.layer = player.layer;
     }
 
     public GameObject ReturnWeapon()
