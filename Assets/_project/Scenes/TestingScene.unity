@@ -51475,8 +51475,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3897410358075925907, guid: c1eaabdb7f34f7b4f9d840044d0cd6a6,
         type: 3}
-      propertyPath: m_TagString
-      value: Untagged
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3897410358544572021, guid: c1eaabdb7f34f7b4f9d840044d0cd6a6,
         type: 3}
@@ -51538,11 +51538,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GunTest
       objectReference: {fileID: 0}
-    - target: {fileID: 3897410358544572024, guid: c1eaabdb7f34f7b4f9d840044d0cd6a6,
-        type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1eaabdb7f34f7b4f9d840044d0cd6a6, type: 3}
 --- !u!1001 &4329640794835572540
@@ -51554,8 +51549,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4329640795401484675, guid: 43a9217ce8955d74baa6993a06a2049d,
         type: 3}
-      propertyPath: m_TagString
-      value: Untagged
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4329640795642704182, guid: 43a9217ce8955d74baa6993a06a2049d,
         type: 3}
@@ -51617,10 +51612,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LaserGunTest
       objectReference: {fileID: 0}
-    - target: {fileID: 4329640795642704184, guid: 43a9217ce8955d74baa6993a06a2049d,
+    - target: {fileID: 4329640795642704185, guid: 43a9217ce8955d74baa6993a06a2049d,
         type: 3}
-      propertyPath: m_TagString
-      value: Untagged
+      propertyPath: fPickupCooldownTime
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43a9217ce8955d74baa6993a06a2049d, type: 3}

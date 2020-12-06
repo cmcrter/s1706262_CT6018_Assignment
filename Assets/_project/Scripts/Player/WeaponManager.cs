@@ -67,11 +67,6 @@ public class WeaponManager : aHandlesInput
             //Aiming and moving the weapon using physics
             UpdateWeaponCarrying();
         }
-        //Object was destroyed in the frame
-        else if (hasWeapon && currentWeapon == null)
-        {
-            ResetWeapon();
-        }
     }
 
         private void LateUpdate()
@@ -84,6 +79,12 @@ public class WeaponManager : aHandlesInput
             {
                 PickingUpWeapon(weaponToCheck);
             }
+        }
+
+        //Object was destroyed in the frame
+        if (hasWeapon && currentWeapon == null && currentweaponrb == null)
+        {
+            ResetWeapon();
         }
     }
 
@@ -119,14 +120,12 @@ public class WeaponManager : aHandlesInput
         currentWeapon = weapon;
         currentWeaponObject = weapon.ReturnWeapon();
 
-        //Expensive but I dont know how else to do this
         currentweaponrb = currentWeapon.GetRB();
         UpdateWeaponCarrying();
 
         blockingManager.OnWeaponPickup();
-        weapon.PickupWeapon(gameObject);
         hasWeapon = true;
-
+        weapon.PickupWeapon(gameObject);
     }
 
     //Getting the closest weapon to the player
@@ -182,6 +181,7 @@ public class WeaponManager : aHandlesInput
 
     private void ThrowCurrentWeapon()
     {
+        weaponsInRange.Remove(currentWeapon);
         hasWeapon = false;
         currentWeapon.ThrowWeapon();
         currentweaponrb = null;
@@ -192,6 +192,7 @@ public class WeaponManager : aHandlesInput
     public void ResetWeapon()
     {
         hasWeapon = false;
+
         currentweaponrb = null;
         currentWeapon = null;
         blockingManager.OnWeaponDrop();

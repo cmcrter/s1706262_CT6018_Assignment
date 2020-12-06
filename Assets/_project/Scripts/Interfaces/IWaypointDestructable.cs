@@ -1,5 +1,5 @@
 ﻿
-//Anything that needs to have a behaviour when it crosses a waypoint
+//Anything that needs to have a behaviour when it crosses a waypoint (mainly things accessed by the player)
 public interface IWaypointDestructable
 {
     void Destruct();

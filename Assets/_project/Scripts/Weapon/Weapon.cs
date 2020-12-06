@@ -65,6 +65,7 @@ public abstract class Weapon : MonoBehaviour, IHoldable, IWaypointDestructable
         _collider.enabled = true;
         _rb.gravityScale = 0;
         isCurrentlyHeld = true;
+        gameObject.layer = player.layer;
         bCanPickup = false;
         _playerCollider.enabled = false;
     }
@@ -80,7 +81,7 @@ public abstract class Weapon : MonoBehaviour, IHoldable, IWaypointDestructable
         _rb.AddForce(transform.right * throwForce, ForceMode2D.Impulse);
 
         isCurrentlyHeld = false;
-        _collider.gameObject.layer = 8;
+        _playerCollider.gameObject.layer = 8;
 
         StartCoroutine(Co_StartPickupCooldown());
     }
