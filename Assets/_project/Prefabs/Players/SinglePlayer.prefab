@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1720885052}
   - component: {fileID: 1720885051}
   - component: {fileID: 1720885050}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DeathSpurtVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4882,7 +4882,7 @@ GameObject:
   - component: {fileID: 1560553601302621897}
   - component: {fileID: 249343320353879074}
   - component: {fileID: 1165014395894119809}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Virtual Cursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4972,7 +4972,7 @@ GameObject:
   - component: {fileID: 9197536000818290981}
   - component: {fileID: 4780385152843239759}
   - component: {fileID: 4054612652792639523}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5062,7 +5062,7 @@ GameObject:
   - component: {fileID: 6542451606207343717}
   - component: {fileID: 6542451606207343719}
   - component: {fileID: 6542451606207343716}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: PlayerInputTypes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5107,7 +5107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 245e6582a4f0bb34894c989b9a06c8cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerID: 0
+  playerID: 1
 --- !u!114 &6542451606207343716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5140,8 +5140,8 @@ GameObject:
   - component: {fileID: 6542451607175609643}
   - component: {fileID: 6542451607175609642}
   - component: {fileID: 6542451607175609645}
-  m_Layer: 10
-  m_Name: Player
+  m_Layer: 9
+  m_Name: SinglePlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5276,6 +5276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputHandler: {fileID: 6542451606207343717}
+  keyAndMouse: {fileID: 6542451606207343717}
   _thisTransform: {fileID: 6542451607175609639}
   _thisRB: {fileID: 6542451607175609638}
   TopHalf: {fileID: 6542451607232048752}
@@ -5297,9 +5298,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a409b128a8c7af149b680d0c41bb13a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputHandler: {fileID: 6542451606207343717}
+  keyAndMouse: {fileID: 6542451606207343717}
   mainCamera: {fileID: 0}
   goHandObject: {fileID: 6542451606078815316}
-  currentInput: {fileID: 6542451606207343719}
   tCursor: {fileID: 7796775294663135664}
   bControllerPlay: 0
 --- !u!114 &6542451607175609640
@@ -5315,6 +5317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputHandler: {fileID: 6542451606207343717}
+  keyAndMouse: {fileID: 6542451606207343717}
   triggers: []
 --- !u!114 &6811793715654572696
 MonoBehaviour:
@@ -5328,7 +5331,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c7ad6b47ba72f408a321a8190ab2ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 6542451606207343717}
+  inputHandler: {fileID: 6542451606207343717}
+  keyAndMouse: {fileID: 6542451606207343717}
   goBlockObject: {fileID: 8104404885095439265}
   bPlayerCanBlock: 1
 --- !u!114 &6542451607175609643
@@ -5343,13 +5347,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914002df413d65241a5678982fe6846c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputHandler: {fileID: 6542451606207343717}
+  keyAndMouse: {fileID: 6542451606207343717}
   _rb: {fileID: 6542451607175609638}
   hand: {fileID: 2578353201442711213}
   blockingManager: {fileID: 6811793715654572696}
   weaponsInRange: []
   currentWeapon: {fileID: 0}
   currentWeaponObject: {fileID: 0}
-  inputHandler: {fileID: 0}
   mainCamera: {fileID: 0}
 --- !u!114 &6542451607175609642
 MonoBehaviour:
@@ -5367,6 +5372,7 @@ MonoBehaviour:
   _topRenderer: {fileID: 6542451607232048757}
   deathVFX: {fileID: 1720885051}
   state: {fileID: 6542451607175609645}
+  versusManager: {fileID: 0}
   fMaxHealth: 10
 --- !u!114 &6542451607175609645
 MonoBehaviour:
@@ -5381,7 +5387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
-  stateID: 1
+  stateID: 0
   renderers:
   - {fileID: 6542451607175609636}
   - {fileID: 6542451607232048757}
@@ -5389,6 +5395,8 @@ MonoBehaviour:
   - {fileID: 6542451607175609635}
   - {fileID: 6542451607232048752}
   isPlayer: 1
+  isObject: 0
+  isSaved: 1
 --- !u!1 &6542451607232048752
 GameObject:
   m_ObjectHideFlags: 0
@@ -5401,7 +5409,7 @@ GameObject:
   - component: {fileID: 6542451607232048756}
   - component: {fileID: 6542451607232048757}
   - component: {fileID: 6542451607232048754}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: TopHalf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5511,7 +5519,8 @@ GameObject:
   - component: {fileID: 1048044758177750484}
   - component: {fileID: 4920865543216105740}
   - component: {fileID: 658232048457328253}
-  m_Layer: 10
+  - component: {fileID: 704504532}
+  m_Layer: 9
   m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5628,6 +5637,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hand: {fileID: 2578353201442711213}
-  manager: {fileID: 0}
+  manager: {fileID: 6811793715654572696}
   fMaxShieldHealth: 0
   fCurrentShieldHealth: 0
+--- !u!61 &704504532
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104404885095439265}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0

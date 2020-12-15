@@ -6,7 +6,8 @@ using UnityEngine;
 public class CLState
 {
     public int ID;
-    public Material defaultMaterial;
+    public Material playerMaterial;
+    public Material worldMaterial;
     public Color UIcolour;
 }
 
@@ -15,13 +16,18 @@ public class ColourLayerManager : MonoBehaviour
 {
     //These are the 4 layers/colours of the game
     [SerializeField]
-    public List<CLState> cState = new List<CLState>();
+    public List<CLState> clStates = new List<CLState>();
 
     private CLState[] states = new CLState[4];
 
     private void Awake()
     {
-        states = cState.ToArray();
+        SetStatesArray();
+    }
+
+    public void SetStatesArray()
+    {
+        states = clStates.ToArray();
     }
 
     //Anything can get one of these states

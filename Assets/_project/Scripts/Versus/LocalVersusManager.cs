@@ -60,6 +60,8 @@ public class LocalVersusManager : MonoBehaviour
     [SerializeField]
     private int lobbyCameraSize;
     [SerializeField]
+    private int puzzleCameraSize;
+    [SerializeField]
     private int battleCameraSize;
 
     [Header("Map randomization variables")]
@@ -72,6 +74,9 @@ public class LocalVersusManager : MonoBehaviour
     [SerializeField]
     private Transform currentMapParent;
 
+    [SerializeField]
+    private List<PuzzleChamber> puzzleChambers = new List<PuzzleChamber>();
+
     //And default player positions
     [SerializeField]
     private Vector3[] playerStartPos = new Vector3[4];
@@ -79,7 +84,12 @@ public class LocalVersusManager : MonoBehaviour
     [Header("Game States Data")]
 
     [SerializeField]
-    int iPlayersAlive = 4;
+    private float fPuzzlesTimer = 15f;
+
+    [SerializeField]
+    private int iPlayersAlive = 4;
+    [SerializeField]
+    LocalVersusPauseMenu pauseMenu;
 
     private void Awake()
     {
@@ -151,6 +161,7 @@ public class LocalVersusManager : MonoBehaviour
     {
         //Adding the index to the list
         activePlayers.Add(playerIndex);
+        SetUpPauseMenu(playerIndex);
 
         //Turning the gameobject on
         players[playerIndex].playerObject.SetActive(true);
@@ -163,9 +174,13 @@ public class LocalVersusManager : MonoBehaviour
         {
             cameraBeingUsed.orthographicSize = battleCameraSize;
 
-
             bStartPressed = true;
         }
+    }
+
+    private void SetUpPauseMenu(int iAddedPlayer)
+    {
+        pauseMenu.AddHandler(players[iAddedPlayer].handlerUsed);
     }
 
     //Setting up the next combat
@@ -235,7 +250,7 @@ public class LocalVersusManager : MonoBehaviour
         }
 
         //Going to the next game state
-        StartCoroutine(WaitingForWinCondition());
+        StartCoroutine(WaitingForPuzzleTimer());
     }
 
     //Making sure the players are back to how they were before each map
@@ -256,9 +271,29 @@ public class LocalVersusManager : MonoBehaviour
         players[index].playerObject.transform.position = playerStartPos[players[index].playerState.returnID()];
     }
 
+    //The puzzle phase of the game
+    IEnumerator WaitingForPuzzleTimer()
+    {
+        cameraBeingUsed.orthographicSize = puzzleCameraSize;
+        puzzleChambers = currentMap.GetComponent<VersusMap>().GetChambers();
+
+        if (puzzleChambers != null)
+        {
+            foreach (PuzzleChamber chamber in puzzleChambers)
+            {
+                chamber.StartChamber(fPuzzlesTimer);
+            }
+        }
+
+        yield return new WaitForSeconds(fPuzzlesTimer + 1f);
+
+        StartCoroutine(WaitingForWinCondition());
+    }
+
     //I dont really have a use for this yet...
     IEnumerator WaitingForWinCondition()
     {
+        cameraBeingUsed.orthographicSize = battleCameraSize;
         iPlayersAlive = activePlayers.Count;
 
         while (!bPlayerWon)
@@ -268,12 +303,18 @@ public class LocalVersusManager : MonoBehaviour
 
         bPlayerWon = false;
 
+        //A little gloat time
         yield return new WaitForSeconds(2.0f);
+
+        //Restarting the cycle
+        StartCoroutine(WaitingForArena());
     }
 
+    //One of the players died
     public void PlayerDied(int index)
     {
         iPlayersAlive--;
+
         if (iPlayersAlive == 1)
         {
             WinConditionMet();
@@ -284,8 +325,6 @@ public class LocalVersusManager : MonoBehaviour
     private void WinConditionMet()
     {
         bPlayerWon = true;
-
-        StartCoroutine(WaitingForArena());
     }
 
     //A player decides to quit (from a specific panel)

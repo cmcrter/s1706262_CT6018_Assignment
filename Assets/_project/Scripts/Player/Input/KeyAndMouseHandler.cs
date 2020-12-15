@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,5 +44,10 @@ public class KeyAndMouseHandler : InputHandler
     public override bool Block()
     {
         return Input.GetKey(KeyCode.LeftShift);
+    }
+
+    public override Tuple<bool, int> ToggleMenu()
+    {
+        return Tuple.Create(Input.GetKeyDown(KeyCode.Escape), playerID);
     }
 }

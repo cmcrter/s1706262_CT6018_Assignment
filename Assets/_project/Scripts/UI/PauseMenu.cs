@@ -2,31 +2,60 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PauseMenu : MonoBehaviour
+//A class to store all the base functionality a pause menu will have, which needs to register when an input wants it to open
+public class PauseMenu : aHandlesInput
 {
+    [Header("General Pause Menu Variables")]
     [SerializeField]
-    GameObject menuPanel;
+    private List<UIPanel> panels = new List<UIPanel>();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField]
+    protected GameObject startPanel;
+    [SerializeField]
+    protected GameObject currentPanel;
+    [SerializeField]
+    protected bool bMenuOpen;
+    [SerializeField]
+    protected int menuID;
 
     //Explicit Functions for opening and closing the menu
-    public void OpenMenu()
+    public void OpenMenu(int playerID)
     {
+        menuID = playerID;
 
+        startPanel.SetActive(true);
+        currentPanel = startPanel;
+
+        foreach (UIPanel panel in panels)
+        {
+            panel.OpenPanel(playerID);
+        }
+
+        //Not the best implementation but it works 
+        Time.timeScale = 0;
+
+        bMenuOpen = true;
     }
 
     public void CloseMenu()
     {
+        currentPanel.SetActive(false);
+        //Not the best implementation but it works 
+        Time.timeScale = 1;
 
+        bMenuOpen = false;
+    }
+
+    //Also one for toggling the menu
+    public void ToggleMenu(int iPlayerID)
+    {
+        if (bMenuOpen)
+        {
+            CloseMenu();
+        }
+        else
+        {
+            OpenMenu(iPlayerID);
+        }
     }
 }

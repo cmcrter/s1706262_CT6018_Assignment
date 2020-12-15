@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SwitchPad : MonoBehaviour, ITriggerable
 {
+    #region Interface Contracts
+
     void ITriggerable.Triggered() => SwitchColour();
     void ITriggerable.UnTriggered() => ColourSwitched();
 
@@ -11,6 +13,10 @@ public class SwitchPad : MonoBehaviour, ITriggerable
     void ITriggerable.Unlocked() => PadUnlocked();
 
     bool ITriggerable.GetLockState() => PadLockState();
+
+    #endregion
+
+    [Header("Variables Needed For Switching States")]
 
     [SerializeField]
     ColourLayerManager manager;

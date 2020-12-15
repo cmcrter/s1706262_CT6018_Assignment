@@ -1,12 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class XboxControllerHandler : InputHandler
 {
-    [SerializeField]
-    int playerID = 1;
-
     public override bool MoveLeft()
     {
         return Input.GetAxis("MoveHorizontal" + playerID.ToString()) < 0;
@@ -71,5 +69,11 @@ public class XboxControllerHandler : InputHandler
     public override int GetPlayerID()
     {
         return playerID;
+    }
+
+    //UI controls
+    public override Tuple<bool, int> ToggleMenu()
+    {
+        return Tuple.Create(Input.GetButtonDown("PauseButton" + playerID.ToString()), playerID);
     }
 }

@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class InputHandler : MonoBehaviour
 {
     //This turns false every frame, but any controls from an input type changes it
     protected bool bBeingUsed = false;
+    //This is the playerID based on using the controls, not player colour etc
+    [SerializeField]
+    protected int playerID = 0;
 
     //Checking through all the controls at the end of every frame to see if it was used
     private void LateUpdate()
@@ -42,4 +46,7 @@ public abstract class InputHandler : MonoBehaviour
     public virtual bool AimDown() { return false; }
 
     public virtual int GetPlayerID() { return 1; }
+
+    //UI Controls
+    public virtual Tuple<bool, int> ToggleMenu() { return new Tuple<bool, int>(false, 0); }
 }

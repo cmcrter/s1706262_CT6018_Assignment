@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2692308033826816771}
   m_Layer: 2
   m_Name: ColourStateManager
-  m_TagString: Untagged
+  m_TagString: ColourStateManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,12 +43,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ec2c490d62ac284f89a4cf3b14b558d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cState:
+  clStates:
   - ID: 0
-    defaultMaterial: {fileID: 2100000, guid: 703bbdf5994a33444a1ced7923b6820a, type: 2}
+    playerMaterial: {fileID: 2100000, guid: 703bbdf5994a33444a1ced7923b6820a, type: 2}
+    worldMaterial: {fileID: 2100000, guid: 89e8a78c928788c41acccfbad29f4161, type: 2}
+    UIcolour: {r: 0.45987242, g: 0.5, b: 0, a: 0}
   - ID: 1
-    defaultMaterial: {fileID: 2100000, guid: cd99ffb966b22a84b980e47c127d420b, type: 2}
+    playerMaterial: {fileID: 2100000, guid: cd99ffb966b22a84b980e47c127d420b, type: 2}
+    worldMaterial: {fileID: 2100000, guid: 327145def14ce0d47b34fd3421690e47, type: 2}
+    UIcolour: {r: 0.46226418, g: 0, b: 0, a: 0}
   - ID: 2
-    defaultMaterial: {fileID: 2100000, guid: fafacb9d45d87db4384c9d1062ed8805, type: 2}
+    playerMaterial: {fileID: 2100000, guid: fafacb9d45d87db4384c9d1062ed8805, type: 2}
+    worldMaterial: {fileID: 2100000, guid: b4bd44915794134429f3ce6e56d92e25, type: 2}
+    UIcolour: {r: 0, g: 0.3301887, b: 0.06308028, a: 0}
   - ID: 3
-    defaultMaterial: {fileID: 2100000, guid: de1243f838ede9d43a21d38b29a58302, type: 2}
+    playerMaterial: {fileID: 2100000, guid: de1243f838ede9d43a21d38b29a58302, type: 2}
+    worldMaterial: {fileID: 2100000, guid: be9b4e8369aff3d41b8b25bb779048c0, type: 2}
+    UIcolour: {r: 0, g: 0.14744817, b: 0.3301887, a: 0}

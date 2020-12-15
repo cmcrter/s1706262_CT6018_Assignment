@@ -15,11 +15,18 @@ public class UIPanel : MonoBehaviour
     [SerializeField]
     private int iPanelID = 0;
 
+    //This just uses it's current ID
+    [ContextMenu("Set Panel State")]
+    public void SetPanel()
+    {
+        panelImage.color = colours.clStates[iPanelID].UIcolour;
+    }
+
     public void OpenPanel(int ID)
     {
         iPanelID = ID;
 
-        panelImage.color = colours.cState[ID].UIcolour;
+        panelImage.color = colours.clStates[ID].UIcolour;
     }
 
     public int GetPanelID()
