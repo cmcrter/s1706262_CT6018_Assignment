@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1072675467574922053}
   - component: {fileID: 1072675467574922052}
   - component: {fileID: -2284720458795143825}
-  - component: {fileID: 1072675467574922059}
+  - component: {fileID: 5498582916426426721}
   m_Layer: 13
   m_Name: Lever
   m_TagString: Untagged
@@ -133,7 +133,8 @@ MonoBehaviour:
   - {fileID: 1072675467698013316}
   isPlayer: 0
   isObject: 1
---- !u!114 &1072675467574922059
+  isSaved: 0
+--- !u!114 &5498582916426426721
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,11 +143,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1072675467574922054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2f264e085afc524ca08484011c9b925, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d09daa45eb8eef4cba870779620c7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactableManagers:
-  - {fileID: 0}
+  interactableManagers: []
   isLocked: 0
   isActivated: 0
   handle: {fileID: 1072675467698013316}

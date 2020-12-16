@@ -7,19 +7,19 @@ public class CollisionTrigger : InteractableTrigger
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!isLocked)
-        {
-            isActivated = true;
-            CheckTriggered();
-        }
+        InputTriggered();       
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!isLocked)
-        {
-            isActivated = false;
-            CheckTriggered();
-        }
+        InputTriggered();       
+    }
+
+    public virtual void InputTriggered()
+    {
+        //guard clause
+        if (isLocked) return;
+        isActivated = !isActivated;
+        CheckTriggered();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LocalVersusPauseMenu : PauseMenu
 {
@@ -12,6 +13,13 @@ public class LocalVersusPauseMenu : PauseMenu
 
     private bool bMenuLocked = false;
     private InputHandler handlerUsed;
+
+    //Button when a player wants to quit
+    [SerializeField]
+    GameObject quitButton;
+    //Button when the 1st player wants to go back to main menu
+    [SerializeField]
+    GameObject exitButton;
 
     public void AddHandler(InputHandler newHandler)
     {
@@ -38,6 +46,14 @@ public class LocalVersusPauseMenu : PauseMenu
                     handlerUsed = handler;
 
                     ToggleMenu(handler.ToggleMenu().Item2);
+
+                    //Player 1 pressed the menu
+                    if (handler == inputHandlers[0])
+                    {
+                        quitButton.SetActive(false);
+                        exitButton.SetActive(true);
+                    }
+
                     bMenuLocked = true;
                 }
             }
@@ -53,5 +69,10 @@ public class LocalVersusPauseMenu : PauseMenu
                 bMenuLocked = false;
             }
         }
+    }
+
+    public void ExitGamemode()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
