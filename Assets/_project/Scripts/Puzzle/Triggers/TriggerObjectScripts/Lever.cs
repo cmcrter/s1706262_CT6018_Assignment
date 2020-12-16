@@ -5,6 +5,9 @@ public class Lever : InputTrigger
     [SerializeField]
     GameObject handle;
 
+    [SerializeField]
+    Transform pivot;
+
     private void Awake()
     {
         handle = handle ?? transform.GetChild(0).gameObject;
@@ -19,12 +22,12 @@ public class Lever : InputTrigger
             //It was just activated
             if (isActivated)
             {
-                handle.transform.Rotate(new Vector3(0, 0, 90), Space.World);
+                pivot.transform.RotateAround(transform.position, Vector3.forward, -10);
             }
             //It was just unactivated
             else
             {
-                handle.transform.Rotate(new Vector3(0, 0, -90), Space.World);
+                pivot.transform.RotateAround(transform.position, Vector3.forward, 10);
             }
         }
     }
