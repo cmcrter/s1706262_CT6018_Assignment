@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 //The projectile made by weapons
@@ -25,16 +26,17 @@ public class WeaponProjectile : MonoBehaviour, IWaypointDestructable
     private Coroutine destroyTimer;
     [SerializeField]
     private GameObject playerWhoShotThis;
+    private Vector3 fireDir;
 
     //The projectile can have multiple effects
-    IProjectileModifier[] projectileEffect;
+    List<IProjectileModifier> projectileEffect;
 
     private void Awake()
     {
         _rb = _rb ?? GetComponent<Rigidbody2D>();
         _collider = _collider ?? GetComponent<Collider2D>();
 
-        projectileEffect = projectileEffect ?? GetComponents<IProjectileModifier>();
+        projectileEffect = projectileEffect ?? GetComponents<IProjectileModifier>().ToList();
     }
 
     //When the object is instaniated
@@ -53,8 +55,11 @@ public class WeaponProjectile : MonoBehaviour, IWaypointDestructable
         destroyTimer = StartCoroutine(Co_destroyCheck());
         gameObject.layer = playerWhoShotThis.layer;
 
+        //Storing the direction the projectile was fired
+        fireDir = dir;
+
         //There is atleast one projectile effect
-        if (projectileEffect.Length > 0)
+        if (projectileEffect.Count > 0)
         {
             foreach (IProjectileModifier modifier in projectileEffect)
             {
@@ -72,7 +77,7 @@ public class WeaponProjectile : MonoBehaviour, IWaypointDestructable
             return;
         }
 
-        if (projectileEffect.Length > 0)
+        if (projectileEffect.Count > 0)
         {
             foreach (IProjectileModifier modifier in projectileEffect)
             {
@@ -131,5 +136,15 @@ public class WeaponProjectile : MonoBehaviour, IWaypointDestructable
     public void Clone()
     {
 
+    }
+
+    public void ClearModifiers()
+    {
+        projectileEffect.Clear();
+    }
+
+    public Vector3 GetFireDir()
+    {
+        return fireDir;
     }
 }

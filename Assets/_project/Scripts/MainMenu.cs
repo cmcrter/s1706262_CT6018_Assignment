@@ -38,4 +38,20 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
     }
+
+    //Social Media Buttons (There should be a way to auto update them?)
+    public void Twitter()
+    {
+        Application.OpenURL("https://twitter.com/TheDankestApple");
+    }
+
+    public void Linkedin()
+    {
+        Application.OpenURL("https://www.linkedin.com/in/charles-carter/");
+    }
+
+    public void Reddit()
+    {
+        Application.OpenURL("https://www.reddit.com/user/TheDankestApple");
+    }
 }
