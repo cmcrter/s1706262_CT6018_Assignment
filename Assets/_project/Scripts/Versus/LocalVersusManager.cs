@@ -53,6 +53,8 @@ public class LocalVersusManager : MonoBehaviour
     private GameObject lobbyContainer;
     [SerializeField]
     private GameObject lobbyUI;
+    [SerializeField]
+    private Lever startLever;
 
     [SerializeField]
     private Camera cameraBeingUsed;
@@ -95,6 +97,7 @@ public class LocalVersusManager : MonoBehaviour
     {
         //Making sure all the player variables are correct and set (costly)
         CheckingPlayerDataVariables();
+        startLever = startLever ?? GameObject.FindObjectOfType<Lever>();
     }
 
     // Start is called before the first frame update
@@ -146,12 +149,14 @@ public class LocalVersusManager : MonoBehaviour
                 if (players[i].handlerUsed.isBeingUsed() && !activePlayers.Contains(i))
                 {
                     playerActivated(i);
+                    if (startLever.isLocked)
+                    {
+                        startLever.isLocked = false;
+                    }
                 }
             }
             yield return null;
         }
-
-        bStartPressed = false;
 
         StartCoroutine(WaitingForArena());
     }
@@ -240,7 +245,7 @@ public class LocalVersusManager : MonoBehaviour
         mapContainers.Clear();
         for (int i = 0; i < mapPrefabArr.Length; ++i)
         {
-            //Using the tag to identify the corrent object
+            //Using the tag to identify the current object
             if (mapPrefabArr[i].tag == currentMap.tag)
             {
                 continue;
@@ -340,16 +345,31 @@ public class LocalVersusManager : MonoBehaviour
             return;
         }
 
-        //Too many people disconnected
-        if (activePlayers.Count < 2)
+        //They arent in the lobby anymore
+        if (bStartPressed)
         {
-            ReturnToLobby();
+            //Too many people disconnected
+            if (activePlayers.Count < 2)
+            {
+                ReturnToLobby();
+            }
+            else
+            {
+                //Removing them from the game using the panel's ID
+                players[panel.GetPanelID()].playerHealth.InstantKillPlayer();
+                activePlayers.RemoveAt(panel.GetPanelID());
+            }
         }
         else
         {
             //Removing them from the game using the panel's ID
             players[panel.GetPanelID()].playerHealth.InstantKillPlayer();
             activePlayers.RemoveAt(panel.GetPanelID());
+
+            if (activePlayers.Count < 2)
+            {
+                startLever.isLocked = true;
+            }
         }
     }
 

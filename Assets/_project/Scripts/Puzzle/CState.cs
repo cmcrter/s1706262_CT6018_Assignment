@@ -136,6 +136,17 @@ public class CState : MonoBehaviour, ISaveable
         return manager.GetState(stateID).worldMaterial;
     }
 
+    //Quickly being able to set and get the manager this uses
+    public void SetManager(ColourLayerManager newManager)
+    {
+        manager = newManager;
+    }
+
+    public ColourLayerManager GetManager()
+    {
+        return manager;
+    }
+
     //Interface Functions
     private void SaveState()
     {

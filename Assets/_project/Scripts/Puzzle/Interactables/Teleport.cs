@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Teleport : MonoBehaviour, ITriggerable
@@ -16,6 +15,7 @@ public class Teleport : MonoBehaviour, ITriggerable
 
     #endregion
 
+    [Header("Variables Needed for teleporter")]
     [SerializeField]
     private bool isLocked;
     [SerializeField]
@@ -43,14 +43,14 @@ public class Teleport : MonoBehaviour, ITriggerable
     {
         if (!isLocked)
         {
-            objectToTeleport.transform.position = SecondTeleportPosition.transform.position;
-            StartCoroutine(eTeleportCooldown());
-
             if (cameraToLock && cameraToLockMovement && bLockCamera)
             {
                 MonoBehaviour playerMovement = objectToTeleport.GetComponent<Movement2D>();
                 cameraToLockMovement.OverrideCameraPos(cameraToLock.transform.position, cameraToLock.orthographicSize, playerMovement);
             }
+
+            objectToTeleport.transform.position = SecondTeleportPosition.transform.position;
+            StartCoroutine(eTeleportCooldown());
         }
     }
 
