@@ -1,9 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: WeaponSpawner.cs
+// Author: Charles Carter
+// Brief: A factory to spawn in a weapon type
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using UnityEngine;
 
 public class WeaponSpawner : MonoBehaviour
 {
+    #region Class Variables
+
     [Header("Weapon Instantiation Variables")]
     [SerializeField]
     private GameObject[] WeaponPrefabsToUse;
@@ -17,12 +24,12 @@ public class WeaponSpawner : MonoBehaviour
     private float fRandMin;
     [SerializeField]
     private float fRandMax;
-
     private float fRandTimer;
-
     [SerializeField]
     private int iMaxWeaponsOnMap = 5;
     private int iCurrentWeaponsOnMap = 0;
+
+    #endregion
 
     private void Awake()
     {
@@ -32,24 +39,23 @@ public class WeaponSpawner : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        StartCoroutine(eSpawnWeaponLoop());
+        StartCoroutine(Co_SpawnWeaponLoop());
     }
 
-    private IEnumerator eSpawnWeaponLoop()
+    #region Class Functions
+
+    private IEnumerator Co_SpawnWeaponLoop()
     {
         fRandTimer = Random.Range(fRandMin, fRandMax);
 
-        for (float t = 0; t < fRandTimer; t += Time.deltaTime)
-        {
-            yield return null;
-        }
+        yield return new WaitForSeconds(fRandTimer);
 
         if (iCurrentWeaponsOnMap < iMaxWeaponsOnMap)
         {
             SpawnWeapon(GetRandomSpotInBounds(colliderToSpawnWithin), RandomWeapon());
         }
 
-        StartCoroutine(eSpawnWeaponLoop());
+        StartCoroutine(Co_SpawnWeaponLoop());
     }
 
     private GameObject RandomWeapon()
@@ -74,4 +80,6 @@ public class WeaponSpawner : MonoBehaviour
     {
         Instantiate(weaponToSpawn, spawnPos,  Quaternion.identity, WeaponParent);
     }
+
+    #endregion
 }

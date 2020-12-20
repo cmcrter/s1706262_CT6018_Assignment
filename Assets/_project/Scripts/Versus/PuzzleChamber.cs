@@ -1,29 +1,31 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: PuzzleChamber.cs
+// Author: Charles Carter
+// Brief: A container class to manage the individual puzzles on the versus maps
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class PuzzleChamber : MonoBehaviour
 {
-    [SerializeField]
-    LocalVersusManager versusManager;
+    #region Class Variables
 
+    [Header("Variables Needed")]
+    [SerializeField]
+    private LocalVersusManager versusManager;
     //The id for the chamber itself (and therefore the objects within it)
     public int chamberID;
-
     //All of the colour based objects within the chamber
     [SerializeField]
-    List<CState> cStateObjects = new List<CState>();
-
-    bool bPlayerExited;
+    private List<CState> cStateObjects = new List<CState>();
+    private bool bPlayerExited;
     [SerializeField]
-    PlayerHealth playerHealthInChamber;
+    private PlayerHealth playerHealthInChamber;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    #endregion
 
     [ContextMenu("Get Chamber Objects")]
     private void GetAllCStateObjects()
@@ -43,10 +45,10 @@ public class PuzzleChamber : MonoBehaviour
     //Starting the chamber timer
     public void StartChamber(float fTimer)
     {
-        StartCoroutine(eChamberTimer(fTimer));
+        StartCoroutine(Co_ChamberTimer(fTimer));
     }
 
-    private IEnumerator eChamberTimer(float fTimer)
+    private IEnumerator Co_ChamberTimer(float fTimer)
     {
         //Wait for the chamber timer
         yield return new WaitForSeconds(fTimer);

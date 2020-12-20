@@ -1,14 +1,22 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: VersusMap.cs
+// Author: Charles Carter
+// Brief: A container class for the maps in the versus gamemode
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class VersusMap : MonoBehaviour
 {
+    //The list of chambers
     [SerializeField]
     private List<PuzzleChamber> mapChambers;
 
+    //The weapon spawners on the map
     //[SerializeField]
-    //private WeaponSpawner spawner;
+    //private List<WeaponSpawner> spawner;
 
     private void Awake()
     {

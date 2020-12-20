@@ -1,5 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: Weapon.cs
+// Author: Charles Carter
+// Brief: The base class for all the weapons to inherit from
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using UnityEngine;
 
 //For future expansions, making the weapon with a specific type attached (eg: Gamemodes or maps which only use melee weapons)
@@ -27,20 +32,20 @@ public abstract class Weapon : MonoBehaviour, IHoldable, IWaypointDestructable
 
     #endregion
 
+    #region Class Variables
+
     public bool bCanPickup;
     public bool isCurrentlyHeld;
     protected bool bCanFire = true;
     private bool bDamageOnhit = false;
 
     [Header("Components Needed For Any Weapon")]
-
     //Collider that collides with environment
     [SerializeField]
     protected BoxCollider2D _collider;
     //Collider that determines pickups
     [SerializeField]
     protected BoxCollider2D _playerCollider = null;
-
     [SerializeField]
     protected Rigidbody2D _rb;
 
@@ -54,41 +59,12 @@ public abstract class Weapon : MonoBehaviour, IHoldable, IWaypointDestructable
     [SerializeField]
     private float fPickupCooldownTime = 1.5f;
 
+    #endregion
+
     private void Awake()
     {
         _rb = _rb ?? GetComponent<Rigidbody2D>();
         _collider = _collider ?? GetComponent<BoxCollider2D>();
-    }
-
-    public virtual void PickupWeapon(GameObject player)
-    {
-        _collider.enabled = true;
-        _rb.gravityScale = 0;
-        isCurrentlyHeld = true;
-        gameObject.layer = player.layer;
-        bCanPickup = false;
-        _playerCollider.enabled = false;
-    }
-
-    public GameObject ReturnWeapon()
-    {
-        return gameObject;
-    }
-
-    public void ThrowWeapon()
-    {
-        _rb.gravityScale = 1;
-        _rb.AddForce(transform.right * throwForce, ForceMode2D.Impulse);
-
-        isCurrentlyHeld = false;
-        _playerCollider.gameObject.layer = 8;
-
-        StartCoroutine(Co_StartPickupCooldown());
-    }
-
-    public virtual void FireWeapon(GameObject playerWhoShot, InputHandler inputTypeUsed)
-    {
-        //should be overrided
     }
 
     private IEnumerator Co_StartPickupCooldown()
@@ -121,8 +97,43 @@ public abstract class Weapon : MonoBehaviour, IHoldable, IWaypointDestructable
         }
     }
 
+    #region Public class functions
+
+    public virtual void PickupWeapon(GameObject player)
+    {
+        _collider.enabled = true;
+        _rb.gravityScale = 0;
+        isCurrentlyHeld = true;
+        gameObject.layer = player.layer;
+        bCanPickup = false;
+        _playerCollider.enabled = false;
+    }
+
+    public GameObject ReturnWeapon()
+    {
+        return gameObject;
+    }
+
+    public void ThrowWeapon()
+    {
+        _rb.gravityScale = 1;
+        _rb.AddForce(transform.right * throwForce, ForceMode2D.Impulse);
+
+        isCurrentlyHeld = false;
+        _playerCollider.gameObject.layer = 8;
+
+        StartCoroutine(Co_StartPickupCooldown());
+    }
+
+    public virtual void FireWeapon(GameObject playerWhoShot, InputHandler inputTypeUsed)
+    {
+        //should be overrided
+    }
+
     public Rigidbody2D GetRB()
     {
         return _rb;
     }
+
+    #endregion
 }

@@ -1,18 +1,30 @@
-﻿using UnityEngine;
+﻿////////////////////////////////////////////////////////////
+// File: Lever.cs
+// Author: Charles Carter
+// Brief: A script for the levers specifically
+////////////////////////////////////////////////////////////
 
+using UnityEngine;
+
+//A lever is a type of input trigger
 public class Lever : InputTrigger
 {
-    [SerializeField]
-    GameObject handle;
+    #region Class Variables
 
+    [Header("Variables for the Lever")]
     [SerializeField]
-    Transform pivot;
+    private GameObject handle;
+    [SerializeField]
+    private Transform pivot;
+
+    #endregion
 
     private void Awake()
     {
         handle = handle ?? transform.GetChild(0).gameObject;
     }
 
+    //Overriding the base functionality
     public override void InputTriggered()
     {
         base.InputTriggered();

@@ -1,24 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: PlayerHand.cs
+// Author: Charles Carter
+// Brief: A class to manage a player's hand (which holds the shield or weapon)
+////////////////////////////////////////////////////////////
+
 using UnityEngine;
 
 public class PlayerHand : aHandlesInput
 {
+    #region Class Variables
+
     [Header("Variables needed for the player's hand")]
     [SerializeField]
-    Camera mainCamera;
-
+    private Camera mainCamera;
     [SerializeField]
-    GameObject goHandObject;
-
+    private GameObject goHandObject;
     //Controller player requires a virtual cursor
     [SerializeField]
-    Transform tCursor;
-
+    private Transform tCursor;
     [SerializeField]
-    bool bControllerPlay;
+    private bool bControllerPlay;
+    private float fCursorBounds = 2f;
 
-    float fCursorBounds = 2f;
+    #endregion
 
     //Variables that scripts using the hand might need
     public float angleToCursorPos { private set; get; }

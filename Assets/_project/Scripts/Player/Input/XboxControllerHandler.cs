@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: XboxControllerHandler.cs
+// Author: Charles Carter
+// Brief: The input handler that uses Xbox 360 controllers specifically
+////////////////////////////////////////////////////////////
+
+using System;
 using UnityEngine;
 
 public class XboxControllerHandler : InputHandler
 {
+    //Overriding all the input handler controls
     public override bool MoveLeft()
     {
         return Input.GetAxis("MoveHorizontal" + playerID.ToString()) < 0;

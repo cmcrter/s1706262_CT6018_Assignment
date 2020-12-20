@@ -1,12 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: MeleeWeapon.cs
+// Author: Charles Carter
+// Brief: A weapon which is melee based
+////////////////////////////////////////////////////////////
+
 using UnityEngine;
 
+//Inherits from the weapon class 
 public class MeleeWeapon : Weapon
 {
-    InputHandler handler;
-
-    bool bCurrentlySwinging = false;
+    private InputHandler handler;
+    private bool bCurrentlySwinging = false;
 
     private void Start()
     {
@@ -21,7 +25,7 @@ public class MeleeWeapon : Weapon
 
         if (bCanFire)
         {
-            //Figure out a way to start a jab in the current direction...
+            //ToDo: Jab the weapon in a direction
         }
     }
 }

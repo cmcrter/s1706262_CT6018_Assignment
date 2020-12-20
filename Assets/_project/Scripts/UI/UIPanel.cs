@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: UIPanel.cs
+// Author: Charles Carter
+// Brief: The Panels on any User Interface
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,12 +12,11 @@ using UnityEngine.UI;
 //This is a script for all of the panels a UI (so it can be coloured correctly)
 public class UIPanel : MonoBehaviour
 {
+    [Header("Variables Needed")]
     [SerializeField]
     private ColourLayerManager colours;
-
     [SerializeField]
     private Image panelImage;
-
     [SerializeField]
     private int iPanelID = 0;
 

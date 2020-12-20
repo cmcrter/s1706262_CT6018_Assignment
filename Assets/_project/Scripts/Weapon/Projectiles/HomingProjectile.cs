@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: HomingProjectile.cs
+// Author: Charles Carter
+// Brief: Projectiles that home on the closest damageable target
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,24 +18,27 @@ public class HomingProjectile : MonoBehaviour, IProjectileModifier
 
     #endregion
 
+    #region Class Variables
+
     [Header("Variables Needed For Homing Effect")]
+    [SerializeField]
+    private Transform target;
+    [SerializeField]
+    private Rigidbody2D rb;
+    [SerializeField]
+    private float homingSpeed;
+    [SerializeField]
+    private float rotationSpeed;
+    private GameObject player;
+    private bool bCollided;
+    private float fTimeBeforeHoming = 0.1f;
+    private float initialProjSpeed;
+    [SerializeField]
+    private float fMaxHomingDist = 10f;
 
-    [SerializeField]
-    Transform target;
-    [SerializeField]
-    Rigidbody2D rb;
-    [SerializeField]
-    float homingSpeed;
-    [SerializeField]
-    float rotationSpeed;
-    GameObject player;
-    bool bCollided;
-    float fTimeBeforeHoming = 0.1f;
-    float initialProjSpeed;
+    #endregion
 
-    [SerializeField]
-    float fMaxHomingDist = 10f;
-
+    //The projectile's effect
     public void ProjecileEffect(GameObject playerWhoFired, float initialSpeed)
     {
         initialProjSpeed = initialSpeed;
@@ -39,16 +48,18 @@ public class HomingProjectile : MonoBehaviour, IProjectileModifier
 
         if (target)
         {
-            StartCoroutine(eHomeToTarget(initialSpeed));
+            StartCoroutine(Co_HomeToTarget(initialSpeed));
         }
     }
 
     //Finding the closest target to the player
     private void FindClosestViableTarget()
     {
-        var ss = FindObjectsOfType<MonoBehaviour>().OfType<IDamagable>();
+        //Getting all of the damageables in the scene
+        IEnumerable<IDamagable> ss = FindObjectsOfType<MonoBehaviour>().OfType<IDamagable>();
         List<MonoBehaviour> potentialTargets = new List<MonoBehaviour>();
 
+        //Go through them and see if they could be a target
         foreach (MonoBehaviour s in ss)
         {
             if (s != (MonoBehaviour)player.GetComponent<IDamagable>())
@@ -57,13 +68,17 @@ public class HomingProjectile : MonoBehaviour, IProjectileModifier
             }
         }
 
+        //Temp variables for distance
         float currentDistance = float.PositiveInfinity;
         Transform newTar = null;
 
+        //Go through the remaining potentials target
         foreach (MonoBehaviour pTarget in potentialTargets)
         {
+            //Seeing if it's applicable
             if (pTarget.enabled && pTarget.gameObject.activeSelf)
             {
+                //Distance checking
                 float distToCheck = Vector3.Distance(pTarget.transform.position, transform.position);
 
                 if (distToCheck < currentDistance)
@@ -85,7 +100,7 @@ public class HomingProjectile : MonoBehaviour, IProjectileModifier
     }
     
     //The actual homing effect
-    IEnumerator eHomeToTarget(float startSpeed)
+    private IEnumerator Co_HomeToTarget(float startSpeed)
     {
         //homingSpeed = startSpeed;
         Vector3 direction = (target.transform.position - transform.position).normalized;

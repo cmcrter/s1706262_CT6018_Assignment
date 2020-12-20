@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: BouncingProjecile.cs
+// Author: Charles Carter
+// Brief: Projectiles that bounce off of the surfaces
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,11 +18,9 @@ public class BouncingProjectile : MonoBehaviour, IProjectileModifier
     #endregion
 
     [Header("Variables To Change")]
-
     [SerializeField]
-    PhysicsMaterial2D bouncyMaterial;
-
-    Rigidbody2D rbToChange;
+    private PhysicsMaterial2D bouncyMaterial;
+    private Rigidbody2D rbToChange;
 
     //Making it a bouncy projectile
     void ChangeProjectileMaterial(WeaponProjectile projectileToChange)
@@ -30,6 +34,6 @@ public class BouncingProjectile : MonoBehaviour, IProjectileModifier
     //This should all be done by the physics engine
     void BouncyProjectileHit()
     {
-
+        //Filling interface contract
     }
 }

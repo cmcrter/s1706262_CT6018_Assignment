@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: TriggerTracker.cs
+// Author: Charles Carter
+// Brief: The manager class that manages the usage of input triggers the player can access
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +12,7 @@ using UnityEngine;
 public class TriggerTracker : aHandlesInput
 {
     [SerializeField]
-    List<InputTrigger> triggers = new List<InputTrigger>();
+    private List<InputTrigger> triggers = new List<InputTrigger>();
 
     // Update is called once per frame
     void Update()

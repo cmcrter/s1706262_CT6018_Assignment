@@ -1,5 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: IMirrorable.cs
+// Author: Charles Carter
+// Brief: Interface for anything that reacts to lasers
+////////////////////////////////////////////////////////////
+
 using UnityEngine;
 
 //Something that reacts when hit by mirror

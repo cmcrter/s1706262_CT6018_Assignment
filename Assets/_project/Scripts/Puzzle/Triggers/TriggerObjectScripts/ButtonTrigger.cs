@@ -1,23 +1,33 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: ButtonTrigger.cs
+// Author: Charles Carter
+// Brief: A script to specifically handle buttons
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using UnityEngine;
 
+//Buttons are a type of input trigger
 public class ButtonTrigger : InputTrigger
 {
+    #region Class Variables
+
     [Header("Button Specific Variables")]
     //Variables for general button functionality
     [SerializeField]
-    GameObject buttonObject;
+    private GameObject buttonObject;
     [SerializeField]
-    float fButtonCooldown;
-
+    private float fButtonCooldown;
     //Dealing with material changed 
     [SerializeField]
-    Material pressedMaterial;
-    Material startMaterial;
+    private Material pressedMaterial;
+    private Material startMaterial;
     [SerializeField]
-    CState state;
+    private CState state;
     [SerializeField]
-    Renderer _renderer;
+    private Renderer _renderer;
+
+    #endregion
 
     private void Awake()
     {
@@ -29,10 +39,11 @@ public class ButtonTrigger : InputTrigger
     public override void InputTriggered()
     {
         base.InputTriggered();
-        StartCoroutine(eButtonCooldown());
+        StartCoroutine(Co_ButtonCooldown());
     }
 
-    private IEnumerator eButtonCooldown()
+    //A cooldown function to limit button spam
+    private IEnumerator Co_ButtonCooldown()
     {
         if (pressedMaterial)
         {

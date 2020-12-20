@@ -1,5 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: CubeSpawner.cs
+// Author: Charles Carter
+// Brief: A factory pattern to spawn rigidbody cubes
+////////////////////////////////////////////////////////////
+
 using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour, ITriggerable
@@ -14,24 +18,26 @@ public class CubeSpawner : MonoBehaviour, ITriggerable
 
     #endregion
 
+    #region Class Variables
+
     [Header("Variables Needed")]
     [SerializeField]
-    GameObject CubePrefab;
+    private GameObject CubePrefab;
     [SerializeField]
-    CState state;
+    private CState state;
     //The spawner could have a cube already spawned in
     [SerializeField]
-    GameObject currentCube;
+    private GameObject currentCube;
     [SerializeField]
-    Transform cubeParent;
-
+    private Transform cubeParent;
     private bool bSpawnerLocked;
-
     //I want the spawner renderer itself to look different than it's walls etc
     [SerializeField]
-    Material[] stateMaterials = new Material[4];
+    private Material[] stateMaterials = new Material[4];
     [SerializeField]
-    Renderer _renderer;
+    private Renderer _renderer;
+
+    #endregion
 
     private void Awake()
     {

@@ -1,7 +1,14 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: DamageTrigger.cs
+// Author: Charles Carter
+// Brief: An interactable trigger which activates/unactivates based on taking damage or healing
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Inherits from interactable trigger
 public class DamageTrigger : InteractableTrigger, IDamagable
 {
     #region Interface Contracts
@@ -13,9 +20,9 @@ public class DamageTrigger : InteractableTrigger, IDamagable
 
     [Header("Damage Trigger Specific Variables")]
     [SerializeField]
-    float fTriggerHealth;
+    private float fTriggerHealth;
     [SerializeField]
-    float fMaxTriggerHealh;
+    private float fMaxTriggerHealh;
 
     private void Start()
     {

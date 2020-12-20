@@ -1,5 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: SoundManager.cs
+// Author: Charles Carter
+// Brief: To play any sound requested by another script
+//////////////////////////////////////////////////////////// 
+
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour

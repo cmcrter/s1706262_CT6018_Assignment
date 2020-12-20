@@ -1,25 +1,34 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: LocalVersusPauseMenu.cs
+// Author: Charles Carter
+// Brief: The pause menu class that specifically in the local versus mode
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//Inherits from the base pause menu
 public class LocalVersusPauseMenu : PauseMenu
 {
-    [SerializeField]
-    LocalVersusManager versusManager;
+    #region Class Variables
 
+    [Header("Variables Needed")]
     [SerializeField]
-    List<InputHandler> inputHandlers;
-
+    private LocalVersusManager versusManager;
+    [SerializeField]
+    private List<InputHandler> inputHandlers;
     private bool bMenuLocked = false;
     private InputHandler handlerUsed;
-
     //Button when a player wants to quit
     [SerializeField]
-    GameObject quitButton;
+    private GameObject quitButton;
     //Button when the 1st player wants to go back to main menu
     [SerializeField]
-    GameObject exitButton;
+    private GameObject exitButton;
+
+    #endregion
 
     public void AddHandler(InputHandler newHandler)
     {

@@ -1,22 +1,30 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: BlockingManager.cs
+// Author: Charles Carter
+// Brief: A class to handle the player's blocking
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BlockingManager : aHandlesInput
 {
-    [Header("Variables needed for blocking")]
-    [SerializeField]
-    GameObject goBlockObject;
+    #region Class Variables
 
     public bool bPlayerCanBlock;
 
-    float fShieldRegenTime;
+    [Header("Variables needed for blocking")]
+    [SerializeField]
+    private GameObject goBlockObject;
+    private float fShieldRegenTime;
+    private IEnumerator cooldown;
 
-    IEnumerator cooldown;
+    #endregion
 
     private void Awake()
     {
-        cooldown = eBlockDestroyedCooldown(fShieldRegenTime);
+        cooldown = Co_ShieldRegenCooldown(fShieldRegenTime);
     }
 
     // Start is called before the first frame update
@@ -61,7 +69,7 @@ public class BlockingManager : aHandlesInput
     }
 
     //There's a cooldown before the player can put their shield back up
-    private IEnumerator eBlockDestroyedCooldown(float fSeconds)
+    private IEnumerator Co_ShieldRegenCooldown(float fSeconds)
     {
         bPlayerCanBlock = false;
         yield return new WaitForSeconds(fSeconds);

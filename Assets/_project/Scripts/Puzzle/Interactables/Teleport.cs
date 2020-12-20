@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: Teleport.cs
+// Author: Charles Carter
+// Brief: The class for a teleport pad
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using UnityEngine;
 
 public class Teleport : MonoBehaviour, ITriggerable
@@ -15,30 +21,35 @@ public class Teleport : MonoBehaviour, ITriggerable
 
     #endregion
 
+    #region Class Variables
+
     [Header("Variables Needed for teleporter")]
     [SerializeField]
     private bool isLocked;
     [SerializeField]
     private bool bLockCamera;
     [SerializeField]
-    CameraMovement cameraToLockMovement;
+    private CameraMovement cameraToLockMovement;
     [SerializeField]
-    Camera cameraToLock;
+    private Camera cameraToLock;
     [SerializeField]
     private GameObject SecondTeleportPosition;
     [SerializeField]
     private float fTeleportCooldown;
     [SerializeField]
-    GameObject objectToTeleport;
+    private GameObject objectToTeleport;
+
+    #endregion
 
     //Temporarily lock the teleporter after use
-    private IEnumerator eTeleportCooldown()
+    private IEnumerator Co_TeleportCooldown()
     {
         LockTeleporter();
         yield return new WaitForSeconds(fTeleportCooldown);
         UnLockTeleporter();
     }
 
+    //The function to actually move the player
     private void TeleportPlayer()
     {
         if (!isLocked)
@@ -50,7 +61,7 @@ public class Teleport : MonoBehaviour, ITriggerable
             }
 
             objectToTeleport.transform.position = SecondTeleportPosition.transform.position;
-            StartCoroutine(eTeleportCooldown());
+            StartCoroutine(Co_TeleportCooldown());
         }
     }
 

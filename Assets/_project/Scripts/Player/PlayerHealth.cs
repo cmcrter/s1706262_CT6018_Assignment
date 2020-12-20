@@ -1,5 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: PlayerHealth.cs
+// Author: Charles Carter
+// Brief: A class to manage a player's health
+////////////////////////////////////////////////////////////
+
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamagable
@@ -11,6 +15,9 @@ public class PlayerHealth : MonoBehaviour, IDamagable
 
     #endregion
 
+    #region Class Variables
+
+    [Header("Variables Needed for health")]
     [SerializeField]
     private Renderer _renderer;
     [SerializeField]
@@ -25,13 +32,10 @@ public class PlayerHealth : MonoBehaviour, IDamagable
     //[SerializeField]
     //SingleplayerManager singleManager;
 
-    #region Variables Needed
-
     [Header("Customization Variables")]
     [SerializeField]
-    [Tooltip("The player's maximum health")]
-    float fMaxHealth = 10;
-    float fCurrentHealth;
+    private float fMaxHealth = 10;
+    private float fCurrentHealth;
 
     #endregion
 
@@ -75,6 +79,7 @@ public class PlayerHealth : MonoBehaviour, IDamagable
 
     private void PlayerDeath()
     {
+        //Making the player look death and playing the vfx
         _renderer.material.color = Color.gray;
         _topRenderer.material.color = Color.gray;
 
@@ -82,6 +87,7 @@ public class PlayerHealth : MonoBehaviour, IDamagable
         main.startColor = state.GetColor();
         deathVFX.Play();
 
+        //Letting the respective gamemode manager know
         if (versusManager)
         {
             versusManager.PlayerDied(state.returnID());

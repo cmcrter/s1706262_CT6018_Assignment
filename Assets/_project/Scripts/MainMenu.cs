@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿////////////////////////////////////////////////////////////
+// File: MainMenu.cs
+// Author: Charles Carter
+// Brief: The function for the UI in the main menu
+//////////////////////////////////////////////////////////// 
+
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -6,16 +12,19 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField]
-    Button continueButton;
+    private Button continueButton;
 
     private void Awake()
     {
+        //If there's a save file in the prefs
         if (PlayerPrefs.HasKey("CStates" + name + ":") && continueButton)
         {
+            //The player could continue that game
             continueButton.interactable = true;
         }
     }
 
+    //The Intial buttons
     public void NewGame()
     {
         //This will do for now, but might want to set up a list of keys to delete instead

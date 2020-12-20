@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: SwitchPad.cs
+// Author: Charles Carter
+// Brief: A script for the functionality of a pad to switch colour with the player
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,20 +22,20 @@ public class SwitchPad : MonoBehaviour, ITriggerable
 
     #endregion
 
+    #region Class Variables
+
     [Header("Variables Needed For Switching States")]
-
     [SerializeField]
-    ColourLayerManager manager;
-
+    private ColourLayerManager manager;
     [SerializeField]
     public CState stateToSwitchWith;
-
     [SerializeField]
-    CState state;
-
+    private CState state;
     [SerializeField]
     private bool bTriggerLock = false;
     private bool bLocked = false;
+
+    #endregion
 
     private void Awake()
     {
@@ -54,7 +60,7 @@ public class SwitchPad : MonoBehaviour, ITriggerable
     {
         if (!bLocked)
         {
-            StartCoroutine(padCooldown());
+            StartCoroutine(Co_PadCooldown());
         }
     }
 
@@ -74,7 +80,7 @@ public class SwitchPad : MonoBehaviour, ITriggerable
         return bLocked;
     }
 
-    private IEnumerator padCooldown()
+    private IEnumerator Co_PadCooldown()
     {
         for (float t = 0; t < 1f; t += Time.deltaTime)
         {

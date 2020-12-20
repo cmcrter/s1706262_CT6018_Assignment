@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: SplitShotProjectile.cs
+// Author: Charles Carter
+// Brief: An modifier for projectiles to fire multiple in other directions
+////////////////////////////////////////////////////////////
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,11 +18,10 @@ public class SplitShotProjectile : MonoBehaviour, IProjectileModifier
 
     [Header("Variables for a split shot")]
     [SerializeField]
-    float fSplitAngle = 45;
+    private float fSplitAngle = 45;
     [SerializeField]
-    int iNumOfShots = 2;
-
-    List<GameObject> clonedShots;
+    private int iNumOfShots = 2;
+    private List<GameObject> clonedShots;
 
     //Using the projectile to create itself at 2 different angles using the direction it was fired
     void OnFired(GameObject playerWhoFired, float startSpeed, WeaponProjectile projectileUsed)
@@ -25,6 +29,7 @@ public class SplitShotProjectile : MonoBehaviour, IProjectileModifier
         //Getting the angle that this bullet should be fired at
         Quaternion qAngle = Quaternion.AngleAxis(-iNumOfShots / 2.0f * fSplitAngle, transform.right) * transform.rotation;
         Quaternion qDelta = Quaternion.AngleAxis(fSplitAngle, transform.right);
+        //ToDo: Make this work^
 
        //Spawning the new Bullet
        GameObject clone = Instantiate(projectileUsed.gameObject, transform.position + (0.1f * transform.right), transform.rotation);

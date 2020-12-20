@@ -1,38 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: Door.cs
+// Author: Charles Carter
+// Brief: A script to handle the functionality of a door
+////////////////////////////////////////////////////////////
+
 using UnityEngine;
 
 //This is a door
 public class Door : MonoBehaviour, ITriggerable
 {
+    #region Interface Contracts
+
     void ITriggerable.Triggered()   => DoorOpened();
     void ITriggerable.UnTriggered() => DoorClosed();
     void ITriggerable.Locked()      => DoorLocked();
     void ITriggerable.Unlocked()    => DoorUnlocked();
     bool ITriggerable.GetLockState() => isDoorLocked();
 
-    [SerializeField]
-    Collider2D _collider;
-    MeshRenderer _meshRend;
+    #endregion
 
-    [SerializeField]
-    Material doorOpenedMat;
-    [SerializeField]
-    Material doorClosedMat;
+    #region Class Variables
 
+    [Header("Variables Needed for Door")]
+    [SerializeField]
+    private Collider2D _collider;
+    private MeshRenderer _meshRend;
+    [SerializeField]
+    private Material doorOpenedMat;
+    [SerializeField]
+    private Material doorClosedMat;
     [SerializeField]
     private bool bTriggerLock = false;
     private bool bLocked = false;
+
+    #endregion
 
     private void Awake()
     {
         _collider = GetComponent<Collider2D>();
         _meshRend = GetComponent<MeshRenderer>();
-    }
-
-    private void Start()
-    {
-        
     }
 
     private void DoorClosed()
@@ -46,6 +52,7 @@ public class Door : MonoBehaviour, ITriggerable
 
     private void DoorOpened()
     {
+        //Guard Clause
         if (bLocked) return;
 
         _collider.enabled = false;

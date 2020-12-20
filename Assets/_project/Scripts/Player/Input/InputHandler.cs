@@ -1,4 +1,10 @@
-﻿using System;
+﻿////////////////////////////////////////////////////////////
+// File: InputHandler.cs
+// Author: Charles Carter
+// Brief: A base class for any control type that needs to return player input (keyboard, gamepad)
+////////////////////////////////////////////////////////////
+
+using System;
 using UnityEngine;
 
 public abstract class InputHandler : MonoBehaviour

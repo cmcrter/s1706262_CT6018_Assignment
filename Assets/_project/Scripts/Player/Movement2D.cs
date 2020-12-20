@@ -1,20 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: Movement2D.cs
+// Author: Charles Carter
+// Brief: A class to handle player movement
+////////////////////////////////////////////////////////////
+
 using UnityEngine;
 
-//This is a class for player movement
 public class Movement2D : aHandlesInput
 {
+    #region Class Variables
+
     [Header("Components and Objects Needed")]
-    [SerializeField] private Transform _thisTransform;
-    [SerializeField] private Rigidbody2D _thisRB;
-    [SerializeField] private GameObject TopHalf;
+    [SerializeField]
+    private Transform _thisTransform;
+    [SerializeField]
+    private Rigidbody2D _thisRB;
+    [SerializeField]
+    private GameObject TopHalf;
 
     [Header("Movement variables")]
-    [SerializeField] private float JumpForce;
-    [SerializeField] private float WalkSpeed;
-    [SerializeField] private float maxSpeed;
-    [SerializeField] private LayerMask playerLayer;
+    [SerializeField]
+    private float JumpForce;
+    [SerializeField]
+    private float WalkSpeed;
+    [SerializeField]
+    private float maxSpeed;
+    [SerializeField]
+    private LayerMask playerLayer;
 
     public bool isGrounded { get; private set; }
     public bool isCrouched { get; private set; }
@@ -22,9 +34,10 @@ public class Movement2D : aHandlesInput
     //Private variables
     private Vector2 raycastPoint;
     private Vector2 localMidBottomPoint;
-
     private float baseWalkSpeed;
     private float baseJumpForce;
+
+    #endregion
 
     private void Awake()
     {
@@ -37,6 +50,7 @@ public class Movement2D : aHandlesInput
     // Start is called before the first frame update
     private void Start()
     {
+        //Making sure the variables are set
         if (playerLayer == 0)
         {
             playerLayer = 1 << 10;

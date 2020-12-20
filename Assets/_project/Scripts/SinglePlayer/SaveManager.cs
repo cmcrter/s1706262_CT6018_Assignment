@@ -1,4 +1,10 @@
-﻿using System.Linq;
+﻿////////////////////////////////////////////////////////////
+// File: SaveManager.cs
+// Author: Charles Carter
+// Brief: The manager class that saves and loads needed objects' variables
+////////////////////////////////////////////////////////////
+
+using System.Linq;
 using UnityEngine;
 
 //This is the manager for saving and loading in game

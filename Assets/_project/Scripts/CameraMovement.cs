@@ -1,25 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: CameraMovement.cs
+// Author: Charles Carter
+// Brief: The movement for a camera object 
+//////////////////////////////////////////////////////////// 
+
+using System.Collections;
 using UnityEngine;
 
-//The camera's movement during singleplayer
+//The camera's movement during singleplayer, requires a camera to do
 [RequireComponent(typeof(Camera))]
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField]
-    Camera cam;
+    #region Variables
 
+    [Header("Variables Needed")]
+    [SerializeField]
+    private Camera cam;
     [SerializeField]
     private Transform ObjectToFollow;
-
     public bool isLocked;
-
     [SerializeField]
     private Vector3 offset;
-
     private Vector3 camZBeforeLock;
+    private float defaultCamSize;
 
-    float defaultCamSize;
+    #endregion
 
     private void Awake()
     {
@@ -28,49 +33,34 @@ public class CameraMovement : MonoBehaviour
 
     private void Start()
     {
-        if (offset.Equals(Vector3.zero))
+        if (offset.Equals(Vector3.zero) && Debug.isDebugBuild)
         {
-            offset = new Vector3(-4, 8, 0);
+            Debug.Log("No offset set in inspector");
         }
-        StartCoroutine(Co_timeBeforeCameraFollow(0.02f));
 
+        //A small cooldown before the follow enables
+        StartCoroutine(Co_timeBeforeCameraFollow(0.02f));
         defaultCamSize = cam.orthographicSize;
     }
 
     private void Update()
     {
+        //If the camera isnt locked, move it to follow the target with the offset
         if (!isLocked)
         {
             transform.position = new Vector3(ObjectToFollow.position.x + offset.x, ObjectToFollow.position.y + offset.y, -20);
         }
     }
 
+
+    #region Private Class Functions
+
     private IEnumerator Co_timeBeforeCameraFollow(float timer)
     {
+        //Locking the camera for a certain amount of time
         isLocked = true;
-
-        for (float t = 0; t < timer; t += Time.deltaTime)
-        {
-            yield return null;
-        }
-
+        yield return new WaitForSeconds(timer);
         isLocked = false;
-    }
-
-    public void OverrideCameraPos(Vector3 newPos, float newCamSize, MonoBehaviour tempLockScripts)
-    {
-        isLocked = true;
-        newPos = new Vector3(newPos.x, newPos.y, transform.position.z);
-        cam.orthographicSize = newCamSize;
-
-        StartCoroutine(Co_MoveCamerToPoint(newPos, 1.0f, tempLockScripts));
-    }
-
-    public void FreeCameraMovement()
-    {
-        isLocked = false;
-        cam.orthographicSize = defaultCamSize;
-        transform.position = new Vector3(transform.position.x, transform.position.y, camZBeforeLock.z);
     }
 
     private IEnumerator Co_MoveCamerToPoint(Vector3 newPos, float timer, MonoBehaviour tempLockScript)
@@ -97,4 +87,26 @@ public class CameraMovement : MonoBehaviour
             tempLockScript.enabled = true;
         }
     }
+    #endregion
+
+    #region Public Variables
+
+    //Public function that overiddes the camera's position and size
+    public void OverrideCameraPos(Vector3 newPos, float newCamSize, MonoBehaviour tempLockScripts)
+    {
+        isLocked = true;
+        newPos = new Vector3(newPos.x, newPos.y, transform.position.z);
+        cam.orthographicSize = newCamSize;
+
+        StartCoroutine(Co_MoveCamerToPoint(newPos, 1.0f, tempLockScripts));
+    }
+
+    public void FreeCameraMovement()
+    {
+        isLocked = false;
+        cam.orthographicSize = defaultCamSize;
+        transform.position = new Vector3(transform.position.x, transform.position.y, camZBeforeLock.z);
+    }
+
+    #endregion
 }

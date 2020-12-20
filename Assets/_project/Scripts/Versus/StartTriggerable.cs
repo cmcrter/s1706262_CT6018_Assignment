@@ -1,4 +1,10 @@
-﻿using System;
+﻿////////////////////////////////////////////////////////////
+// File: StartTriggerable.cs
+// Author: Charles Carter
+// Brief: Projectiles that bounce off of the surfaces
+////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,34 +22,35 @@ public class StartTriggerable : MonoBehaviour, ITriggerable
     bool ITriggerable.GetLockState() => isLocked();
 
     #endregion
+    
+    #region Class Variables
 
     [Header("Variables Needed")]
-
     [SerializeField]
     private LocalVersusManager versusManager;
-
-    private IEnumerator gameCooldown;
-
+    private IEnumerator Co_GameCooldown;
     [SerializeField]
-    TextMeshProUGUI coolDownText;
-
+    private TextMeshProUGUI coolDownText;
     //Timer can be in whole seconds for the countdown
     [SerializeField]
-    int iCountdownTimer;
+    private int iCountdownTimer;
+    private float currentT = 0;
+    private bool bStartedCountdownBefore = false;
 
-    float currentT = 0;
-    bool bStartedCountdownBefore = false;
-    
-    void Awake()
+    #endregion
+
+    private void Awake()
     {
         versusManager = versusManager ?? GameObject.FindGameObjectWithTag("VersusManager").GetComponent<LocalVersusManager>();
-        gameCooldown = eMatchCooldown(iCountdownTimer);
+        Co_GameCooldown = Co_MatchCooldown(iCountdownTimer);
     }
 
-    private IEnumerator eMatchCooldown(int iTimer)
+    private IEnumerator Co_MatchCooldown(int iTimer)
     {
+        //The cooldown for the lobby lever
         for (currentT = 0; currentT < iTimer; currentT += Time.deltaTime)
         {
+            //Manging the lever based on versus variables and updating the countdown
             if (bStartedCountdownBefore)
             {
                 coolDownText.text = iTimer.ToString();
@@ -73,13 +80,13 @@ public class StartTriggerable : MonoBehaviour, ITriggerable
         if (versusManager.GetActivePlayerCount() > 1)
         {
             bStartedCountdownBefore = true;
-            StartCoroutine(gameCooldown);
+            StartCoroutine(Co_GameCooldown);
         }
     }
 
     private void StopCountdown()
     {
-        StopCoroutine(gameCooldown);
+        StopCoroutine(Co_GameCooldown);
 
         currentT = 0;
 

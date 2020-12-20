@@ -1,18 +1,14 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: PSControllerHandler.cs
+// Author: Charles Carter
+// Brief: The input handler that uses PlayStation controllers specifically
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PSControllerHandler : MonoBehaviour
+public class PSControllerHandler : InputHandler
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //ToDo: Change the axis names to be based on controll type for ease of looking (and rebinding)
 }

@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿////////////////////////////////////////////////////////////
+// File: MirrorPanel.cs
+// Author: Charles Carter
+// Brief: The script to handle the functionality of mirrors
+////////////////////////////////////////////////////////////
+
+using UnityEngine;
 
 public class MirrorPanel : MonoBehaviour, ITriggerable, IMirrorable
 {

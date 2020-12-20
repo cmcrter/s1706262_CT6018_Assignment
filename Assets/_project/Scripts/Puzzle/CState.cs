@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: CState.cs
+// Author: Charles Carter
+// Brief: A class that manages the state of the object (both the colour and the layer)
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,25 +17,27 @@ public class CState : MonoBehaviour, ISaveable
 
     #endregion
 
-    [SerializeField]
-    ColourLayerManager manager;
+    #region Class Variables
 
+    [Header("Variables")]
     [SerializeField]
-    int stateID;
+    private ColourLayerManager manager;
+    [SerializeField]
+    private int stateID;
+    [SerializeField]
+    private List<Renderer> renderers = new List<Renderer>();
+    [SerializeField]
+    private List<GameObject> layerObjects = new List<GameObject>();
+    [SerializeField]
+    private bool isPlayer;
+    [SerializeField]
+    private bool isObject;
+    [SerializeField]
+    private bool isSaved;
 
-    [SerializeField]
-    List<Renderer> renderers = new List<Renderer>();
+    #endregion
 
-    [SerializeField]
-    List<GameObject> layerObjects = new List<GameObject>();
-
-    [SerializeField]
-    bool isPlayer;
-    [SerializeField]
-    bool isObject;
-    [SerializeField]
-    bool isSaved;
-
+    //Setting the state based on a new ID and whether it will change layer based on the new state
     public void SetState(int id, bool changeLayer)
     {
         stateID = id;
@@ -57,6 +65,7 @@ public class CState : MonoBehaviour, ISaveable
         ShowState();
     }
 
+    //Changing the object to display the new state
     private void ShowState()
     {
         if (manager)

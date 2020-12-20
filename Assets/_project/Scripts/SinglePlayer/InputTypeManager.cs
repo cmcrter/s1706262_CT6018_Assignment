@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: InputTypeManager.cs
+// Author: Charles Carter
+// Brief: The manager class that handles switches the input type (Keyboard, Gamepad) in singleplayer
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -6,15 +12,18 @@ using System.Linq;
 //Changing the input manager on the player (for singleplayer only)
 public class InputTypeManager : MonoBehaviour
 {
-    [SerializeField]
-    List<aHandlesInput> scriptsThatRequireInput = new List<aHandlesInput>();
+    #region Class Variables
 
+    [Header("Variables Needed")]
     [SerializeField]
-    KeyAndMouseHandler keyAndMouseHandler;
+    private List<aHandlesInput> scriptsThatRequireInput = new List<aHandlesInput>();
     [SerializeField]
-    XboxControllerHandler xboxControllerHandler;
+    private KeyAndMouseHandler keyAndMouseHandler;
+    [SerializeField]
+    private XboxControllerHandler xboxControllerHandler;
+    private bool controllerLastFrame = false;
 
-    bool controllerLastFrame = false;
+    #endregion
 
     // Update is called once per frame
     void Update()

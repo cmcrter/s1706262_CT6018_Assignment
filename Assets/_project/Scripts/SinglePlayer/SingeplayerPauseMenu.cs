@@ -1,13 +1,20 @@
-﻿using UnityEngine;
+﻿////////////////////////////////////////////////////////////
+// File: SingleplayerPauseMenu.cs
+// Author: Charles Carter
+// Brief: The pause menu for singleplayer specific functionality
+////////////////////////////////////////////////////////////
+
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//Inherits from PauseMenu
 public class SingeplayerPauseMenu : PauseMenu
 {
     [Header("Singleplayer Specific Variables")]
     [SerializeField]
-    SaveManager saveManager;
+    private SaveManager saveManager;
     [SerializeField]
-    CState playerState;
+    private CState playerState;
 
     private void Update()
     {
@@ -17,6 +24,7 @@ public class SingeplayerPauseMenu : PauseMenu
         }
     }
 
+    //Button functionality
     public void SaveButton()
     {
         saveManager.SaveAllSaveables();

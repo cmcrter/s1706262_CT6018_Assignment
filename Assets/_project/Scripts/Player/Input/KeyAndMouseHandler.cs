@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: KeyAndMouseHandler.cs
+// Author: Charles Carter
+// Brief: The input handler for when the player uses a Keyboard and Mouse
+////////////////////////////////////////////////////////////
+
+using System;
 using UnityEngine;
 
-//The input handler for when the player uses a Keyboard and Mouse
 public class KeyAndMouseHandler : InputHandler
 {
+    //Overrides for all the applicable Input handler functions
     public override bool MoveLeft()
     {
         return Input.GetKey(KeyCode.A);

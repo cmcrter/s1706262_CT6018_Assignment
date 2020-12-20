@@ -1,5 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: WaypointManager.cs
+// Author: Charles Carter
+// Brief: The manager class that waypoints in the singleplayer
+////////////////////////////////////////////////////////////
+
 using UnityEngine;
 
 public class WaypointManager : MonoBehaviour, ISaveable
@@ -11,20 +15,25 @@ public class WaypointManager : MonoBehaviour, ISaveable
 
     #endregion
 
+    #region Variables
+
     [Header("Variables Needed")]
     //To keep track of where the player last was
     [SerializeField]
-    Transform Player;
+    private Transform Player;
     [SerializeField]
-    Transform[] waypointObjects;
-    Waypoint latestWaypoint;
-    int iWaypointCount = 0;
+    private Transform[] waypointObjects;
+    private Waypoint latestWaypoint;
+    private int iWaypointCount = 0;
+
+    #endregion
 
     private void TeleportPlayerToWaypoint()
     {
         Player.position = waypointObjects[iWaypointCount].position;
     }
 
+    //Recording the hit waypoint
     public void LogWaypoint(Waypoint thisWaypoint)
     {
         latestWaypoint = thisWaypoint;
@@ -36,13 +45,13 @@ public class WaypointManager : MonoBehaviour, ISaveable
         }
     }
 
-    void SaveWaypoint()
+    private void SaveWaypoint()
     {
         PlayerPrefs.SetString("Waypoints Set", "true");
         PlayerPrefs.SetInt("Last Waypoint", iWaypointCount);
     }
 
-    void LoadWaypoint()
+    private void LoadWaypoint()
     {
         if (PlayerPrefs.HasKey("Waypoints Set"))
         {

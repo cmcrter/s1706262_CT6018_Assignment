@@ -1,14 +1,21 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: PauseMenu.cs
+// Author: Charles Carter
+// Brief: A class to control any pause menu, changing the panels etc
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 //A class to store all the base functionality a pause menu will have, which needs to register when an input wants it to open
 public class PauseMenu : aHandlesInput
 {
+    #region Class Variables
+
     [Header("General Pause Menu Variables")]
     [SerializeField]
     private List<UIPanel> panels = new List<UIPanel>();
-
     [SerializeField]
     protected GameObject startPanel;
     [SerializeField]
@@ -17,6 +24,10 @@ public class PauseMenu : aHandlesInput
     protected bool bMenuOpen;
     [SerializeField]
     protected int menuID;
+
+    #endregion
+
+    #region Public Class Functions
 
     //Explicit Functions for opening and closing the menu
     public void OpenMenu(int playerID)
@@ -58,4 +69,6 @@ public class PauseMenu : aHandlesInput
             OpenMenu(iPlayerID);
         }
     }
+
+    #endregion
 }

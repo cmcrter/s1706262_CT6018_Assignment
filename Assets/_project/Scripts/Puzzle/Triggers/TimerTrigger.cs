@@ -1,18 +1,28 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: TimerTrigger.cs
+// Author: Charles Carter
+// Brief: A trigger that uses a timer to activate an interactable
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//This is a trigger set on a timer
+//This is a trigger set on a timer, Inherits from the overal interactable trigger functionality
 public class TimerTrigger : InteractableTrigger
 {
+    #region Class Variables
+
+    [Header("Variables Needed")]
     [SerializeField]
     private bool isOverrideTimer = false;
     [SerializeField]
     private float timerDuration;
-
     [SerializeField]
     private RadialTimerUI timerUI;
     private IEnumerator timer;
+
+    #endregion
 
     private void Start()
     {

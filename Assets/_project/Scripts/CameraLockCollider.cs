@@ -1,22 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿////////////////////////////////////////////////////////////
+// File: CameraLockCollider.cs
+// Author: Charles Carter
+// Brief: A collider for the area to lock the camera
+//////////////////////////////////////////////////////////// 
+
 using UnityEngine;
 
+//Needs a collider to function
 [RequireComponent(typeof(Collider2D))]
 public class CameraLockCollider : MonoBehaviour
 {
-    [SerializeField]
-    Camera cameraUsed;
-    CameraMovement _camMovement;
+    #region Class Variables
 
+    [Header("Variables Needed")]
     [SerializeField]
-    GameObject player;
+    private Camera cameraUsed;
+    private CameraMovement _camMovement;
+    [SerializeField]
+    private GameObject player;
+    [SerializeField]
+    private Movement2D playerMovement;
+    [SerializeField]
+    private float newCamSize;
 
-    [SerializeField]
-    Movement2D playerMovement;
-
-    [SerializeField]
-    float newCamSize;
+    #endregion
 
     private void Awake()
     {
@@ -27,10 +34,13 @@ public class CameraLockCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //Checking whether it's the player
         if (collision.gameObject.Equals(player))
         {
+            //Making sure the movement is set
             if (_camMovement != null)
             {
+                //Having the camera locked here
                 _camMovement.OverrideCameraPos(transform.position, newCamSize, playerMovement);
             }
         }
@@ -38,10 +48,13 @@ public class CameraLockCollider : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        //Checking whether it's the player
         if (collision.gameObject.Equals(player))
         {
+            //Making sure the movement is set
             if (_camMovement != null)
             {
+                //Freeing the camera
                 _camMovement.FreeCameraMovement();
             }
         }

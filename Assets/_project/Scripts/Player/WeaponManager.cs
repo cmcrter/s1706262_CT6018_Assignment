@@ -1,36 +1,42 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: WeaponManager.cs
+// Author: Charles Carter
+// Brief: The manager class that controls the player weapons
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//This class needs to handle input
 public class WeaponManager : aHandlesInput
 {
+    #region Class Variables
+
     [Header("Components Needed")]
-
     [SerializeField]
-    Rigidbody2D _rb;
-
+    private Rigidbody2D _rb;
     [SerializeField]
-    PlayerHand hand;
-
+    private PlayerHand hand;
     [SerializeField]
-    BlockingManager blockingManager;
+    private BlockingManager blockingManager;
 
     [Header("Weapon Tracking")]
-
     [SerializeField]
-    List<Weapon> weaponsInRange = new List<Weapon>();
-
+    private List<Weapon> weaponsInRange = new List<Weapon>();
     [SerializeField]
-    Weapon currentWeapon = null;
+    private Weapon currentWeapon = null;
     [SerializeField]
-    GameObject currentWeaponObject;
-    bool hasWeapon = false;
+    private GameObject currentWeaponObject;
+    private bool hasWeapon = false;
 
     [Header("Needed Objects")]
     [SerializeField]
-    Camera mainCamera;
-    Rigidbody2D currentweaponrb;
-    float angleToMousePos;
+    private Camera mainCamera;
+    private Rigidbody2D currentweaponrb;
+    private float angleToMousePos;
+
+    #endregion
 
     private void Awake()
     {

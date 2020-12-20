@@ -1,7 +1,14 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: InteractableManager.cs
+// Author: Charles Carter
+// Brief: The manager class that handles an interection between triggers and an interactalbe
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//The struct for a state which actiavates the triggerable in question
 [System.Serializable]
 struct TriggerState
 {
@@ -38,14 +45,13 @@ struct TriggerState
 //Needs to go on any triggerable
 public class InteractableManager : MonoBehaviour
 {
+    [Header("Variables Needed")]
     //The triggerable it's managing
     [SerializeField]
     private MonoBehaviour triggerable;
-
     //The states of triggers to trigger/untrigger it
     [SerializeField]
     private List<TriggerState> triggerStates = new List<TriggerState>();
-
     private ITriggerable itriggerable;
 
     private void Awake()

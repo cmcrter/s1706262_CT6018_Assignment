@@ -1,8 +1,13 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: CollisionTrigger.cs
+// Author: Charles Carter
+// Brief: An interactable trigger which using a collision entering to activate and collision leaving to unactivate
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//This is a trigger which is activated by something entering
 public class CollisionTrigger : InteractableTrigger
 {
     private void OnTriggerEnter2D(Collider2D collision)

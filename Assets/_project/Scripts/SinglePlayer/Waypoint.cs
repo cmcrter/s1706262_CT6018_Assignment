@@ -1,19 +1,27 @@
-﻿using UnityEngine;
+﻿////////////////////////////////////////////////////////////
+// File: Waypoint.cs
+// Author: Charles Carter
+// Brief: A waypoint in the singleplayer
+////////////////////////////////////////////////////////////
+
+using UnityEngine;
 
 public class Waypoint : MonoBehaviour
 {
-    [SerializeField]
-    Collider2D[] playerColliders = new Collider2D[2];
+    #region Class Variables
 
+    [Header("Variables Needed")]
     [SerializeField]
-    WaypointManager waypointManager;
+    private Collider2D[] playerColliders = new Collider2D[2];
+    [SerializeField]
+    private WaypointManager waypointManager;
+    [SerializeField]
+    private ParticleSystem VFX;
+    [SerializeField]
+    private Collider2D _collider;
+    private bool beenPassed;
 
-    [SerializeField]
-    ParticleSystem VFX;
-
-    [SerializeField]
-    Collider2D _collider;
-    bool beenPassed;
+    #endregion
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

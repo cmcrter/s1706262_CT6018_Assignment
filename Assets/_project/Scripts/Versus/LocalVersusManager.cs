@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: LocalVersusManager.cs
+// Author: Charles Carter
+// Brief: The manager class that controls the local versus gamemode
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,33 +27,30 @@ internal class PlayerData
 //This dictates the game loop of the local versus gamemode, this will probably be a monolithic script
 public class LocalVersusManager : MonoBehaviour
 {
+    #region Class Variables
+
     //Different states require different bools to maintain
     private bool bStartPressed = false;
     private bool bMapLoaded = false;
     private bool bPlayerWon = false;
 
     [Header("Player data")]
-
     //All the player data needed
     [SerializeField]
     private PlayerData[] players = new PlayerData[4];
-
     //The ones currently active in game
     [SerializeField]
     private List<int> activePlayers = new List<int>();
 
     [Header("Map Data")]
-
     //The current maps to choose from
     [SerializeField]
     private List<GameObject> mapContainers = new List<GameObject>();
-
     //The map prefabs
     [SerializeField]
     private GameObject[] mapPrefabArr;
 
     [Header("Lobby Objects")]
-
     //The lobby gameobject and UI
     [SerializeField]
     private GameObject lobbyContainer;
@@ -55,10 +58,8 @@ public class LocalVersusManager : MonoBehaviour
     private GameObject lobbyUI;
     [SerializeField]
     private Lever startLever;
-
     [SerializeField]
     private Camera cameraBeingUsed;
-
     [SerializeField]
     private int lobbyCameraSize;
     [SerializeField]
@@ -67,7 +68,6 @@ public class LocalVersusManager : MonoBehaviour
     private int battleCameraSize;
 
     [Header("Map randomization variables")]
-
     //Keeping track of previous and current map
     [SerializeField]
     private int currentMapIndex = 0;
@@ -75,23 +75,21 @@ public class LocalVersusManager : MonoBehaviour
     private GameObject currentMap;
     [SerializeField]
     private Transform currentMapParent;
-
     [SerializeField]
     private List<PuzzleChamber> puzzleChambers = new List<PuzzleChamber>();
-
     //And default player positions
     [SerializeField]
     private Vector3[] playerStartPos = new Vector3[4];
 
     [Header("Game States Data")]
-
     [SerializeField]
     private float fPuzzlesTimer = 15f;
-
     [SerializeField]
     private int iPlayersAlive = 4;
     [SerializeField]
-    LocalVersusPauseMenu pauseMenu;
+    private LocalVersusPauseMenu pauseMenu;
+
+    #endregion
 
     private void Awake()
     {
@@ -107,7 +105,7 @@ public class LocalVersusManager : MonoBehaviour
         activePlayers.Add(0);
         mapContainers = mapPrefabArr.ToList();
         cameraBeingUsed.orthographicSize = lobbyCameraSize;
-        StartCoroutine(WaitingInLobby());
+        StartCoroutine(Co_WaitingForLobby());
     }
 
     private void CheckingPlayerDataVariables()
@@ -140,7 +138,7 @@ public class LocalVersusManager : MonoBehaviour
     }
 
     //Adding players when 
-    private IEnumerator WaitingInLobby()
+    private IEnumerator Co_WaitingForLobby()
     {
         while (!bStartPressed)
         {
@@ -158,7 +156,7 @@ public class LocalVersusManager : MonoBehaviour
             yield return null;
         }
 
-        StartCoroutine(WaitingForArena());
+        StartCoroutine(Co_WaitingForMapLoad());
     }
 
     //A player was activated
@@ -189,7 +187,7 @@ public class LocalVersusManager : MonoBehaviour
     }
 
     //Setting up the next combat
-    private IEnumerator WaitingForArena()
+    private IEnumerator Co_WaitingForMapLoad()
     {
         //Is not the first map of the session
         if (currentMapIndex != -1)
@@ -255,7 +253,7 @@ public class LocalVersusManager : MonoBehaviour
         }
 
         //Going to the next game state
-        StartCoroutine(WaitingForPuzzleTimer());
+        StartCoroutine(Co_PuzzleTimer());
     }
 
     //Making sure the players are back to how they were before each map
@@ -277,7 +275,7 @@ public class LocalVersusManager : MonoBehaviour
     }
 
     //The puzzle phase of the game
-    IEnumerator WaitingForPuzzleTimer()
+    IEnumerator Co_PuzzleTimer()
     {
         cameraBeingUsed.orthographicSize = puzzleCameraSize;
         puzzleChambers = currentMap.GetComponent<VersusMap>().GetChambers();
@@ -292,11 +290,11 @@ public class LocalVersusManager : MonoBehaviour
 
         yield return new WaitForSeconds(fPuzzlesTimer + 1f);
 
-        StartCoroutine(WaitingForWinCondition());
+        StartCoroutine(Co_ArenaCooldown());
     }
 
     //I dont really have a use for this yet...
-    IEnumerator WaitingForWinCondition()
+    IEnumerator Co_ArenaCooldown()
     {
         cameraBeingUsed.orthographicSize = battleCameraSize;
         iPlayersAlive = activePlayers.Count;
@@ -312,7 +310,7 @@ public class LocalVersusManager : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
 
         //Restarting the cycle
-        StartCoroutine(WaitingForArena());
+        StartCoroutine(Co_WaitingForMapLoad());
     }
 
     //One of the players died

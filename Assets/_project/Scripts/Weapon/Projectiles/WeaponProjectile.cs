@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿////////////////////////////////////////////////////////////
+// File: WeaponProjectile.cs
+// Author: Charles Carter
+// Brief: A projectile that the weapon fires
+////////////////////////////////////////////////////////////
+
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,13 +12,18 @@ using UnityEngine;
 //The projectile made by weapons
 public class WeaponProjectile : MonoBehaviour, IWaypointDestructable
 {
+    #region Interface Contract
+
     void IWaypointDestructable.Destruct() => Destroy(gameObject);
 
+    #endregion
+
+    #region Class Variables
     [Header("Component projectiles need")]
     [SerializeField]
-    Rigidbody2D _rb;
+    private Rigidbody2D _rb;
     [SerializeField]
-    Collider2D _collider;
+    private Collider2D _collider;
 
     [Header("Projectile Customizable Variables")]
     [SerializeField]
@@ -29,7 +40,9 @@ public class WeaponProjectile : MonoBehaviour, IWaypointDestructable
     private Vector3 fireDir;
 
     //The projectile can have multiple effects
-    List<IProjectileModifier> projectileEffect;
+    private List<IProjectileModifier> projectileEffect;
+
+    #endregion
 
     private void Awake()
     {
@@ -46,28 +59,6 @@ public class WeaponProjectile : MonoBehaviour, IWaypointDestructable
         _collider.enabled = false;
     }
 
-    //When it gets fired
-    public virtual void Fired(GameObject PlayerWhoShot, Vector3 dir)
-    {
-        //Firing the projectile
-        _rb.AddForce(dir * fPower, ForceMode2D.Impulse);
-        playerWhoShotThis = PlayerWhoShot;
-        destroyTimer = StartCoroutine(Co_destroyCheck());
-        gameObject.layer = playerWhoShotThis.layer;
-
-        //Storing the direction the projectile was fired
-        fireDir = dir;
-
-        //There is atleast one projectile effect
-        if (projectileEffect.Count > 0)
-        {
-            foreach (IProjectileModifier modifier in projectileEffect)
-            {
-                modifier.ActivateProjectileEffect(playerWhoShotThis, fPower, this);
-            }
-        }
-    }
-
     //When it collides with something else
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -77,23 +68,28 @@ public class WeaponProjectile : MonoBehaviour, IWaypointDestructable
             return;
         }
 
+        //If there's projectile modifiers
         if (projectileEffect.Count > 0)
         {
+            //Go through them
             foreach (IProjectileModifier modifier in projectileEffect)
             {
+                //Do the modifier hit function
                 modifier.OnProjectileHit(collision);
             }
         }
 
         //Debug.Log("Projectile hit something");
         OnHit(collision);
-              
+
         if (bDestroyOnHit)
         {
             StopCoroutine(destroyTimer);
             Destroy(gameObject);
         }
     }
+
+    #region Class Private Functions
 
     //This is so projectiles that are out the map or can bounce dont stay infinitely
     private IEnumerator Co_destroyCheck()
@@ -118,6 +114,32 @@ public class WeaponProjectile : MonoBehaviour, IWaypointDestructable
         if (collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
         {
             damagable.Damage(damage);
+        }
+    }
+
+    #endregion
+
+    #region Public Class Functions
+
+    //When it gets fired
+    public virtual void Fired(GameObject PlayerWhoShot, Vector3 dir)
+    {
+        //Firing the projectile
+        _rb.AddForce(dir * fPower, ForceMode2D.Impulse);
+        playerWhoShotThis = PlayerWhoShot;
+        destroyTimer = StartCoroutine(Co_destroyCheck());
+        gameObject.layer = playerWhoShotThis.layer;
+
+        //Storing the direction the projectile was fired
+        fireDir = dir;
+
+        //There is atleast one projectile effect
+        if (projectileEffect.Count > 0)
+        {
+            foreach (IProjectileModifier modifier in projectileEffect)
+            {
+                modifier.ActivateProjectileEffect(playerWhoShotThis, fPower, this);
+            }
         }
     }
 
@@ -147,4 +169,6 @@ public class WeaponProjectile : MonoBehaviour, IWaypointDestructable
     {
         return fireDir;
     }
+
+    #endregion
 }

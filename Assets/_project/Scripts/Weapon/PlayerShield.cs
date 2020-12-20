@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿////////////////////////////////////////////////////////////
+// File: PlayerShield.cs
+// Author: Charles Carter
+// Brief: The class which manages the player's shield
+////////////////////////////////////////////////////////////
+
+using UnityEngine;
 
 public class PlayerShield : MonoBehaviour, IDamagable
 {
@@ -9,16 +15,17 @@ public class PlayerShield : MonoBehaviour, IDamagable
 
     #endregion
 
+    #region Class Variables
+    [Header("Variables Needed for Shield")]
     [SerializeField]
-    PlayerHand hand;
-
+    private PlayerHand hand;
     [SerializeField]
-    BlockingManager manager;
-
+    private BlockingManager manager;
     [SerializeField]
-    float fMaxShieldHealth = 25f;
+    private float fMaxShieldHealth = 25f;
     [SerializeField]
-    float fCurrentShieldHealth;
+    private float fCurrentShieldHealth;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -29,14 +36,16 @@ public class PlayerShield : MonoBehaviour, IDamagable
     // Update is called once per frame
     void Update()
     {
+        //Using the hand to change the pos and rotation
         if (hand)
         {
-            //Pushing the box collider into stuff it might not want to be in, might cause issues at some point
+            //Pushing the box collider into stuff it might not want to be in, might cause issues at some point, but it's a neat thing to play with
             transform.position = hand.handPos;
             transform.rotation = hand.handRotation;
         }
     }
 
+    //The interface functions for the shield being damaged or healed
     private void ShieldDamaged(float incomingDamage)
     {
         if (gameObject.activeSelf)
