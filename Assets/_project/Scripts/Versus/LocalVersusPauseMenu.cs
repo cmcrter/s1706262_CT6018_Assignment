@@ -82,6 +82,7 @@ public class LocalVersusPauseMenu : PauseMenu
 
     public void ExitGamemode()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
 }

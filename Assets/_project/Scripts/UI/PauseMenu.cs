@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 //A class to store all the base functionality a pause menu will have, which needs to register when an input wants it to open
 public class PauseMenu : aHandlesInput
@@ -68,6 +69,12 @@ public class PauseMenu : aHandlesInput
         {
             OpenMenu(iPlayerID);
         }
+    }
+
+    public void ExitButton()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("MainMenu");
     }
 
     #endregion

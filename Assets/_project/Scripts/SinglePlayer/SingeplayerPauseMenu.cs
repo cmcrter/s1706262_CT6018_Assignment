@@ -34,9 +34,4 @@ public class SingeplayerPauseMenu : PauseMenu
     {
         saveManager.LoadAllSaveables();
     }
-
-    public void ExitButton()
-    {
-        SceneManager.LoadScene("Main Menu");
-    }
 }
