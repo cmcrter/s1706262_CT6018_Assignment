@@ -35,7 +35,7 @@ public class MainMenu : MonoBehaviour
 
     public void ContinueGame()
     {
-        SceneManager.LoadScene("TestingScene");
+        SceneManager.LoadScene("Singleplayer");
     }
 
     public void LoadLocalVersus()

@@ -5,7 +5,6 @@
 ////////////////////////////////////////////////////////////
 
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 //Inherits from PauseMenu
 public class SingeplayerPauseMenu : PauseMenu

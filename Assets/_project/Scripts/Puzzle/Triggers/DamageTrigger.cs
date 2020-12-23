@@ -26,6 +26,11 @@ public class DamageTrigger : InteractableTrigger, IDamagable
 
     private void Start()
     {
+        if (fMaxTriggerHealh == 0 && Debug.isDebugBuild)
+        {
+            Debug.Log("This damage trigger has no health", this);
+        }
+
         fTriggerHealth = fMaxTriggerHealh;
     }
 

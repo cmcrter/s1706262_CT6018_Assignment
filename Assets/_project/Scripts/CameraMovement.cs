@@ -33,9 +33,14 @@ public class CameraMovement : MonoBehaviour
 
     private void Start()
     {
-        if (offset.Equals(Vector3.zero) && Debug.isDebugBuild)
+        if (offset.Equals(Vector3.zero))
         {
-            Debug.Log("No offset set in inspector");
+            offset = transform.position - ObjectToFollow.position;
+
+            if (Debug.isDebugBuild)
+            {
+                Debug.Log("No offset set in inspector", this);
+            }
         }
 
         //A small cooldown before the follow enables
