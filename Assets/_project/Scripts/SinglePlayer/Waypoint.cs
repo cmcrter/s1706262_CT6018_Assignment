@@ -21,7 +21,16 @@ public class Waypoint : MonoBehaviour
     private Collider2D _collider;
     private bool beenPassed;
 
+    //This is the index of the background that the waypoint is on
+    [SerializeField]
+    private int iBackgroundAssociated;
+
     #endregion
+
+    public int GetBackgroundIndex()
+    {
+        return iBackgroundAssociated;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

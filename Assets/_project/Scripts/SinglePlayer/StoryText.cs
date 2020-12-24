@@ -76,7 +76,7 @@ public class StoryText : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         //When the player leaves the zone and the text is shown
-        if (collision.tag.Equals("Player") && bAlreadyPlayed)
+        if (collision.tag.Equals("Player") && bAlreadyPlayed && enabled)
         {
             //Hide the text, even if it's showing the text already it still works out
             StartCoroutine(hidingText);
@@ -118,6 +118,6 @@ public class StoryText : MonoBehaviour
         }
 
         //This trigger wont be used again
-        gameObject.SetActive(false);
+        enabled = false;
     }
 }

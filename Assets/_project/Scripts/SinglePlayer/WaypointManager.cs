@@ -26,9 +26,9 @@ public class WaypointManager : MonoBehaviour, ISaveable
     private Transform[] waypointObjects;
     private Waypoint latestWaypoint;
     private int iWaypointCount = 0;
-    [SerializeField]
-    private StoryText[] NarrativeTextTriggers;
     int iTextsCount = 0;
+    [SerializeField]
+    BackgroundManager backgroundManager;
 
     #endregion
 
@@ -42,7 +42,7 @@ public class WaypointManager : MonoBehaviour, ISaveable
 
         if (Debug.isDebugBuild)
         {
-            Debug.Log("Waypoint Hit");
+            Debug.Log("Waypoint Hit", this);
         }
     }
 
@@ -52,25 +52,38 @@ public class WaypointManager : MonoBehaviour, ISaveable
         iTextsCount++;
     }
 
+    public Vector3 WaypointPos(int wayIndex)
+    {
+        return waypointObjects[wayIndex].position;
+    }
+
+    //Might need to start this waypoints associated background
+    public void StartBackground()
+    {
+        int temp = GetWaypointBackgroundIndex();
+
+        if (temp > 0)
+        {
+            backgroundManager.TurnAllBackgroundsOff();
+        }
+
+        backgroundManager.SetParallaxOffset(temp);
+        backgroundManager.SetBackgroundActive(temp, true);
+    }
+
     #endregion
 
     #region Private Class Functions
 
+    private int GetWaypointBackgroundIndex()
+    {
+        return waypointObjects[iWaypointCount].GetComponent<Waypoint>().GetBackgroundIndex();
+    }
+
     //Teleporting the player to the previous waypoint
     private void TeleportPlayerToWaypoint()
     {
-        Player.position = waypointObjects[iWaypointCount].position;
-    }
-
-    //Turning off the previous texts done
-    private void TurningOffFinishedTexts(int iLastText)
-    {
-        //Going through the last texts to make sure they dont play again
-        for (int i = 0; i < iLastText; ++i)
-        {
-            //Eventually this wont be needed, it would be a function to lock them
-            NarrativeTextTriggers[i].gameObject.SetActive(false);
-        }
+        Player.position = WaypointPos(iWaypointCount);
     }
 
     private void SaveWaypoint()
@@ -89,8 +102,9 @@ public class WaypointManager : MonoBehaviour, ISaveable
             //Loading the details from the right keys
             iWaypointCount = PlayerPrefs.GetInt("Last Waypoint");
             iTextsCount = PlayerPrefs.GetInt("Last Text");
+
             TeleportPlayerToWaypoint();
-            TurningOffFinishedTexts(iTextsCount);
+            StartBackground();
         }
     }
 

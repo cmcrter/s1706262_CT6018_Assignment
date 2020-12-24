@@ -49,13 +49,29 @@ public class PauseMenu : aHandlesInput
         bMenuOpen = true;
     }
 
+    //Opening the menu on a specific panel
+    public void OpenMenu(int playerID, UIPanel newStart)
+    {
+        menuID = playerID;
+        newStart.gameObject.SetActive(true);
+        currentPanel = newStart.gameObject;
+
+        Time.timeScale = 0;
+
+        bMenuOpen = true;
+
+    }
+
     public void CloseMenu()
     {
-        currentPanel.SetActive(false);
-        //Not the best implementation but it works 
-        Time.timeScale = 1;
+        if (bMenuOpen && currentPanel)
+        {
+            currentPanel.SetActive(false);
+            //Not the best implementation but it works 
+            Time.timeScale = 1;
 
-        bMenuOpen = false;
+            bMenuOpen = false;
+        }
     }
 
     //Also one for toggling the menu

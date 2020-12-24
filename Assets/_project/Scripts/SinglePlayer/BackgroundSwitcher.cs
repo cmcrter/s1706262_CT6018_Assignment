@@ -13,9 +13,9 @@ using UnityEngine;
 public class BackgroundSwitcher : MonoBehaviour
 {
     [SerializeField]
-    BackgroundManager backgroundManager;
+    private BackgroundManager backgroundManager;
     [SerializeField]
-    Rigidbody2D playerRB;
+    private Rigidbody2D playerRB;
 
     private void Awake()
     {
@@ -25,6 +25,7 @@ public class BackgroundSwitcher : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        //If it's the player
         if (collision.tag.Equals("Player"))
         {
             //The player is going right

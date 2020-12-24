@@ -39,7 +39,20 @@ public class Teleport : MonoBehaviour, ITriggerable
     [SerializeField]
     private GameObject objectToTeleport;
 
+    //The locking/unlocking sprite changes for local versus
+    [SerializeField]
+    private SpriteRenderer sRenderer;
+    [SerializeField]
+    private Sprite LockedSprite;
+    [SerializeField]
+    private Sprite UnLockedSprite;
+
     #endregion
+
+    private void Awake()
+    {
+        ShowLockedSprite();
+    }
 
     //Temporarily lock the teleporter after use
     private IEnumerator Co_TeleportCooldown()
@@ -70,14 +83,33 @@ public class Teleport : MonoBehaviour, ITriggerable
         //Just to fill interface contract
     }
 
+    private void ShowLockedSprite()
+    {
+        if (sRenderer)
+        {
+            if (isLocked)
+            {
+                sRenderer.sprite = LockedSprite;
+            }
+            else
+            {
+                sRenderer.sprite = UnLockedSprite;
+            }
+        }
+    }
+
     private void LockTeleporter()
     {
         isLocked = true;
+
+        ShowLockedSprite();
     }
 
     private void UnLockTeleporter()
     {
         isLocked = false;
+
+        ShowLockedSprite();
     }
 
     public bool GetTeleporterLock()
