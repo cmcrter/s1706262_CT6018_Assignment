@@ -32,3 +32,4 @@ In singleplayer you can still get the blocks stuck, but it takes some effort
 
 # OTHER COMMENTS
 If everyone dies in the puzzle section of local versus, it takes a second before moving on  
+Project was completed in Unity 2020.1
