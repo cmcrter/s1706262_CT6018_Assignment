@@ -130,7 +130,7 @@ public class MirrorPanel : MonoBehaviour, ITriggerable, IMirrorable
     private Vector3 RayCastHit(Vector2 newDir, int ID)
     {
         //ray casting from the hit point along the reflected direction
-        mirrorRayHit = Physics2D.Raycast(initialHit.point + initialHit.normal * 0.01f, newDir, 25f, mask[ID], -1);
+        mirrorRayHit = Physics2D.Raycast(initialHit.point + initialHit.normal * 0.01f, newDir, 100f, mask[ID], -1);
 
         //Debug.DrawRay(initialHit.point, initialHit.normal);
 
@@ -145,7 +145,7 @@ public class MirrorPanel : MonoBehaviour, ITriggerable, IMirrorable
 
         //It hit nothing but return a point in the correct direction
         mirroredHit = null;
-        return initialHit.point + (initialHit.normal * 0.01f) + (newDir * 25f);
+        return initialHit.point + (initialHit.normal * 0.01f) + (newDir * 100f);
     }
 
     #region Interface Functions

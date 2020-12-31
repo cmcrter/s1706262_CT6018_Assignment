@@ -24,6 +24,8 @@ public class PuzzleChamber : MonoBehaviour
     private bool bPlayerExited;
     [SerializeField]
     private PlayerHealth playerHealthInChamber;
+    [SerializeField]
+    private Teleport teleporterOut;
 
     #endregion
 
@@ -42,9 +44,29 @@ public class PuzzleChamber : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        versusManager = versusManager ?? GameObject.FindGameObjectWithTag("VersusManager").GetComponent<LocalVersusManager>();
+    }
+
+    private void Start()
+    {
+        playerHealthInChamber = versusManager.GetPlayerObject(chamberID).GetComponent<PlayerHealth>();
+
+        if (!playerHealthInChamber.gameObject.activeSelf)
+        {
+            enabled = false;
+        }
+    }
+
     //Starting the chamber timer
     public void StartChamber(float fTimer)
     {
+        if (playerHealthInChamber.gameObject.activeSelf)
+        {
+            teleporterOut.SetObjectToTeleport(playerHealthInChamber.gameObject);
+        }
+
         StartCoroutine(Co_ChamberTimer(fTimer));
     }
 

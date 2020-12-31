@@ -6786,7 +6786,8 @@ MonoBehaviour:
   puzzleCameraSize: 35
   battleCameraSize: 18
   currentMapIndex: 0
-  currentMap: {fileID: 0}
+  currentMap: {fileID: 2260982966677295228, guid: a5aef86adfba1a445a7c229b6a784af2,
+    type: 3}
   currentMapParent: {fileID: 518698884}
   puzzleChambers: []
   playerStartPos:

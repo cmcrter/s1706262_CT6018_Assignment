@@ -75,8 +75,15 @@ public class Teleport : MonoBehaviour, ITriggerable
                 cameraToLockMovement.OverrideCameraPos(cameraToLock.transform.position, cameraToLock.orthographicSize, playerMovement);
             }
 
-            objectToTeleport.transform.position = SecondTeleportPosition.transform.position;
-            StartCoroutine(Co_TeleportCooldown());
+            if (objectToTeleport && SecondTeleportPosition)
+            {
+                objectToTeleport.transform.position = SecondTeleportPosition.transform.position;
+                StartCoroutine(Co_TeleportCooldown());
+            }
+            else
+            {
+                LockTeleporter();
+            }
         }
         else
         {
@@ -131,5 +138,10 @@ public class Teleport : MonoBehaviour, ITriggerable
     public bool GetTeleporterLock()
     {
         return isLocked;
+    }
+
+    public void SetObjectToTeleport(GameObject newObj)
+    {
+        objectToTeleport = newObj;
     }
 }

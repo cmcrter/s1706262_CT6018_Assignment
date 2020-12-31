@@ -23,6 +23,8 @@ public class LaserWeapon : Weapon
     private GameObject barrell;
     [SerializeField]
     private float damageperSecond = 30f;
+    [SerializeField]
+    private float fMaxLaserRange = 100f;
 
     [SerializeField]
     //The possible layer masks to avoid killing the player
@@ -85,7 +87,7 @@ public class LaserWeapon : Weapon
 
     private Vector3 RayCastHit()
     {
-        hit = Physics2D.Raycast(transform.position, transform.right, 35, masks[playerID], -1);
+        hit = Physics2D.Raycast(transform.position, transform.right, fMaxLaserRange, masks[playerID], -1);
 
         if (hit)
         {
@@ -94,7 +96,7 @@ public class LaserWeapon : Weapon
         }
 
         laserHit = null;
-        return transform.position + (transform.right * 35);
+        return transform.position + (transform.right * fMaxLaserRange);
     }
 
     #endregion

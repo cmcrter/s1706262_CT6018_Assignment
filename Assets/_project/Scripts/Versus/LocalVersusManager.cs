@@ -282,9 +282,14 @@ public class LocalVersusManager : MonoBehaviour
 
         if (puzzleChambers != null)
         {
-            foreach (PuzzleChamber chamber in puzzleChambers)
+            //Going through that active players' chambers
+            for (int i = 0; i < activePlayers.Count; ++i)
             {
-                chamber.StartChamber(fPuzzlesTimer);
+                if (puzzleChambers[i])
+                {
+                    //And starting them
+                    puzzleChambers[i].StartChamber(fPuzzlesTimer);
+                }
             }
         }
 
@@ -380,5 +385,10 @@ public class LocalVersusManager : MonoBehaviour
     public int GetActivePlayerCount()
     {
         return activePlayers.Count;
+    }
+
+    public GameObject GetPlayerObject(int index)
+    {
+        return players[index].playerObject;
     }
 }
