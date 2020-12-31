@@ -209,6 +209,9 @@ public class LocalVersusManager : MonoBehaviour
         //Next selected map (Range's second number is excluded)
         int iRandMap = Random.Range(0, mapContainers.Count);
 
+        //Then put the players down so they dont interact with the new map
+        ResetPlayers();
+
         //While the map isnt loaded
         while (!bMapLoaded)
         {
@@ -231,8 +234,6 @@ public class LocalVersusManager : MonoBehaviour
             yield return null;
         }
 
-        //Then put the players down
-        ResetPlayers();
         //This is the current map index
         currentMapIndex = iRandMap;
 

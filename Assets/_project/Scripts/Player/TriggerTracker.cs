@@ -4,7 +4,6 @@
 // Brief: The manager class that manages the usage of input triggers the player can access
 ////////////////////////////////////////////////////////////
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,22 +33,38 @@ public class TriggerTracker : aHandlesInput
         }
         else
         {
-            returnTrigger = triggers[0];
+            if (triggers[0].gameObject)
+            {
+                returnTrigger = triggers[0];
+            }
+            else
+            {
+                returnTrigger = null;
+            }
+
             float currentDist = Vector2.Distance(gameObject.transform.position, triggers[0].transform.position);
 
             for (int i = 1; i < triggers.Count; ++i)
             {
-                float distToCheck = Vector2.Distance(gameObject.transform.position, triggers[i].transform.position);
-
-                if (distToCheck < currentDist)
+                if (triggers[i])
                 {
-                    currentDist = distToCheck;
-                    returnTrigger = triggers[i];
+                    float distToCheck = Vector2.Distance(gameObject.transform.position, triggers[i].transform.position);
+
+                    if (distToCheck < currentDist)
+                    {
+                        currentDist = distToCheck;
+                        returnTrigger = triggers[i];
+                    }
                 }
             }
         }
 
-        return returnTrigger;
+        if (returnTrigger)
+        {
+            return returnTrigger;
+        }
+
+        return null;
     }
 
     public void Add(InputTrigger inputTrigger)
