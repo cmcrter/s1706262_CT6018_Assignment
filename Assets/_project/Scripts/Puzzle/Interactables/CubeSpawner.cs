@@ -36,6 +36,9 @@ public class CubeSpawner : MonoBehaviour, ITriggerable
     private Material[] stateMaterials = new Material[4];
     [SerializeField]
     private Renderer _renderer;
+    [SerializeField]
+    private int iMaxCubes;
+    private int iCurrentCubes;
 
     #endregion
 
@@ -49,17 +52,29 @@ public class CubeSpawner : MonoBehaviour, ITriggerable
     {
         //Making sure it's the correct material for the spawner
         _renderer.material = stateMaterials[state.returnID()];
+
+        //Making sure there's a max cube count
+        if (iMaxCubes == 0)
+        {
+            iMaxCubes = 1;
+        }
+
+        //Cube spawners can only start with 1 current cube within the world
+        if (currentCube)
+        {
+            iCurrentCubes = 1;
+        }
     }
 
     //Interface Functions
     private void SpawnerTriggered()
     {
         //Limiting it to one cube at a time
-        if (currentCube)
+        if (currentCube && iCurrentCubes == iMaxCubes)
         {
             currentCube.transform.position = transform.position;
         }
-        else
+        else if (iCurrentCubes < iMaxCubes)
         {
             //Spawning the cube
             if (cubeParent)
@@ -70,6 +85,8 @@ public class CubeSpawner : MonoBehaviour, ITriggerable
             {              
                 currentCube = Instantiate(CubePrefab, transform.position, Quaternion.identity);
             }
+
+            iCurrentCubes++;
         }
 
         //Making sure it has the same state as the spawner

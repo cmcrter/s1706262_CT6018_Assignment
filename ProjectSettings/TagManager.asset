@@ -9,6 +9,7 @@ TagManager:
   - Map2
   - Map3
   - ColourStateManager
+  - SoundManager
   layers:
   - Default
   - TransparentFX

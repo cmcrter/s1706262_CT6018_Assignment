@@ -16,7 +16,7 @@ public class BackgroundManager : MonoBehaviour
     private int iCurrentBackgroundActive = 0;
 
     //Linking an int to an array of parallax effects (possibly could be static?)
-    Dictionary<int, Parallax[]> backgroundParallaxes = new Dictionary<int, Parallax[]>();
+    private Dictionary<int, Parallax[]> backgroundParallaxes = new Dictionary<int, Parallax[]>();
 
     private void Awake()
     {
@@ -104,6 +104,7 @@ public class BackgroundManager : MonoBehaviour
         }
     }
 
+    //Setting the parallax offsets of a Value in the dictionary based on an index given to it
     public void SetParallaxOffset(int parallaxesToChange)
     {
         Parallax[] parallaxes;
@@ -117,6 +118,7 @@ public class BackgroundManager : MonoBehaviour
         }
     }
 
+    //Getting the parallax scripts from the children of a given object
     private Parallax[] parallaxEffects(GameObject fromGameobject)
     {
         Parallax[] effects = fromGameobject.GetComponentsInChildren<Parallax>();
@@ -124,6 +126,7 @@ public class BackgroundManager : MonoBehaviour
         return effects;
     }
 
+    //Setting an array of monobehaviours enabled to the given bool
     private bool SetComponentArrayActive(MonoBehaviour[] behaviours, bool newActive)
     {
         for (int i = 0; i < behaviours.Length; ++i)

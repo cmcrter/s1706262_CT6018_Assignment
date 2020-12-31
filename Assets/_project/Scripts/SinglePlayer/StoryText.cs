@@ -54,6 +54,8 @@ public class StoryText : MonoBehaviour
             gameObject.SetActive(false);
         }
 
+        //ToDo: Have it change text based on input handler
+
         //If it should start to show the text now
         if (bPlayOnStart && !bAlreadyPlayed)
         {
@@ -83,6 +85,7 @@ public class StoryText : MonoBehaviour
         }
     }
 
+    //Functions for fading the text
     private IEnumerator Co_FadeInText(float fTimer)
     {
         bAlreadyPlayed = true;
