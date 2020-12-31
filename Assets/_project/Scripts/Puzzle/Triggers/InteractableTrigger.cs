@@ -26,4 +26,14 @@ public abstract class InteractableTrigger : MonoBehaviour
             manager.CheckTriggerStates();
         }
     }
+
+    public virtual void UnLockTrigger()
+    {
+        isLocked = false;
+    }
+
+    public virtual void LockTrigger()
+    {
+        isLocked = true;
+    }
 }

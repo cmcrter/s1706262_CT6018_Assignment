@@ -1,9 +1,10 @@
 ﻿////////////////////////////////////////////////////////////
 // File: InteractableManager.cs
 // Author: Charles Carter
-// Brief: The manager class that handles an interection between triggers and an interactalbe
+// Brief: The manager class that handles an interection between triggers and an interactable
 ////////////////////////////////////////////////////////////
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -66,7 +67,29 @@ public class InteractableManager : MonoBehaviour
         {
             if (state.CheckIfTriggered())
             {
-                itriggerable.Triggered();
+                //Checking that there's an itriggerable
+                if (itriggerable != null)
+                {
+                    //Triggering it
+                    itriggerable.Triggered();
+                }
+                //If there's a monobehaviour
+                else if (triggerable)
+                {
+                    if (Debug.isDebugBuild)
+                    {
+                        Debug.Log("The monoobehaviour given is not an ITriggerable", this);
+                    }
+
+                    //But if it's an interactable trigger
+                    if (triggerable.GetType().IsSubclassOf(typeof(InteractableTrigger)))
+                    {
+                        //UnLock it
+                        InteractableTrigger NewTriggerable = (InteractableTrigger)triggerable;
+                        NewTriggerable.isLocked = false;
+                    }
+                }
+
                 if (state.bTriggerLock)
                 {
                     state.Locked();                  

@@ -6834,6 +6834,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1439341966}
     m_Modifications:
+    - target: {fileID: -2284720458795143825, guid: c51059cd7c069b94f9944953ec153653,
+        type: 3}
+      propertyPath: manager
+      value: 
+      objectReference: {fileID: 1426461077}
     - target: {fileID: 1072675467574922054, guid: c51059cd7c069b94f9944953ec153653,
         type: 3}
       propertyPath: m_Name
@@ -6950,7 +6955,7 @@ MonoBehaviour:
   triggerable: {fileID: 1114385075}
   triggerStates:
   - triggers:
-    - {fileID: 0}
+    - {fileID: 1343757223}
     bTriggerLock: 0
 --- !u!1 &1355494086
 GameObject:

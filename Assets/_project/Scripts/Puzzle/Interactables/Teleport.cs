@@ -25,6 +25,8 @@ public class Teleport : MonoBehaviour, ITriggerable
 
     [Header("Variables Needed for teleporter")]
     [SerializeField]
+    private bool isVersusTeleport;
+    [SerializeField]
     private bool isLocked;
     [SerializeField]
     private bool bLockCamera;
@@ -75,6 +77,20 @@ public class Teleport : MonoBehaviour, ITriggerable
 
             objectToTeleport.transform.position = SecondTeleportPosition.transform.position;
             StartCoroutine(Co_TeleportCooldown());
+        }
+        else
+        {
+            //If this is one that's supposed to be in the versus mode
+            if (isVersusTeleport)
+            {
+                //UnLock it
+                UnLockTeleporter();
+
+                //The collision trigger on the teleport
+                InteractableTrigger trig; 
+                TryGetComponent(out trig);
+                trig.UnLockTrigger();
+            }
         }
     }
 
