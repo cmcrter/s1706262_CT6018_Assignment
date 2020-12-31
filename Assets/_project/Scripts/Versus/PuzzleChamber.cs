@@ -78,6 +78,7 @@ public class PuzzleChamber : MonoBehaviour
         if (!bPlayerExited && playerHealthInChamber && playerHealthInChamber.enabled)
         {
             //Kill player in chamber
+            versusManager.PlayerDied(chamberID);
             playerHealthInChamber.InstantKillPlayer();
         }
     }
