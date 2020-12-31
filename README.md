@@ -28,6 +28,7 @@ Shooting doesnt work in local versus maps
 Throwing doesnt work in local versus maps  
 Camera snapping can trigger multiple times in singleplayer  
 Controller player currently cannot block  
+In singleplayer you can still get the blocks stuck, but it takes some effort  
 
 # OTHER COMMENTS
 If everyone dies in the puzzle section of local versus, it takes a second before moving on  
