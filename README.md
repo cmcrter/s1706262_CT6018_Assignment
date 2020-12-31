@@ -2,32 +2,32 @@
 
 # CONTROLS
 ## Keyboard
-A - Left_
-D - Right_
-Space - Jump_
-LCtrl - Crouch_
-E - Interact_
-Q - Throw_
-LShift - Shield_
-Escape - Pause Menu_
-Move Mouse - Aim_
-Left Click - Shoot_
+A - Left  
+D - Right  
+Space - Jump  
+LCtrl - Crouch  
+E - Interact  
+Q - Throw  
+LShift - Shield  
+Escape - Pause Menu  
+Move Mouse - Aim  
+Left Click - Shoot  
 
 ## Controller (Xbox)
-Left Joystick - Left and Right_
-Right Joystick - Aim_
-RT - Shoot_
-A - Jump_
-X - Interact_
-Y - Throw_
-B - Crouch_
-Start - Pause Menu_
+Left Joystick - Left and Right  
+Right Joystick - Aim  
+RT - Shoot  
+A - Jump  
+X - Interact  
+Y - Throw  
+B - Crouch  
+Start - Pause Menu  
 
 # KNOWN BUGS (or unfinished parts)
-Shooting doesnt work in local versus maps_
-Throwing doesnt work in local versus maps_
-Camera snapping can trigger multiple times in singleplayer_
-Controller player currently cannot block_
+Shooting doesnt work in local versus maps  
+Throwing doesnt work in local versus maps  
+Camera snapping can trigger multiple times in singleplayer  
+Controller player currently cannot block  
 
 # OTHER COMMENTS
-If everyone dies in the puzzle section of local versus, it takes a second before moving on_
+If everyone dies in the puzzle section of local versus, it takes a second before moving on  
